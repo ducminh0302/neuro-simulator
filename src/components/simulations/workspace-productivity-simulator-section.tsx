@@ -16,6 +16,9 @@ import {
   Waves,
   Wind,
   Zap,
+  Activity,
+  UserCheck,
+  Target,
 } from "lucide-react";
 
 import { BrainViewerLazy } from "@/components/brain/BrainViewerLazy";
@@ -23,10 +26,16 @@ import { SimulationPromptChat } from "@/components/simulations/simulation-prompt
 import { Card, Pill, ProgressBar, SectionHeading, Surface } from "@/components/ui";
 
 const setupInputs = [
-  { label: "Space Purpose", value: "Coding Sprint / Deep Work" },
-  { label: "Current Time of Day", value: "10:00 AM (Morning Focus)" },
-  { label: "Detected Devices", value: "Dual Monitors, Mechanical Keyboard, Ergonomic Chair" },
-  { label: "Goal Prompt", value: '"Deep Work session for LLM Research"' },
+  { label: "Space Persona", value: "Creative Tech-Enthusiast / Deep Work", icon: UserCheck },
+  { label: "Ambient Context", value: "10:00 AM", icon: Clock3 },
+  {
+    label: "Detected Elements",
+    value:
+      "MacBook on Stand, External Monitor (Screenbar active), Mechanical Keyboard, Wrist Rest, Personal Collectibles (Goku/Arsenal), Hydration (Iced Coffee)",
+    icon: Monitor,
+  },
+  { label: "Vibe Analysis", value: "High Inspiration (Decor-rich) / Potential Visual Clutter Risk", icon: Activity },
+  { label: "Focus Objective", value: "LLM Research & Multi-agent System Dev", icon: Target },
 ];
 
 const focusVitals = [
@@ -57,9 +66,9 @@ const focusVitals = [
 ];
 
 const spatialStats = [
-  { label: "Clutter Density", value: "25%", note: "Minimalist" },
-  { label: "Cable Management", value: "Needs improvement", note: "Detected 5+ exposed wires" },
-  { label: "Audio Acoustics", value: "Moderate echo", note: "Potential Zoom reflection around bare wall" },
+  { label: "Visual Noise", value: "25% (Minimalist)", note: "Distraction-free zone." },
+  { label: "Wiring Hygiene", value: "Alert (5+ exposed)", note: "Tangled wires detected near base." },
+  { label: "Sonic Profile", value: "Moderate Echo", note: "Add soft textures to dampen sound." },
 ];
 
 const resonanceAxes = [
@@ -154,7 +163,7 @@ export function WorkspaceProductivitySimulatorSection() {
 
   return (
     <div className="space-y-8 pb-10">
-      <SimulationPromptChat prompt="Analyze my workspace setup image for focus sustainability, ergonomic risks, mood impact, 4-hour fatigue projection, and priority upgrades." />
+      <SimulationPromptChat prompt="I’ve got a heavy coding session ahead. Based on my current setup, how’s my focus endurance looking, and what small tweaks can I make to keep the vibe high for the next 4 hours?" />
 
       <SectionHeading
         eyebrow="OptiSpace AI"
@@ -172,30 +181,40 @@ export function WorkspaceProductivitySimulatorSection() {
                 <Monitor size={18} className="text-accent" />
               </div>
 
-              <div className="mt-4 rounded-[1.5rem] border border-white/80 bg-white/75 p-5 backdrop-blur-sm">
-                <p className="kicker">Upload workspace photo</p>
-                <div className="relative mt-3 min-h-[190px] rounded-[1.2rem] border border-line bg-[linear-gradient(160deg,#f8fafc,#e8eef5)]">
-                  <div className="absolute left-[18%] top-[22%] h-24 w-20 rounded-xl border border-line bg-white/80" />
-                  <div className="absolute left-[42%] top-[24%] h-24 w-20 rounded-xl border border-line bg-white/80" />
-                  <div className="absolute right-[16%] bottom-[18%] h-16 w-24 rounded-xl border border-line bg-white/80" />
-                  <div className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-ink soft-border">
-                    <Clock3 size={12} />
-                    Morning Focus Read
-                  </div>
-                </div>
+              <div className="mt-4 overflow-hidden rounded-[1.5rem] border border-line bg-panelSoft shadow-soft">
+                <img
+                  src="/work-space.jpg"
+                  alt="Workspace"
+                  className="aspect-video w-full object-contain"
+                />
               </div>
             </div>
           </Card>
 
           <Card className="p-6">
             <p className="kicker">Input Data</p>
-            <div className="mt-4 space-y-3">
-              {setupInputs.map((item) => (
-                <div key={item.label} className="rounded-[1.2rem] bg-panelSoft p-4">
-                  <p className="text-xs uppercase tracking-[0.2em] text-muted">{item.label}</p>
-                  <p className="mt-2 text-sm font-medium text-ink sm:text-base">{item.value}</p>
-                </div>
-              ))}
+            <div className="mt-5 space-y-4">
+              {setupInputs.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <div
+                    key={item.label}
+                    className="group relative flex items-start gap-4 rounded-[1.2rem] border border-line/50 bg-white/50 p-4 transition-all duration-300 hover:border-accent/40 hover:bg-white hover:shadow-soft"
+                  >
+                    <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-panelSoft text-accent transition-colors group-hover:bg-accent group-hover:text-white">
+                      <Icon size={20} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[10px] uppercase tracking-[0.25em] text-muted transition-colors group-hover:text-accent">
+                        {item.label}
+                      </p>
+                      <p className="mt-1 line-clamp-3 text-sm font-semibold leading-relaxed text-ink sm:text-[0.95rem]">
+                        {item.value}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </Card>
         </div>
@@ -279,127 +298,6 @@ export function WorkspaceProductivitySimulatorSection() {
       <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <p className="kicker">Spatial & Sensory Analysis</p>
-            <h2 className="headline mt-2 text-3xl sm:text-4xl">Spatial Mapping & Heatmap Analysis</h2>
-          </div>
-          <Eye size={20} className="text-accent" />
-        </div>
-
-        <div className="mt-7 grid gap-6 xl:grid-cols-[1.04fr_0.96fr]">
-          <Card className="overflow-hidden p-0">
-            <div className="relative min-h-[360px] bg-[linear-gradient(145deg,#f8fafc,#eef2f7)]">
-              <div className="absolute left-[12%] top-[16%] h-24 w-24 rounded-full bg-red-400/30 blur-2xl" />
-              <div className="absolute left-[44%] top-[32%] h-28 w-28 rounded-full bg-emerald-400/30 blur-2xl" />
-              <div className="absolute right-[16%] bottom-[14%] h-24 w-24 rounded-full bg-red-300/35 blur-2xl" />
-              <div className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-full bg-white/85 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-red-600 soft-border">
-                Red Zones: clutter / glare
-              </div>
-              <div className="absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-full bg-white/85 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-600 soft-border">
-                Green Zones: ideal hand-eye placement
-              </div>
-            </div>
-          </Card>
-
-          <div className="space-y-4">
-            {spatialStats.map((item, index) => (
-              <Card key={item.label} className="p-5">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="kicker">{item.label}</p>
-                    <p className="headline mt-2 text-2xl">{item.value}</p>
-                    <p className="mt-2 text-sm text-muted">{item.note}</p>
-                  </div>
-                  {index === 0 ? (
-                    <Waves size={18} className="text-accent" />
-                  ) : index === 1 ? (
-                    <AlertTriangle size={18} className="text-amber-500" />
-                  ) : (
-                    <Volume2 size={18} className="text-sky-600" />
-                  )}
-                </div>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
-        <div className="flex items-center justify-between gap-4">
-          <div>
-            <p className="kicker">Psychological Impact & Mood</p>
-            <h2 className="headline mt-2 text-3xl sm:text-4xl">Biophilic & Psychological Resonance</h2>
-          </div>
-          <Radar size={20} className="text-accent" />
-        </div>
-
-        <div className="mt-7 grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
-          <Card className="p-6">
-            <div className="grid place-items-center rounded-[1.6rem] bg-panelSoft p-5">
-              <svg viewBox="0 0 100 100" className="h-72 w-72 overflow-visible">
-                <polygon points="50,14 86,36 74,82 26,82 14,36" fill="rgba(56,189,248,0.12)" stroke="rgba(15,23,42,0.2)" />
-                <polygon points={radarPolygon} fill="rgba(15,23,42,0.72)" stroke="rgba(15,23,42,0.95)" strokeWidth="1.4" />
-                {resonanceAxes.map((axis, idx) => {
-                  const labels: [number, number][] = [
-                    [50, 9],
-                    [93, 35],
-                    [76, 92],
-                    [24, 92],
-                    [7, 35],
-                  ];
-                  return (
-                    <text
-                      key={axis.label}
-                      x={labels[idx][0]}
-                      y={labels[idx][1]}
-                      textAnchor="middle"
-                      className="fill-muted text-[5px] uppercase tracking-[0.16em]"
-                    >
-                      {axis.label}
-                    </text>
-                  );
-                })}
-              </svg>
-            </div>
-          </Card>
-
-          <div className="space-y-4">
-            <Card className="p-5">
-              <p className="kicker">Color Psychology Breakdown</p>
-              <p className="mt-2 text-sm leading-relaxed text-ink">
-                Dominant Tone (Grey/White): promotes neutrality and low distraction, but may cap ideation intensity in long creative sessions.
-              </p>
-              <p className="mt-3 text-sm leading-relaxed text-ink">
-                Accent Tone (Green - Plants): increases oxygen support and may reduce stress load by 15% in extended concentration blocks.
-              </p>
-            </Card>
-
-            <Card className="p-5">
-              <div className="flex items-center justify-between gap-4">
-                <div>
-                  <p className="kicker">Mood Prediction</p>
-                  <p className="headline mt-2 text-2xl">High focus, moderate creativity</p>
-                </div>
-                <Sparkles size={18} className="text-accent" />
-              </div>
-              <div className="mt-4 space-y-3">
-                {resonanceAxes.map((axis) => (
-                  <div key={axis.label}>
-                    <div className="mb-1 flex items-center justify-between text-xs uppercase tracking-[0.14em] text-muted">
-                      <span>{axis.label}</span>
-                      <span>{axis.value}%</span>
-                    </div>
-                    <ProgressBar value={axis.value} />
-                  </div>
-                ))}
-              </div>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
-        <div className="flex items-center justify-between gap-4">
-          <div>
             <p className="kicker">Neural Activation Map</p>
             <h2 className="headline mt-2 text-3xl sm:text-4xl">Cortical focus & cognitive load profile</h2>
           </div>
@@ -457,6 +355,193 @@ export function WorkspaceProductivitySimulatorSection() {
           </div>
         </div>
       </section>
+
+      <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <p className="kicker">Spatial & Sensory Analysis</p>
+            <h2 className="headline mt-2 text-3xl sm:text-4xl">Spatial Mapping & Heatmap Analysis</h2>
+          </div>
+          <Eye size={20} className="text-accent" />
+        </div>
+
+        <div className="mt-7 grid gap-6 xl:grid-cols-[1.04fr_0.96fr]">
+          <Card className="overflow-hidden p-0 h-[420px] bg-panelSoft">
+            <img
+              src="/blueprint.png"
+              alt="Blueprint Mapping"
+              className="h-full w-full object-contain"
+            />
+          </Card>
+
+          <div className="space-y-4">
+            {spatialStats.map((item, index) => (
+              <Card key={item.label} className="p-5">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="kicker">{item.label}</p>
+                    <p className="headline mt-2 text-2xl">{item.value}</p>
+                    <p className="mt-2 text-sm text-muted">{item.note}</p>
+                  </div>
+                  {index === 0 ? (
+                    <Waves size={18} className="text-accent" />
+                  ) : index === 1 ? (
+                    <AlertTriangle size={18} className="text-amber-500" />
+                  ) : (
+                    <Volume2 size={18} className="text-sky-600" />
+                  )}
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <p className="kicker">Psychological Impact & Mood</p>
+            <h2 className="headline mt-2 text-3xl sm:text-4xl">Focus Sustainability & Cognitive Alignment</h2>
+          </div>
+          <Sparkles size={20} className="text-accent" />
+        </div>
+
+        <div className="mt-8 grid gap-10 xl:grid-cols-[1.1fr_0.9fr]">
+          {/* Left: The 4-Hour Focus Timeline */}
+          <div className="space-y-6">
+            <div className="flex items-center gap-3">
+              <Pill tone="soft">4-Hour Focus Sustainability Projection</Pill>
+            </div>
+
+            <Card className="relative overflow-hidden bg-gradient-to-br from-white to-slate-50 p-6">
+              <div className="relative h-[300px] w-full">
+                {/* Y-Axis Labels */}
+                <div className="absolute left-0 top-0 flex h-full flex-col justify-between py-1 text-xs uppercase tracking-wider text-muted/60">
+                  <span>Peak</span>
+                  <span>High</span>
+                  <span>Mid</span>
+                  <span>Low</span>
+                </div>
+
+                {/* SVG Graph */}
+                <svg viewBox="0 0 400 200" className="ml-10 h-full w-[calc(100%-40px)] overflow-visible" preserveAspectRatio="none">
+                  {/* Grid Lines */}
+                  {[0, 50, 100, 150, 200].map((y) => (
+                    <line key={y} x1="0" y1={y} x2="400" y2={y} stroke="rgba(0,0,0,0.03)" strokeWidth="1" />
+                  ))}
+
+                  {/* Gradient for Line */}
+                  <defs>
+                    <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="var(--accent)" />
+                      <stop offset="50%" stopColor="#fbbf24" />
+                      <stop offset="100%" stopColor="#38bdf8" />
+                    </linearGradient>
+                  </defs>
+
+                  {/* The Line */}
+                  <path
+                    d="M 0,20 L 133,50 L 266,120 L 400,90"
+                    fill="none"
+                    stroke="url(#lineGradient)"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    className="drop-shadow-sm"
+                  />
+
+                  {/* Data Points */}
+                  <circle cx="0" cy="20" r="4.5" className="fill-accent outline outline-4 outline-white" />
+                  <circle cx="133" cy="50" r="4.5" className="fill-amber-400 outline outline-4 outline-white" />
+                  <circle cx="266" cy="120" r="4.5" className="fill-rose-400 outline outline-4 outline-white" />
+                  <circle cx="400" cy="90" r="4.5" className="fill-sky-400 outline outline-4 outline-white" />
+
+                  {/* Annotations */}
+                  <g className="text-[9px] font-bold uppercase tracking-tighter">
+                    <text x="5" y="15" className="fill-ink">Peak Focus (90%)</text>
+                    <text x="138" y="45" className="fill-muted">Minor Glare (-10%)</text>
+                    <text x="271" y="115" className="fill-rose-600">Circadian Dip (65%)</text>
+                    <text x="360" y="85" className="fill-sky-600">Recovery</text>
+                  </g>
+                </svg>
+
+                {/* X-Axis Labels */}
+                <div className="ml-10 mt-4 flex justify-between text-[11px] font-bold text-muted/70">
+                  <span>10:00 AM</span>
+                  <span>11:30 AM</span>
+                  <span>12:30 PM</span>
+                  <span>1:30 PM</span>
+                  <span>2:00 PM</span>
+                </div>
+              </div>
+
+              {/* Annotation Sidebars (Responsive) */}
+              <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                <div className="rounded-xl bg-panelSoft p-4 text-[13px] leading-relaxed">
+                  <span className="font-bold text-accent">10:00 AM:</span> Optimal Natural Light & Initial Alertness.
+                </div>
+                <div className="rounded-xl bg-panelSoft p-4 text-[13px] leading-relaxed">
+                  <span className="font-bold text-amber-500">11:30 AM:</span> Minor Glare Detected (Screenbar recommended).
+                </div>
+                <div className="rounded-xl bg-rose-50 p-4 text-[13px] leading-relaxed text-rose-900/80">
+                  <span className="font-bold text-rose-500">12:30 PM:</span> Natural energy low; high risk of distraction.
+                </div>
+                <div className="rounded-xl bg-sky-50 p-4 text-[13px] leading-relaxed text-sky-900/80">
+                  <span className="font-bold text-sky-500">1:30 PM:</span> Post-rest recovery, moderate focus sustain.
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* Right: The Cognitive Load Match */}
+          <div className="space-y-6">
+            <div className="flex items-center gap-3">
+              <Pill tone="soft">Cognitive Load & Environment Alignment</Pill>
+            </div>
+
+            <Card className="relative flex flex-col items-center justify-center bg-gradient-to-tr from-white to-[#f0f9ff] p-8">
+              <div className="relative h-[340px] w-full max-w-[480px]">
+                {/* Mental Task Circle */}
+                <div className="absolute left-0 top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full border border-slate-200 bg-slate-100/30 shadow-[inset_0_0_40px_rgba(0,0,0,0.02)] backdrop-blur-sm transition-transform hover:scale-105">
+                  <div className="absolute -top-12 left-1/2 -translate-x-1/2 text-center">
+                    <p className="text-[12px] font-bold uppercase tracking-widest text-muted">Mental Task</p>
+                    <p className="text-base font-black text-ink">CODING</p>
+                  </div>
+                  <div className="flex h-full w-full flex-col items-start justify-center px-10 py-8 text-[12px] leading-relaxed text-muted/80">
+                    <p>• High Complexity</p>
+                    <p>• Deep Focus</p>
+                    <p>• Logic Gates</p>
+                  </div>
+                </div>
+
+                {/* Environment Support Circle */}
+                <div className="absolute right-0 top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full border border-emerald-100 bg-emerald-50/20 shadow-[inset_0_0_40px_rgba(16,185,129,0.05)] backdrop-blur-sm transition-transform hover:scale-105">
+                  <div className="absolute -top-12 left-1/2 -translate-x-1/2 text-center">
+                    <p className="text-[12px] font-bold uppercase tracking-widest text-muted">Environment</p>
+                    <p className="text-base font-black text-emerald-600">SUPPORT</p>
+                  </div>
+                  <div className="flex h-full w-full flex-col items-end justify-center px-10 py-8 text-[12px] leading-relaxed text-emerald-700/60">
+                    <p>Low Clutter (+)</p>
+                    <p>Ergonomics (+)</p>
+                    <p>Hard Surface (-)</p>
+                  </div>
+                </div>
+
+                {/* Overlap Center */}
+                <div className="absolute left-1/2 top-1/2 z-10 flex h-32 w-32 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-white shadow-xl shadow-slate-200/50 outline outline-4 outline-white">
+                  <p className="text-[11px] font-bold uppercase tracking-tighter text-muted">Flow Score</p>
+                  <p className="text-4xl font-black text-emerald-500">78%</p>
+                  <div className="mt-1 flex gap-1">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <div key={i} className={`h-2 w-3.5 rounded-full ${i <= 4 ? "bg-emerald-400" : "bg-slate-100"}`} />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </section>
+
 
       <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
         <div className="flex items-center justify-between gap-4">
@@ -527,13 +612,13 @@ export function WorkspaceProductivitySimulatorSection() {
           <Card className="overflow-hidden p-0">
             <div className="p-5">
               <p className="headline text-xl">Body Load Pressure Map</p>
-              <p className="mt-2 text-sm text-muted">Predicted stress concentration after prolonged seated posture.</p>
             </div>
-            <div className="relative min-h-[290px] bg-[linear-gradient(155deg,#f8fafc,#eef2ff)]">
-              <div className="absolute left-[46%] top-[12%] h-14 w-14 -translate-x-1/2 rounded-full bg-rose-400/35 blur-2xl" />
-              <div className="absolute left-[46%] top-[34%] h-20 w-20 -translate-x-1/2 rounded-full bg-amber-400/35 blur-2xl" />
-              <div className="absolute left-[32%] top-[62%] h-16 w-16 rounded-full bg-rose-300/30 blur-2xl" />
-              <div className="absolute right-[32%] top-[62%] h-16 w-16 rounded-full bg-rose-300/30 blur-2xl" />
+            <div className="relative h-[400px] bg-panelSoft overflow-hidden rounded-[1.5rem]">
+              <img 
+                src="/heatmap.png" 
+                alt="Body Load Pressure Map"
+                className="h-full w-full object-contain"
+              />
             </div>
           </Card>
         </div>

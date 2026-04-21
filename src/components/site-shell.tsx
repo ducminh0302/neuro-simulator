@@ -1,6 +1,8 @@
+"use client";
+
 import Link from "next/link";
-import { Menu, Plus } from "lucide-react";
-import type { ReactNode } from "react";
+import { ChevronLeft, Menu, PanelLeftOpen, Plus } from "lucide-react";
+import { type ReactNode, useState, useEffect } from "react";
 
 import { appName, footerLinks, navItems } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -14,13 +16,54 @@ export type ShellProps = {
 };
 
 export function SiteShell({ active, title, subtitle, children, ctaLabel = "New Simulation" }: ShellProps) {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // Load persistence state from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem("sidebar-collapsed");
+    if (saved !== null) {
+      setIsCollapsed(saved === "true");
+    }
+    setMounted(true);
+  }, []);
+
+  // Wrapper for toggling that also persists the state
+  const handleToggle = (collapsed: boolean) => {
+    setIsCollapsed(collapsed);
+    localStorage.setItem("sidebar-collapsed", String(collapsed));
+  };
+
   return (
-    <div className="page-shell min-h-screen">
+    <div className={cn("page-shell min-h-screen overflow-x-hidden", !mounted && "opacity-0 transition-none")}>
       <div className="pointer-events-none absolute inset-0 grain opacity-[0.06]" />
       <div className="mx-auto flex min-h-screen max-w-[1920px]">
-        <aside className="hidden lg:fixed lg:left-0 lg:top-0 lg:flex h-screen w-80 shrink-0 flex-col border-r border-line/80 bg-white/65 backdrop-blur-xl z-40">
+        {/* Toggle button when collapsed - only visible on desktop and when collapsed */}
+        {mounted && isCollapsed && (
+          <button
+            onClick={() => handleToggle(false)}
+            className="fixed left-6 top-6 z-50 hidden h-[66px] w-[66px] items-center justify-center rounded-full bg-white/80 text-ink shadow-soft soft-border backdrop-blur-md transition-all duration-300 hover:scale-110 lg:flex"
+            aria-label="Expand sidebar"
+          >
+            <PanelLeftOpen size={30} strokeWidth={1.8} />
+          </button>
+        )}
+
+        <aside
+          className={cn(
+            "hidden lg:fixed lg:left-0 lg:top-0 lg:flex h-screen w-80 shrink-0 flex-col border-r border-line/80 bg-white/65 backdrop-blur-xl z-40 transition-transform duration-500 ease-in-out",
+            isCollapsed && "lg:-translate-x-full",
+          )}
+        >
           <div className="flex h-full flex-col overflow-y-auto p-6">
-            <div className="mb-8 space-y-4 rounded-[2rem] bg-panel p-6 shadow-soft soft-border">
+            <div className="relative mb-8 space-y-4 rounded-[2rem] bg-panel p-6 shadow-soft soft-border">
+              <button
+                onClick={() => handleToggle(true)}
+                className="absolute -right-5 -top-5 flex h-[54px] w-[54px] items-center justify-center rounded-full bg-white text-ink shadow-soft border border-line transition-transform duration-300 hover:scale-110 active:scale-95"
+                title="Collapse sidebar"
+              >
+                <ChevronLeft size={28} strokeWidth={2.2} />
+              </button>
               <div className="flex items-center justify-between">
                 <div>
                   <p className="headline text-xl">{appName}</p>
@@ -30,7 +73,7 @@ export function SiteShell({ active, title, subtitle, children, ctaLabel = "New S
                   Live
                 </span>
               </div>
-              <button className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-3 text-sm font-semibold text-white transition-transform duration-300 hover:-translate-y-0.5">
+              <button className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-3 text-sm font-semibold text-white transition-transform duration-300 hover:-translate-y-0.5 w-full justify-center">
                 <Plus size={16} />
                 {ctaLabel}
               </button>
@@ -39,7 +82,10 @@ export function SiteShell({ active, title, subtitle, children, ctaLabel = "New S
             <nav className="flex-1 space-y-2">
               {navItems.map((item) => {
                 const Icon = item.icon;
-                const activeMatch = item.href === "/dashboard" ? active === "dashboard" || active === "landing" : active === item.href.slice(1);
+                const activeMatch =
+                  item.href === "/dashboard"
+                    ? active === "dashboard" || active === "landing"
+                    : active === item.href.slice(1);
                 return (
                   <Link
                     key={item.href}
@@ -58,7 +104,11 @@ export function SiteShell({ active, title, subtitle, children, ctaLabel = "New S
 
             <div className="mt-6 space-y-3 border-t border-line pt-6">
               {footerLinks.map((link) => (
-                <Link key={link.label} href={link.href} className="block rounded-full px-5 py-2 text-sm text-muted transition-colors hover:text-ink">
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className="block rounded-full px-5 py-2 text-sm text-muted transition-colors hover:text-ink"
+                >
                   {link.label}
                 </Link>
               ))}
@@ -66,7 +116,12 @@ export function SiteShell({ active, title, subtitle, children, ctaLabel = "New S
           </div>
         </aside>
 
-        <div className="flex min-w-0 flex-1 flex-col lg:pl-80">
+        <div
+          className={cn(
+            "flex min-w-0 flex-1 flex-col transition-all duration-500 ease-in-out",
+            isCollapsed ? "lg:pl-0" : "lg:pl-80",
+          )}
+        >
           <header className="sticky top-0 z-30 border-b border-line/70 bg-white/72 backdrop-blur-xl">
             <div className="flex items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-10">
               <div className="flex items-center gap-3 lg:hidden">
@@ -83,7 +138,9 @@ export function SiteShell({ active, title, subtitle, children, ctaLabel = "New S
                 {subtitle ? <p className="text-sm text-muted">{subtitle}</p> : null}
               </div>
               <div className="flex items-center gap-3">
-                <button className="rounded-full bg-panel px-4 py-2 text-sm font-medium text-ink soft-border transition-transform hover:-translate-y-0.5">Preview</button>
+                <button className="rounded-full bg-panel px-4 py-2 text-sm font-medium text-ink soft-border transition-transform hover:-translate-y-0.5">
+                  Preview
+                </button>
                 <button className="inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5">
                   <Plus size={16} />
                   {ctaLabel}

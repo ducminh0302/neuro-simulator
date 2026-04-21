@@ -21,9 +21,10 @@ import { SimulationPromptChat } from "@/components/simulations/simulation-prompt
 import { Card, Pill, ProgressBar, SectionHeading, Surface } from "@/components/ui";
 
 const creativeInputs = [
-  { label: "Stimulus Type", value: "Static Graphic / Motion UI / Short-form Video" },
-  { label: "Observation Duration", value: "3.0 Seconds (First Impression)" },
-  { label: "Cognitive Load Target", value: "Minimalist / Information-Rich" },
+  { label: "NEURAL COHORT", value: "Modern Homeowners / Tech Enthusiasts" },
+  { label: "ATTENTION KPI", value: "Product Hero Saliency" },
+  { label: "EMOTIONAL TONE", value: "Minimalist Luxury / Calm" },
+  { label: "VIEWING CONTEXT", value: "Mobile Social Feed (Instagram/FB)" },
 ];
 
 const brainMetrics = [
@@ -53,44 +54,40 @@ const brainMetrics = [
   },
 ];
 
-const eyeTrackingData = [
+// Data for the Visual Saliency Hierarchy
+const visualProcessingLayers = [
   {
-    label: "Focal Point Entry Time",
-    value: "150ms",
-    note: "Ultra-fast acquisition by foveal vision.",
+    level: "L1",
+    label: "DOMINANT SALIENCY",
+    title: "Subject: Smart Vacuum Robot",
+    share: "68%",
+    shareValue: 68,
+    description: "Represents the 'First Fixation.' This is the element that breaks the visual threshold within the first 150-200ms. It commands the highest neural metabolic cost and is the anchor for brand recall.",
+    color: "#0ea5e9", // Sky 500
+    colorText: "text-sky-500",
+    bgColor: "bg-sky-500",
   },
   {
-    label: "Gaze Path Simulation",
-    value: "1 -> 2 -> 3",
-    note: "Primary eye movement path from hero subject to CTA.",
+    level: "L2",
+    label: "SEMANTIC CONTEXT",
+    title: "Environment: Minimalist Living Room",
+    share: "22%",
+    shareValue: 22,
+    description: "Represents the 'Secondary Scanpath.' Once the primary subject is identified, the brain maps the surrounding geometry to establish a semantic 'story.' High processing fluency reduces cognitive friction.",
+    color: "#22d3ee", // Cyan 400
+    colorText: "text-cyan-500",
+    bgColor: "bg-cyan-400",
   },
   {
-    label: "Optical Flow Balance",
-    value: "78/100",
-    note: "Geometry and directionality are mostly balanced.",
-  },
-];
-
-const triggerAxes = [
-  { label: "Urgency", value: 74 },
-  { label: "Authority", value: 69 },
-  { label: "Trust", value: 82 },
-  { label: "Aspiration", value: 77 },
-  { label: "FOMO", value: 63 },
-];
-
-const benchmarkRows = [
-  {
-    metric: "Aesthetic Pleasure Index",
-    current: "88",
-    goldStandard: "Apple: 92 / Nike: 89 / Coca-Cola: 86",
-    assessment: "Competitive",
-  },
-  {
-    metric: "Brand Identity Integrity (0.5s)",
-    current: "79%",
-    goldStandard: "Apple: 91% / Nike: 87% / Coca-Cola: 90%",
-    assessment: "Needs stronger logo anchoring",
+    level: "L3",
+    label: "PERIPHERAL BACKGROUND",
+    title: "Decor: Indoor Plant & Furniture",
+    share: "10%",
+    shareValue: 10,
+    description: "Represents elements processed by peripheral vision. These are 'low-interest' zones that provide atmospheric value but do not distract the user from the primary CTA.",
+    color: "#94a3b8", // Slate 400
+    colorText: "text-slate-500",
+    bgColor: "bg-slate-400",
   },
 ];
 
@@ -130,27 +127,132 @@ const recommendations = [
   },
 ];
 
-const radarSkeleton = [
-  [50, 14],
-  [86, 36],
-  [74, 82],
-  [26, 82],
-  [14, 36],
-];
+type BenchmarkGaugeProps = {
+  label: string;
+  valueLabel: string;
+  subLabel: string;
+  description: string;
+  percentage: number;
+  color?: string;
+  highlighted?: boolean;
+};
 
-function buildRadarPolygon(values: number[]) {
-  return radarSkeleton
-    .map(([x, y], index) => {
-      const intensity = values[index] / 100;
-      const px = 50 + (x - 50) * intensity;
-      const py = 50 + (y - 50) * intensity;
-      return `${px},${py}`;
-    })
-    .join(" ");
+function BenchmarkGauge({
+  label,
+  valueLabel,
+  subLabel,
+  description,
+  percentage,
+  color = "#0ea5e9",
+  highlighted = false,
+}: BenchmarkGaugeProps) {
+  // Convert hex to rgb for the gradient
+  const hexToRgb = (hex: string) => {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `${r}, ${g}, ${b}`;
+  };
+
+  const rgb = hexToRgb(color);
+
+  const ringStyle = {
+    background: `conic-gradient(from 180deg, rgba(${rgb}, 1) 0deg, rgba(${rgb}, 1) ${percentage * 3.6}deg, rgba(${rgb}, 0.1) ${percentage * 3.6}deg, rgba(${rgb}, 0.1) 360deg)`,
+    boxShadow: highlighted
+      ? `0 0 0 1px rgba(${rgb}, 0.24), 0 0 42px rgba(${rgb}, 0.28), 0 0 70px rgba(15, 23, 42, 0.08)`
+      : `0 0 0 1px rgba(${rgb}, 0.1), 0 0 28px rgba(${rgb}, 0.05)`,
+    animation: highlighted ? "pulse-subtle 4s ease-in-out infinite" : "none",
+  };
+
+  return (
+    <div
+      className={`rounded-[1.8rem] border bg-white/90 p-5 text-center shadow-sm transition-all duration-300 hover:scale-[1.02] ${
+        highlighted ? "border-accent/30 ring-1 ring-accent/10" : "border-line"
+      }`}
+    >
+      <div
+        className="mx-auto flex h-60 w-60 items-center justify-center rounded-full p-4 sm:h-64 sm:w-64 lg:h-72 lg:w-72 transition-all duration-700"
+        style={ringStyle}
+      >
+        <div className="flex h-full w-full flex-col items-center justify-center rounded-full border border-white/90 bg-[radial-gradient(circle_at_30%_25%,rgba(${rgb},0.12),transparent_34%),radial-gradient(circle_at_70%_78%,rgba(15,23,42,0.03),transparent_28%),linear-gradient(180deg,#ffffff,#f8fafc)] px-7 shadow-[inset_0_1px_0_rgba(255,255,255,0.96)]">
+          <div
+            className={`mt-4 text-5xl font-black tracking-tight text-[#081225] sm:text-6xl ${
+              highlighted ? "drop-shadow-[0_0_15px_rgba(" + rgb + ",0.3)]" : ""
+            }`}
+            style={{ fontFamily: '"IBM Plex Mono", "SFMono-Regular", Consolas, monospace' }}
+          >
+            {valueLabel}
+          </div>
+          <div className="mt-4 flex items-center justify-center gap-1 rounded-md bg-panelSoft px-3 py-1 border border-ink/5 shadow-inner">
+            <span className="math-symbol font-serif text-base font-bold italic" style={{ color: color }}>
+              {(() => {
+                const parts = subLabel.split("_");
+                if (parts.length < 2) return subLabel;
+                const [base, suffix] = parts;
+                const [sub, labelText] = suffix.split(" ");
+                return (
+                  <>
+                    {base}
+                    <sub className="text-[12px] ml-0.5 align-baseline relative top-[2px]">{sub}</sub>
+                    {labelText && <small className="ml-2 font-sans not-italic text-[11px] opacity-70 uppercase tracking-tighter">{labelText}</small>}
+                  </>
+                );
+              })()}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes pulse-subtle {
+          0%, 100% { transform: scale(1); opacity: 1; filter: saturate(1); }
+          50% { transform: scale(1.015); opacity: 0.98; filter: saturate(1.1); }
+        }
+        .math-symbol sub { 
+          font-size: 0.65em; 
+          line-height: 0; 
+          vertical-align: sub;
+          margin-left: 1px;
+          opacity: 0.9;
+        }
+      `}} />
+
+      <div className="mt-5 space-y-2">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">{label}</p>
+        <p className="text-sm leading-relaxed text-ink/85">{description}</p>
+      </div>
+    </div>
+  );
 }
 
 export function NeuroFocusSimulatorSection() {
-  const triggerPolygon = buildRadarPolygon(triggerAxes.map((item) => item.value));
+  const benchmarkGauges = [
+    {
+      label: "Dopamine Level",
+      valueLabel: "82%",
+      subLabel: "D_\u0394 (Reward)",
+      description: "Measures the 'wanting' system. Triggered by high-contrast product shots, luxury textures, or 'Dopamine-bright' colors.",
+      percentage: 82,
+      color: "#f59e0b", // Amber/Gold
+    },
+    {
+      label: "Oxytocin Sync",
+      valueLabel: "65%",
+      subLabel: "O_syn (Trust)",
+      description: "Measures the sense of safety and 'liking.' Triggered by organic shapes, warm lighting, and minimalist layouts.",
+      percentage: 65,
+      color: "#14b8a6", // Teal
+      highlighted: true,
+    },
+    {
+      label: "Cortisol Tension",
+      valueLabel: "12%",
+      subLabel: "C_str (Stress)",
+      description: "Measures visual anxiety. Low levels indicate a cluttered UI or 'aggressive' sales tactics. (12% = Optimal)",
+      percentage: 12,
+      color: "#f43f5e", // Rose/Ruby
+    },
+  ];
 
   return (
     <div className="space-y-8 pb-10">
@@ -172,17 +274,12 @@ export function NeuroFocusSimulatorSection() {
                 <Brain size={18} className="text-accent" />
               </div>
 
-              <div className="mt-4 rounded-[1.5rem] border border-white/80 bg-white/80 p-5 backdrop-blur-sm">
-                <p className="kicker">Visual stimulus upload</p>
-                <div className="relative mt-3 min-h-[190px] rounded-[1.2rem] border border-line bg-[linear-gradient(155deg,#f8fafc,#e8ecfa)]">
-                  <div className="absolute left-[18%] top-[26%] h-12 w-16 rounded-lg border border-line bg-white/80" />
-                  <div className="absolute left-[43%] top-[18%] h-20 w-24 rounded-xl border border-line bg-white/80" />
-                  <div className="absolute right-[14%] bottom-[18%] h-14 w-20 rounded-lg border border-line bg-white/80" />
-                  <div className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-full bg-white/85 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-ink soft-border">
-                    <ScanEye size={12} />
-                    EEG Preview Active
-                  </div>
-                </div>
+              <div className="mt-4 overflow-hidden rounded-[1.5rem] border border-white/80 bg-white/80 shadow-soft backdrop-blur-sm">
+                <img
+                  src="/robot-cleaner.jpg"
+                  alt="Robot Cleaner Creative"
+                  className="h-full w-full object-cover"
+                />
               </div>
             </div>
           </Card>
@@ -350,114 +447,94 @@ export function NeuroFocusSimulatorSection() {
           <Eye size={20} className="text-accent" />
         </div>
 
-        <div className="mt-7 grid gap-6 xl:grid-cols-[1.04fr_0.96fr]">
+        <div className="mt-7 grid gap-8 xl:grid-cols-[0.8fr_1.2fr]">
           <Card className="overflow-hidden p-0">
-            <div className="relative min-h-[360px] bg-[linear-gradient(145deg,#f8fafc,#eef2ff)]">
-              <div className="absolute left-[24%] top-[24%] h-28 w-28 rounded-full bg-red-500/35 blur-2xl" />
-              <div className="absolute left-[50%] top-[42%] h-24 w-24 rounded-full bg-amber-400/30 blur-2xl" />
-              <div className="absolute right-[18%] bottom-[20%] h-20 w-20 rounded-full bg-sky-400/35 blur-2xl" />
-              <div className="absolute left-[28%] top-[30%] inline-flex h-7 w-7 items-center justify-center rounded-full bg-white text-xs font-bold text-ink soft-border">
-                1
-              </div>
-              <div className="absolute left-[53%] top-[46%] inline-flex h-7 w-7 items-center justify-center rounded-full bg-white text-xs font-bold text-ink soft-border">
-                2
-              </div>
-              <div className="absolute right-[22%] bottom-[26%] inline-flex h-7 w-7 items-center justify-center rounded-full bg-white text-xs font-bold text-ink soft-border">
-                3
-              </div>
-              <div className="absolute bottom-4 left-4 rounded-full bg-white/85 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-rose-600 soft-border">
-                Neural compulsive gaze point
-              </div>
+            <div className="relative h-full min-h-[500px] bg-panelSoft p-6 flex items-center justify-center">
+              <img
+                src="/eeg.png"
+                alt="Neural Saliency EEG Map"
+                className="max-h-[380px] max-w-full object-contain"
+              />
             </div>
           </Card>
 
-          <div className="space-y-4">
-            {eyeTrackingData.map((item, index) => (
-              <Card key={item.label} className="p-5">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <p className="kicker">{item.label}</p>
-                    <p className="headline mt-2 text-2xl">{item.value}</p>
-                    <p className="mt-2 text-sm text-muted">{item.note}</p>
+          <div className="flex flex-col lg:flex-row gap-8 items-center xl:items-start">
+            {/* The Visual Pyramid Chart */}
+            <div className="relative w-full max-w-[380px] flex-shrink-0 pt-4">
+              <div className="relative h-[480px] w-full px-8">
+                <svg viewBox="0 0 200 240" className="w-full h-full drop-shadow-2xl overflow-visible" preserveAspectRatio="xMidYMid meet">
+                  <defs>
+                    <linearGradient id="grad-l1" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#0ea5e9" />
+                      <stop offset="100%" stopColor="#0284c7" />
+                    </linearGradient>
+                    <linearGradient id="grad-l2" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#38bdf8" />
+                      <stop offset="100%" stopColor="#0ea5e9" />
+                    </linearGradient>
+                    <linearGradient id="grad-l3" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#94a3b8" />
+                      <stop offset="100%" stopColor="#64748b" />
+                    </linearGradient>
+                    <filter id="glow-l1" x="-20%" y="-20%" width="140%" height="140%">
+                      <feGaussianBlur stdDeviation="3" result="blur" />
+                      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                  </defs>
+
+                  {/* L3 - Base (10% height) - bottom: 200 to 180 */}
+                  <g className="transition-all duration-300 hover:opacity-80 cursor-default">
+                    <rect x="45" y="195" width="110" height="24" rx="2" fill="url(#grad-l3)" />
+                    <text x="100" y="210" textAnchor="middle" className="fill-white font-bold text-[8px] tracking-tighter">L3 | PERIPHERAL</text>
+                  </g>
+
+                  {/* L2 - Middle (22% height) - bottom: 175 to 130 */}
+                  <g className="transition-all duration-300 hover:translate-y-[-2px] cursor-default">
+                    <rect x="30" y="140" width="140" height="50" rx="3" fill="url(#grad-l2)" />
+                    <text x="100" y="168" textAnchor="middle" className="fill-white font-bold text-[10px]">L2 | SEMANTIC CONTEXT</text>
+                    <text x="100" y="180" textAnchor="middle" className="fill-white/80 font-medium text-[8px]">22% SHARE</text>
+                  </g>
+
+                  {/* L1 - Primary (68% height) - top: 135 to 10 */}
+                  <g className="transition-all duration-300 hover:translate-y-[-4px] cursor-default" filter="url(#glow-l1)">
+                    <rect x="15" y="10" width="170" height="125" rx="5" fill="url(#grad-l1)" />
+                    <text x="100" y="55" textAnchor="middle" className="fill-white font-black text-2xl tracking-tighter">68%</text>
+                    <text x="100" y="80" textAnchor="middle" className="fill-white font-bold text-[12px] tracking-tight">PRIMARY FOCAL POINT</text>
+                    <text x="100" y="98" textAnchor="middle" className="fill-white/90 text-[9px] uppercase tracking-[0.2em]">L1 Dominant Saliency</text>
+                  </g>
+
+                  {/* Flow lines and technical markings */}
+                  <path d="M100,135 L100,140" stroke="#0ea5e9" strokeWidth="1" strokeDasharray="2,2" />
+                  <path d="M100,190 L100,195" stroke="#38bdf8" strokeWidth="1" strokeDasharray="2,2" />
+                </svg>
+              </div>
+            </div>
+
+            {/* Layer Details List */}
+            <div className="flex flex-col gap-4 flex-grow">
+              {visualProcessingLayers.map((layer) => (
+                <Card key={layer.level} className="relative overflow-hidden p-4 group hover:border-accent/40 transition-colors">
+                  <div className="relative flex flex-col gap-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className={`flex h-5 w-8 items-center justify-center rounded text-[9px] font-bold text-white ${layer.bgColor}`}>
+                          {layer.level}
+                        </span>
+                        <p className={`kicker !text-[10px] ${layer.colorText}`}>{layer.label}</p>
+                      </div>
+                      <p className="text-xl font-bold text-ink">{layer.share}</p>
+                    </div>
+
+                    <div>
+                      <h3 className="text-base font-semibold text-ink group-hover:text-accent transition-colors">{layer.title}</h3>
+                      <p className="mt-1 text-xs leading-relaxed text-muted line-clamp-3">
+                        {layer.description}
+                      </p>
+                    </div>
                   </div>
-                  {index === 0 ? (
-                    <Zap size={18} className="text-amber-500" />
-                  ) : index === 1 ? (
-                    <Waves size={18} className="text-accent" />
-                  ) : (
-                    <Gauge size={18} className="text-sky-600" />
-                  )}
-                </div>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
-        <div className="flex items-center justify-between gap-4">
-          <div>
-            <p className="kicker">Subconscious Triggers</p>
-            <h2 className="headline mt-2 text-3xl sm:text-4xl">Subliminal & Behavioral Triggers</h2>
-          </div>
-          <Radar size={20} className="text-accent" />
-        </div>
-
-        <div className="mt-7 grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
-          <Card className="p-6">
-            <div className="grid place-items-center rounded-[1.6rem] bg-panelSoft p-5">
-              <svg viewBox="0 0 100 100" className="h-72 w-72 overflow-visible">
-                <polygon points="50,14 86,36 74,82 26,82 14,36" fill="rgba(56,189,248,0.12)" stroke="rgba(15,23,42,0.2)" />
-                <polygon points={triggerPolygon} fill="rgba(15,23,42,0.72)" stroke="rgba(15,23,42,0.95)" strokeWidth="1.4" />
-                {triggerAxes.map((axis, idx) => {
-                  const labels: [number, number][] = [
-                    [50, 9],
-                    [92, 35],
-                    [76, 92],
-                    [24, 92],
-                    [8, 35],
-                  ];
-
-                  return (
-                    <text
-                      key={axis.label}
-                      x={labels[idx][0]}
-                      y={labels[idx][1]}
-                      textAnchor="middle"
-                      className="fill-muted text-[5px] uppercase tracking-[0.16em]"
-                    >
-                      {axis.label}
-                    </text>
-                  );
-                })}
-              </svg>
+                </Card>
+              ))}
             </div>
-          </Card>
-
-          <div className="space-y-4">
-            <Card className="p-5">
-              <p className="kicker">Neural Tone Analysis</p>
-              <p className="mt-2 text-sm leading-relaxed text-ink">
-                Primary Trigger: Dopamine Release driven by reward-oriented color accents and high-salience visual cues.
-              </p>
-              <p className="mt-3 text-sm leading-relaxed text-ink">
-                Secondary Trigger: Cortisol Spike risk due to dense clusters of warning-style text near the upper fold.
-              </p>
-            </Card>
-
-            <Card className="p-5">
-              <div className="flex items-center justify-between gap-4">
-                <div>
-                  <p className="kicker">Readability Index</p>
-                  <p className="headline mt-2 text-2xl">Fast neural parsing</p>
-                </div>
-                <Brain size={18} className="text-accent" />
-              </div>
-              <div className="mt-4">
-                <ProgressBar value={86} />
-                <p className="mt-2 text-xs uppercase tracking-[0.16em] text-muted">Estimated message decode time: 420ms</p>
-              </div>
-            </Card>
           </div>
         </div>
       </section>
@@ -465,36 +542,17 @@ export function NeuroFocusSimulatorSection() {
       <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <p className="kicker">Historical Neuro-Data</p>
-            <h2 className="headline mt-2 text-3xl sm:text-4xl">Neuro-Market Benchmarking</h2>
+            <p className="kicker">The Neurotransmitter Gauge System</p>
+            <h2 className="headline mt-2 text-3xl sm:text-4xl text-ink">NEURAL BIO-SIGNAL CONSOLE</h2>
           </div>
-          <Target size={20} className="text-accent" />
+          <Activity size={20} className="text-accent animate-pulse" />
         </div>
 
-        <Card className="mt-7 overflow-hidden p-0">
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[760px] border-collapse text-left">
-              <thead>
-                <tr className="border-b border-line/70 bg-panelSoft/80 text-xs uppercase tracking-[0.18em] text-muted">
-                  <th className="p-4">Metric</th>
-                  <th className="p-4 text-accent">Current Design</th>
-                  <th className="p-4">Golden Standards</th>
-                  <th className="p-4">Assessment</th>
-                </tr>
-              </thead>
-              <tbody>
-                {benchmarkRows.map((row) => (
-                  <tr key={row.metric} className="border-b border-line/60 last:border-b-0">
-                    <td className="p-4 font-medium text-ink">{row.metric}</td>
-                    <td className="p-4 text-accent">{row.current}</td>
-                    <td className="p-4 text-muted">{row.goldStandard}</td>
-                    <td className="p-4 text-muted">{row.assessment}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </Card>
+        <div className="mt-8 grid gap-5 lg:grid-cols-3">
+          {benchmarkGauges.map((gauge) => (
+            <BenchmarkGauge key={gauge.label} {...gauge} />
+          ))}
+        </div>
       </section>
 
       <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">

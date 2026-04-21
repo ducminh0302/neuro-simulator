@@ -324,9 +324,6 @@ export function GalaReadySimulatorSection() {
                 alt="Palette and silhouette analysis board"
                 className="h-full w-full rounded-[1.3rem] object-contain"
               />
-              <div className="absolute right-5 top-5 rounded-full bg-white/85 px-3 py-1 text-xs font-semibold text-ink soft-border">
-                Anchor points active
-              </div>
             </div>
           </Card>
 
