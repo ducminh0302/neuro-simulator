@@ -8,7 +8,6 @@ import {
   BrainCircuit,
   CheckCircle2,
   Eye,
-  Globe2,
   Lightbulb,
   Sparkles,
   Target,
@@ -90,38 +89,11 @@ const visualProcessingLayers = [
   },
 ];
 
-const agentReactions = [
-  {
-    persona: "The Fast-Paced Professional",
-    reaction: "Too much text, skipped in 0.5s.",
-    signal: "Low dwell time",
-  },
-  {
-    persona: "The Detail-Oriented Scholar",
-    reaction: "Interested in the data points, spent 5s.",
-    signal: "High analytical engagement",
-  },
-  {
-    persona: "The Impulse Buyer",
-    reaction: "The 'Buy Now' button isn't prominent enough.",
-    signal: "CTA friction",
-  },
-];
 
 function WaveformOscilloscope() {
-  const [isFriction, setIsFriction] = useState(false);
 
-  const generatePath = (amplitude: number, frequency: number, noise: number) => {
-    let d = "M 0 50";
-    for (let x = 0; x <= 400; x += 5) {
-      const y = 50 + Math.sin(x * frequency) * amplitude + (Math.random() - 0.5) * noise;
-      d += ` L ${x} ${y}`;
-    }
-    return d;
-  };
 
   const smoothPath = "M 0 50 Q 50 20, 100 50 T 200 50 T 300 50 T 400 50";
-  const jaggedPath = "M 0 50 L 20 70 L 40 30 L 60 80 L 80 20 L 100 60 L 120 40 L 140 90 L 160 10 L 180 50 L 200 70 L 220 30 L 240 80 L 260 20 L 280 60 L 300 40 L 320 90 L 340 10 L 360 50 L 380 70 L 400 50";
 
   return (
     <div className="relative h-32 w-full rounded-xl bg-[#080d1a] overflow-hidden border border-slate-800 shadow-[inset_0_2px_10px_rgba(0,0,0,0.5)]">
@@ -688,7 +660,7 @@ export function NeuroFocusSimulatorSection() {
                     <p className="text-sm font-bold text-ink">Fast Neural Parsing: 420ms</p>
                   </div>
                   <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                    The brain decodes the spatial hierarchy effortlessly. Saliency alignment reduces neural metabolic cost, facilitating "instant" semantic comprehension.
+                    The brain decodes the spatial hierarchy effortlessly. Saliency alignment reduces neural metabolic cost, facilitating &quot;instant&quot; semantic comprehension.
                   </p>
                 </div>
               </div>
