@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import {
-  File,
+  File as FileIcon,
   FileAudio,
   FileImage,
   FileSpreadsheet,
@@ -11,6 +11,7 @@ import {
   Filter,
   Folder,
   FolderOpen,
+  LucideIcon,
   Search,
   User,
   XCircle,
@@ -20,14 +21,14 @@ import { SiteShell } from "@/components/site-shell";
 import { Card, Pill, SectionHeading, Surface } from "@/components/ui";
 import { libraryItems } from "@/lib/site";
 
-const IconMap: Record<string, React.ElementType> = {
+const IconMap: Record<string, LucideIcon> = {
   Text: FileText,
   Video: FileVideo,
   Image: FileImage,
   Folder: Folder,
   Audio: FileAudio,
   Spreadsheet: FileSpreadsheet,
-  Document: File,
+  Document: FileIcon,
   Profile: User,
 };
 
@@ -126,7 +127,7 @@ export default function LibraryPage() {
         <div className="space-y-4">
           {filteredItems.length > 0 ? (
             filteredItems.map((item) => {
-              const Icon = IconMap[item.type] || File;
+              const Icon = IconMap[item.type] || FileIcon;
               return (
                 <Card
                   key={item.name}
