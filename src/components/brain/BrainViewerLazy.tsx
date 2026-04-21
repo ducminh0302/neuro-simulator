@@ -2,7 +2,12 @@
 
 import dynamic from "next/dynamic";
 
-export const BrainViewerLazy = dynamic(
+interface BrainViewerLazyProps {
+  predictionKey?: string;
+  segmentIndex?: number;
+}
+
+const BrainViewerDynamic = dynamic<BrainViewerLazyProps>(
   () => import("./BrainViewer3D").then((m) => m.BrainViewer3D),
   {
     ssr: false,
@@ -13,3 +18,7 @@ export const BrainViewerLazy = dynamic(
     ),
   }
 );
+
+export function BrainViewerLazy(props: BrainViewerLazyProps = {}) {
+  return <BrainViewerDynamic {...props} />;
+}

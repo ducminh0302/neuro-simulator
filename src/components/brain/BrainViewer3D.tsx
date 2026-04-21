@@ -35,7 +35,7 @@ interface PredictionData {
   absScale: number;
 }
 
-const PREDICTION_KEY = "text.predictions";
+const DEFAULT_PREDICTION_KEY = "text.predictions";
 
 function lerp(a: number, b: number, t: number) {
   return a + (b - a) * t;
@@ -214,7 +214,7 @@ function ActivityLegend({ absScale }: { absScale: number }) {
   );
 }
 
-async function loadPrediction(key: string): Promise<PredictionData> {
+async function loadPrediction(key: string, segmentIndex?: number): Promise<PredictionData> {
   const [metaRes, binRes] = await Promise.all([
     fetch(`/brain-3d/${key}.meta.json`),
     fetch(`/brain-3d/${key}.bin`),
@@ -230,14 +230,23 @@ async function loadPrediction(key: string): Promise<PredictionData> {
   const values = new Float32Array(buf);
 
   const perVertex = new Float32Array(meta.n_vertices);
-  for (let s = 0; s < meta.n_segments; s++) {
+
+  if (typeof segmentIndex === "number") {
+    const s = ((segmentIndex % meta.n_segments) + meta.n_segments) % meta.n_segments;
     const offset = s * meta.n_vertices;
     for (let v = 0; v < meta.n_vertices; v++) {
-      perVertex[v] += values[offset + v];
+      perVertex[v] = values[offset + v];
     }
-  }
-  for (let v = 0; v < meta.n_vertices; v++) {
-    perVertex[v] /= meta.n_segments;
+  } else {
+    for (let s = 0; s < meta.n_segments; s++) {
+      const offset = s * meta.n_vertices;
+      for (let v = 0; v < meta.n_vertices; v++) {
+        perVertex[v] += values[offset + v];
+      }
+    }
+    for (let v = 0; v < meta.n_vertices; v++) {
+      perVertex[v] /= meta.n_segments;
+    }
   }
 
   let maxAbs = 0;
@@ -250,7 +259,15 @@ async function loadPrediction(key: string): Promise<PredictionData> {
   return { meta, perVertex, absScale };
 }
 
-export function BrainViewer3D() {
+export interface BrainViewer3DProps {
+  predictionKey?: string;
+  segmentIndex?: number;
+}
+
+export function BrainViewer3D({
+  predictionKey = DEFAULT_PREDICTION_KEY,
+  segmentIndex,
+}: BrainViewer3DProps = {}) {
   const [surface, setSurface] = useState<SurfaceData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -274,10 +291,18 @@ export function BrainViewer3D() {
   }, []);
 
   useEffect(() => {
-    loadPrediction(PREDICTION_KEY)
-      .then(setPrediction)
-      .catch(() => setPrediction(null));
-  }, []);
+    let cancelled = false;
+    loadPrediction(predictionKey, segmentIndex)
+      .then((p) => {
+        if (!cancelled) setPrediction(p);
+      })
+      .catch(() => {
+        if (!cancelled) setPrediction(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [predictionKey, segmentIndex]);
 
   return (
     <div className="relative h-full w-full overflow-hidden rounded-[1.6rem] bg-[#080808]">

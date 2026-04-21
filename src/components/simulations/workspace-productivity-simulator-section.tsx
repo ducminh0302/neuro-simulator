@@ -1,5 +1,6 @@
 import {
   AlertTriangle,
+  BrainCircuit,
   CheckCircle2,
   Clock3,
   Eye,
@@ -17,6 +18,7 @@ import {
   Zap,
 } from "lucide-react";
 
+import { BrainViewerLazy } from "@/components/brain/BrainViewerLazy";
 import { SimulationPromptChat } from "@/components/simulations/simulation-prompt-chat";
 import { Card, Pill, ProgressBar, SectionHeading, Surface } from "@/components/ui";
 
@@ -389,6 +391,67 @@ export function WorkspaceProductivitySimulatorSection() {
                     <ProgressBar value={axis.value} />
                   </div>
                 ))}
+              </div>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <p className="kicker">Neural Activation Map</p>
+            <h2 className="headline mt-2 text-3xl sm:text-4xl">Cortical focus & cognitive load profile</h2>
+          </div>
+          <BrainCircuit size={20} className="text-accent" />
+        </div>
+
+        <div className="mt-7 grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+          <Card className="overflow-hidden p-0">
+            <div className="h-[460px]">
+              <BrainViewerLazy predictionKey="text.predictions" segmentIndex={12} />
+            </div>
+          </Card>
+
+          <div className="space-y-4">
+            <Card className="p-5">
+              <p className="kicker">fMRI-based commentary</p>
+              <p className="mt-3 text-sm leading-relaxed text-ink">
+                Sustained engagement of the <span className="font-semibold">dorsolateral prefrontal cortex (dlPFC)</span> and
+                <span className="font-semibold"> posterior parietal cortex</span> signals deep focus and working-memory load -
+                the workspace supports multi-window executive tasks without overtaxing attentional control.
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-ink">
+                Moderate activity across the <span className="font-semibold">default mode network</span> during micro-breaks,
+                combined with calm <span className="font-semibold">anterior cingulate</span> readings, confirms biophilic and
+                acoustic tuning are preventing cognitive fatigue over the 90-minute block.
+              </p>
+            </Card>
+
+            <Card className="p-5">
+              <p className="kicker">Key cortical hotspots</p>
+              <div className="mt-4 space-y-3 text-sm">
+                <div className="flex items-start gap-3 rounded-[1rem] bg-panelSoft p-3">
+                  <span className="mt-1 h-2.5 w-2.5 rounded-full bg-rose-500" />
+                  <div>
+                    <p className="font-semibold text-ink">Dorsolateral prefrontal cortex</p>
+                    <p className="text-muted">Executive control and sustained task focus peaks.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 rounded-[1rem] bg-panelSoft p-3">
+                  <span className="mt-1 h-2.5 w-2.5 rounded-full bg-amber-500" />
+                  <div>
+                    <p className="font-semibold text-ink">Posterior parietal cortex</p>
+                    <p className="text-muted">Spatial attention across monitor arrays and documents.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 rounded-[1rem] bg-panelSoft p-3">
+                  <span className="mt-1 h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                  <div>
+                    <p className="font-semibold text-ink">Anterior cingulate cortex</p>
+                    <p className="text-muted">Low conflict load - environment is not fighting the task.</p>
+                  </div>
+                </div>
               </div>
             </Card>
           </div>

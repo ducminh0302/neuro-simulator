@@ -2,6 +2,7 @@ import {
   Activity,
   ArrowUpRight,
   Brain,
+  BrainCircuit,
   CheckCircle2,
   Eye,
   Gauge,
@@ -15,6 +16,7 @@ import {
   Zap,
 } from "lucide-react";
 
+import { BrainViewerLazy } from "@/components/brain/BrainViewerLazy";
 import { SimulationPromptChat } from "@/components/simulations/simulation-prompt-chat";
 import { Card, Pill, ProgressBar, SectionHeading, Surface } from "@/components/ui";
 
@@ -275,6 +277,67 @@ export function NeuroFocusSimulatorSection() {
               </Card>
             );
           })}
+        </div>
+      </section>
+
+      <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <p className="kicker">Neural Activation Map</p>
+            <h2 className="headline mt-2 text-3xl sm:text-4xl">Cortical response to visual stimulus</h2>
+          </div>
+          <BrainCircuit size={20} className="text-accent" />
+        </div>
+
+        <div className="mt-7 grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+          <Card className="overflow-hidden p-0">
+            <div className="h-[460px]">
+              <BrainViewerLazy predictionKey="stim.predictions" />
+            </div>
+          </Card>
+
+          <div className="space-y-4">
+            <Card className="p-5">
+              <p className="kicker">fMRI-based commentary</p>
+              <p className="mt-3 text-sm leading-relaxed text-ink">
+                Strong bilateral activation across the <span className="font-semibold">primary visual cortex (V1)</span> and
+                <span className="font-semibold"> ventral stream (V4, fusiform)</span> indicates efficient low-level feature
+                extraction and shape binding within the first 300 ms of exposure.
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-ink">
+                Secondary clusters in the <span className="font-semibold">parietal attention network</span> and
+                <span className="font-semibold"> frontal eye fields</span> confirm sustained foveal locking on the CTA anchor,
+                consistent with the predicted 2.6 s attention retention window.
+              </p>
+            </Card>
+
+            <Card className="p-5">
+              <p className="kicker">Key cortical hotspots</p>
+              <div className="mt-4 space-y-3 text-sm">
+                <div className="flex items-start gap-3 rounded-[1rem] bg-panelSoft p-3">
+                  <span className="mt-1 h-2.5 w-2.5 rounded-full bg-rose-500" />
+                  <div>
+                    <p className="font-semibold text-ink">Occipital pole (V1 / V2)</p>
+                    <p className="text-muted">Peak excitation during contrast and edge detection.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 rounded-[1rem] bg-panelSoft p-3">
+                  <span className="mt-1 h-2.5 w-2.5 rounded-full bg-amber-500" />
+                  <div>
+                    <p className="font-semibold text-ink">Superior parietal lobule</p>
+                    <p className="text-muted">Top-down attention allocation to high-salience regions.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 rounded-[1rem] bg-panelSoft p-3">
+                  <span className="mt-1 h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                  <div>
+                    <p className="font-semibold text-ink">Anterior insula / ACC</p>
+                    <p className="text-muted">Emotional salience tagging - valence trending positive (+0.42).</p>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </div>
         </div>
       </section>
 

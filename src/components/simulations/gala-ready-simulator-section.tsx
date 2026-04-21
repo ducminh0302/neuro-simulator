@@ -1,5 +1,6 @@
 import {
   BarChart3,
+  BrainCircuit,
   Camera,
   CheckCircle2,
   Gem,
@@ -11,6 +12,7 @@ import {
   WandSparkles,
 } from "lucide-react";
 
+import { BrainViewerLazy } from "@/components/brain/BrainViewerLazy";
 import { SimulationPromptChat } from "@/components/simulations/simulation-prompt-chat";
 import { Card, Pill, ProgressBar, SectionHeading, Surface } from "@/components/ui";
 
@@ -332,6 +334,67 @@ export function GalaReadySimulatorSection() {
               </div>
             </div>
           </Card>
+        </div>
+      </section>
+
+      <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <p className="kicker">Neural Activation Map</p>
+            <h2 className="headline mt-2 text-3xl sm:text-4xl">Cortical aesthetic & status response</h2>
+          </div>
+          <BrainCircuit size={20} className="text-accent" />
+        </div>
+
+        <div className="mt-7 grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+          <Card className="overflow-hidden p-0">
+            <div className="h-[460px]">
+              <BrainViewerLazy predictionKey="stim2.predictions" />
+            </div>
+          </Card>
+
+          <div className="space-y-4">
+            <Card className="p-5">
+              <p className="kicker">fMRI-based commentary</p>
+              <p className="mt-3 text-sm leading-relaxed text-ink">
+                Peaks in the <span className="font-semibold">medial orbitofrontal cortex (mOFC)</span> and
+                <span className="font-semibold"> ventral striatum</span> reflect a strong aesthetic reward response - the
+                silhouette and Midnight Blue palette are being processed as high-status, high-pleasure signals.
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-ink">
+                Co-activation of the <span className="font-semibold">fusiform face area</span> and
+                <span className="font-semibold"> posterior superior temporal sulcus</span> indicates that observers will
+                instinctively read poise and social confidence, supporting the 91% Presence Impact projection.
+              </p>
+            </Card>
+
+            <Card className="p-5">
+              <p className="kicker">Key cortical hotspots</p>
+              <div className="mt-4 space-y-3 text-sm">
+                <div className="flex items-start gap-3 rounded-[1rem] bg-panelSoft p-3">
+                  <span className="mt-1 h-2.5 w-2.5 rounded-full bg-rose-500" />
+                  <div>
+                    <p className="font-semibold text-ink">Medial OFC / ventral striatum</p>
+                    <p className="text-muted">Luxury reward coding - fabric sheen and color prestige.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 rounded-[1rem] bg-panelSoft p-3">
+                  <span className="mt-1 h-2.5 w-2.5 rounded-full bg-amber-500" />
+                  <div>
+                    <p className="font-semibold text-ink">Fusiform / lateral occipital</p>
+                    <p className="text-muted">Silhouette and body-shape recognition, tailoring legibility.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 rounded-[1rem] bg-panelSoft p-3">
+                  <span className="mt-1 h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                  <div>
+                    <p className="font-semibold text-ink">pSTS / temporoparietal junction</p>
+                    <p className="text-muted">Social inference - confidence and poise cues from posture.</p>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </div>
         </div>
       </section>
 
