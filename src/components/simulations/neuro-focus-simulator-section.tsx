@@ -5,16 +5,12 @@ import {
   BrainCircuit,
   CheckCircle2,
   Eye,
-  Gauge,
   Globe2,
   Lightbulb,
-  Radar,
-  ScanEye,
   Sparkles,
   Target,
-  Waves,
-  Zap,
 } from "lucide-react";
+import Image from "next/image";
 
 import { BrainViewerLazy } from "@/components/brain/BrainViewerLazy";
 import { SimulationPromptChat } from "@/components/simulations/simulation-prompt-chat";
@@ -275,9 +271,11 @@ export function NeuroFocusSimulatorSection() {
               </div>
 
               <div className="mt-4 overflow-hidden rounded-[1.5rem] border border-white/80 bg-white/80 shadow-soft backdrop-blur-sm">
-                <img
+                <Image
                   src="/robot-cleaner.jpg"
                   alt="Robot Cleaner Creative"
+                  width={800}
+                  height={450}
                   className="h-full w-full object-cover"
                 />
               </div>
@@ -450,9 +448,11 @@ export function NeuroFocusSimulatorSection() {
         <div className="mt-7 grid gap-8 xl:grid-cols-[0.8fr_1.2fr]">
           <Card className="overflow-hidden p-0">
             <div className="relative h-full min-h-[500px] bg-panelSoft p-6 flex items-center justify-center">
-              <img
+              <Image
                 src="/eeg.png"
                 alt="Neural Saliency EEG Map"
+                width={800}
+                height={600}
                 className="max-h-[380px] max-w-full object-contain"
               />
             </div>

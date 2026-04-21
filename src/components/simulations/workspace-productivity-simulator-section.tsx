@@ -9,7 +9,6 @@ import {
   MoonStar,
   Monitor,
   MoveUp,
-  Radar,
   Sparkles,
   Sun,
   Volume2,
@@ -20,10 +19,11 @@ import {
   UserCheck,
   Target,
 } from "lucide-react";
+import Image from "next/image";
 
 import { BrainViewerLazy } from "@/components/brain/BrainViewerLazy";
 import { SimulationPromptChat } from "@/components/simulations/simulation-prompt-chat";
-import { Card, Pill, ProgressBar, SectionHeading, Surface } from "@/components/ui";
+import { Card, Pill, SectionHeading, Surface } from "@/components/ui";
 
 const setupInputs = [
   { label: "Space Persona", value: "Creative Tech-Enthusiast / Deep Work", icon: UserCheck },
@@ -71,13 +71,7 @@ const spatialStats = [
   { label: "Sonic Profile", value: "Moderate Echo", note: "Add soft textures to dampen sound." },
 ];
 
-const resonanceAxes = [
-  { label: "Calmness", value: 82 },
-  { label: "Creativity", value: 61 },
-  { label: "Energy", value: 69 },
-  { label: "Privacy", value: 72 },
-  { label: "Technology", value: 90 },
-];
+
 
 const standardsRows = [
   {
@@ -139,27 +133,7 @@ const upgrades = [
   },
 ];
 
-const radarPoints = [
-  [50, 14],
-  [86, 36],
-  [74, 82],
-  [26, 82],
-  [14, 36],
-];
-
-function buildRadarPolygon(values: number[]) {
-  return radarPoints
-    .map(([x, y], index) => {
-      const intensity = values[index] / 100;
-      const px = 50 + (x - 50) * intensity;
-      const py = 50 + (y - 50) * intensity;
-      return `${px},${py}`;
-    })
-    .join(" ");
-}
-
 export function WorkspaceProductivitySimulatorSection() {
-  const radarPolygon = buildRadarPolygon(resonanceAxes.map((item) => item.value));
 
   return (
     <div className="space-y-8 pb-10">
@@ -182,9 +156,11 @@ export function WorkspaceProductivitySimulatorSection() {
               </div>
 
               <div className="mt-4 overflow-hidden rounded-[1.5rem] border border-line bg-panelSoft shadow-soft">
-                <img
+                <Image
                   src="/work-space.jpg"
                   alt="Workspace"
+                  width={1200}
+                  height={675}
                   className="aspect-video w-full object-contain"
                 />
               </div>
@@ -367,9 +343,11 @@ export function WorkspaceProductivitySimulatorSection() {
 
         <div className="mt-7 grid gap-6 xl:grid-cols-[1.04fr_0.96fr]">
           <Card className="overflow-hidden p-0 h-[420px] bg-panelSoft">
-            <img
+            <Image
               src="/blueprint.png"
               alt="Blueprint Mapping"
+              width={1200}
+              height={800}
               className="h-full w-full object-contain"
             />
           </Card>
@@ -614,9 +592,11 @@ export function WorkspaceProductivitySimulatorSection() {
               <p className="headline text-xl">Body Load Pressure Map</p>
             </div>
             <div className="relative h-[400px] bg-panelSoft overflow-hidden rounded-[1.5rem]">
-              <img 
+              <Image 
                 src="/heatmap.png" 
                 alt="Body Load Pressure Map"
+                width={800}
+                height={600}
                 className="h-full w-full object-contain"
               />
             </div>

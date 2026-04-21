@@ -3,31 +3,25 @@ import {
   ArrowRight,
   BarChart3,
   BrainCircuit,
-  Camera,
-  ChevronRight,
   CircleHelp,
   FileText,
   Globe2,
   Gauge,
-  Info,
   Lightbulb,
   LineChart,
   Sparkles,
   Target,
   TimerReset,
   TrendingUp,
-  Upload,
   Users,
-  Video,
 } from "lucide-react";
+import Image from "next/image";
 import { BrainViewerLazy } from "../brain/BrainViewerLazy";
 
 import { SimulationPromptChat } from "@/components/simulations/simulation-prompt-chat";
 import { Card, Pill, ProgressBar, SectionHeading, Surface } from "@/components/ui";
 
-const assets = [
-  { name: "caption-draft.txt", type: "Caption", icon: Sparkles },
-];
+
 
 const vitals = [
   {
@@ -57,19 +51,9 @@ const vitals = [
   },
 ];
 
-const palette = [
-  { name: "#0F172A", meaning: "Trust, depth", width: 86 },
-  { name: "#7DD3FC", meaning: "Clarity, freshness", width: 74 },
-  { name: "#F8FAFC", meaning: "Premium restraint", width: 60 },
-  { name: "#F59E0B", meaning: "Warm urgency", width: 48 },
-];
 
-const objects = [
-  ["Product", "98% confidence"],
-  ["Lifestyle Background", "85% confidence"],
-  ["Headline Text", "94% confidence"],
-  ["CTA Button", "88% confidence"],
-];
+
+
 
 const psychographicMetrics = [
   { label: "Urgency", value: 76 },
@@ -195,7 +179,13 @@ export function PostContentSimulatorSection() {
 
             <div className="space-y-4">
               <div className="relative rounded-[2rem] bg-white/70 p-5 soft-border backdrop-blur-xl overflow-hidden">
-                <img src="/pc.jpg" alt="Creative evaluation" className="w-full h-auto rounded-[1.4rem] object-cover" />
+                <Image
+                  src="/pc.jpg"
+                  alt="Creative evaluation"
+                  width={1200}
+                  height={800}
+                  className="w-full h-auto rounded-[1.4rem] object-cover"
+                />
                 <div className="absolute bottom-4 right-4 bg-black rounded-full w-[67px] h-[67px] flex items-center justify-center">
                   <p className="text-white font-semibold text-2xl">+3</p>
                 </div>

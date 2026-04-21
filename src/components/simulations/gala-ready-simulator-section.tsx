@@ -12,6 +12,7 @@ import {
   Users,
   WandSparkles,
 } from "lucide-react";
+import Image from "next/image";
 
 import { BrainViewerLazy } from "@/components/brain/BrainViewerLazy";
 import { SimulationPromptChat } from "@/components/simulations/simulation-prompt-chat";
@@ -153,9 +154,11 @@ export function GalaReadySimulatorSection() {
               </div>
               <div className="mt-4 rounded-[1.6rem] border border-white/80 bg-white/70 p-5 backdrop-blur-sm">
                 <div className="relative overflow-hidden rounded-[1.3rem] border border-line bg-[linear-gradient(145deg,#f8fafc,#eceff4)]">
-                  <img
+                  <Image
                     src="/outfit.png"
                     alt="Uploaded gala outfit"
+                    width={500}
+                    height={700}
                     className="mx-auto h-auto max-h-[460px] w-auto max-w-full"
                   />
                 </div>
@@ -319,9 +322,11 @@ export function GalaReadySimulatorSection() {
         <div className="mt-7 grid gap-6 xl:grid-cols-[1fr_1fr]">
           <Card className="overflow-hidden p-0">
             <div className="relative min-h-[360px] bg-white p-4 sm:p-5">
-              <img
+              <Image
                 src="/Palette-Silhouette.png"
                 alt="Palette and silhouette analysis board"
+                width={800}
+                height={600}
                 className="h-full w-full rounded-[1.3rem] object-contain"
               />
             </div>
@@ -402,9 +407,11 @@ export function GalaReadySimulatorSection() {
         <div className="mt-7 grid gap-6 xl:grid-cols-[1fr_1.02fr]">
           <Card className="overflow-hidden p-0">
             <div className="min-h-[420px] bg-white p-4 sm:p-5">
-              <img
+              <Image
                 src="/radar.png"
                 alt="Persona perception radar"
+                width={600}
+                height={600}
                 className="h-full w-full object-contain"
               />
             </div>

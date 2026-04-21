@@ -20,7 +20,7 @@ import { SiteShell } from "@/components/site-shell";
 import { Card, Pill, SectionHeading, Surface } from "@/components/ui";
 import { libraryItems } from "@/lib/site";
 
-const IconMap: Record<string, any> = {
+const IconMap: Record<string, React.ElementType> = {
   Text: FileText,
   Video: FileVideo,
   Image: FileImage,
@@ -169,7 +169,7 @@ export default function LibraryPage() {
               </div>
               <h3 className="headline text-2xl mb-2">No assets found</h3>
               <p className="text-muted max-w-xs mx-auto">
-                We couldn't find any items matching "{searchQuery}" in this
+                We couldn&apos;t find any items matching &quot;{searchQuery}&quot; in this
                 category.
               </p>
               <button
