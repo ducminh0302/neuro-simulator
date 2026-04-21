@@ -4,7 +4,6 @@ import {
   BarChart3,
   BrainCircuit,
   Camera,
-  ChevronRight,
   CircleHelp,
   Globe2,
   Gauge,
@@ -151,8 +150,15 @@ function buildPolygon(points: number[][]) {
 
 export function PostContentSimulatorSection() {
   const radarPolygon = buildPolygon(radarPoints);
-  const simulatedPath = "M0 90 C12 84, 20 78, 33 74 C46 70, 55 52, 66 44 C76 37, 86 28, 100 20";
-  const standardPath = "M0 96 C13 91, 24 86, 35 82 C48 76, 60 67, 70 60 C81 53, 91 46, 100 41";
+  const simulatedPath = "M8 84 C18 80, 28 74, 36 69 C46 63, 56 53, 66 43 C75 34, 84 26, 92 18";
+  const simulatedAreaPath = `${simulatedPath} L92 92 L8 92 Z`;
+  const standardPath = "M8 88 C18 85, 28 80, 36 76 C46 71, 56 63, 66 55 C75 49, 84 42, 92 36";
+  const keyDataPoints = [
+    { label: "0h", x: 8, y: 84 },
+    { label: "6h", x: 36, y: 69 },
+    { label: "12h", x: 66, y: 43 },
+    { label: "24h", x: 92, y: 18 },
+  ];
 
   return (
     <div className="space-y-8 pb-10">
@@ -170,14 +176,11 @@ export function PostContentSimulatorSection() {
       />
 
       <Surface className="overflow-hidden p-6 sm:p-8">
-        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-          <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-muted soft-border backdrop-blur-md">
-              IG-Insight Sim <ChevronRight size={14} /> Predictive launch readout
-            </div>
-            <div className="space-y-4">
-              <h2 className="headline max-w-3xl text-4xl leading-[0.94] sm:text-5xl lg:text-6xl">
-                Predictive analytics for post performance, saliency, and audience psychology.
+          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+            <div className="space-y-6">
+              <div className="space-y-4">
+                <h2 className="headline max-w-3xl text-4xl leading-[0.94] sm:text-5xl lg:text-6xl">
+                  Predictive analytics for post performance, saliency, and audience psychology.
               </h2>
               <p className="max-w-2xl text-sm leading-relaxed text-muted sm:text-base">
                 The report blends creative review, behavioral scoring, and market context into one decision surface so teams can tune the post before publishing.
@@ -203,14 +206,11 @@ export function PostContentSimulatorSection() {
             </div>
           </div>
 
-          <div className="rounded-[2rem] bg-white/70 p-5 soft-border backdrop-blur-xl">
-            <div className="flex items-center justify-between gap-4">
-              <div>
+            <div className="rounded-[2rem] bg-white/70 p-5 soft-border backdrop-blur-xl">
+              <div className="flex items-center justify-between gap-4">
                 <p className="kicker">Primary input</p>
-                <h3 className="headline mt-2 text-2xl">Creative evaluation block</h3>
+                <Upload className="text-accent" size={22} />
               </div>
-              <Upload className="text-accent" size={22} />
-            </div>
 
             <div className="mt-5 space-y-4">
               <div className="rounded-[1.4rem] bg-panelSoft p-4 soft-border">
@@ -626,30 +626,42 @@ export function PostContentSimulatorSection() {
               <svg viewBox="0 0 100 100" className="h-72 w-full">
                 <defs>
                   <linearGradient id="simulatedLine" x1="0%" x2="100%" y1="0%" y2="0%">
-                    <stop offset="0%" stopColor="#0f172a" />
-                    <stop offset="100%" stopColor="#7dd3fc" />
+                    <stop offset="0%" stopColor="#22d3ee" />
+                    <stop offset="100%" stopColor="#8b5cf6" />
                   </linearGradient>
-                  <linearGradient id="standardLine" x1="0%" x2="100%" y1="0%" y2="0%">
-                    <stop offset="0%" stopColor="#94a3b8" />
-                    <stop offset="100%" stopColor="#cbd5e1" />
+                  <linearGradient id="simulatedArea" x1="0%" x2="0%" y1="0%" y2="100%">
+                    <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.1" />
+                    <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0" />
                   </linearGradient>
+                  <filter id="simulatedGlow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="1.6" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
                 </defs>
                 <rect x="0" y="0" width="100" height="100" rx="12" fill="transparent" />
                 {[20, 40, 60, 80].map((y) => (
                   <line key={y} x1="8" y1={y} x2="94" y2={y} stroke="rgba(100,109,114,0.14)" />
                 ))}
-                <path d={simulatedPath} fill="none" stroke="url(#simulatedLine)" strokeWidth="2.8" strokeLinecap="round" />
-                <path d={standardPath} fill="none" stroke="url(#standardLine)" strokeWidth="2.8" strokeDasharray="4 3" strokeLinecap="round" />
-                {[0, 16, 32, 48, 64, 80, 96].map((x, index) => (
-                  <circle key={index} cx={index === 0 ? 0 : x} cy={index === 0 ? 90 : 90 - index * 9} r="1.5" fill={index % 2 === 0 ? "#0f172a" : "#7dd3fc"} />
+                <path d={simulatedAreaPath} fill="url(#simulatedArea)" />
+                <path d={standardPath} fill="none" stroke="#cbd5e1" strokeWidth="1.35" strokeDasharray="3.2 3.2" strokeLinecap="round" />
+                <path d={simulatedPath} fill="none" stroke="url(#simulatedLine)" strokeWidth="3.2" strokeLinecap="round" filter="url(#simulatedGlow)" />
+                {keyDataPoints.map((point) => (
+                  <g key={point.label}>
+                    <circle cx={point.x} cy={point.y} r="2.2" fill="url(#simulatedLine)" opacity="0.35" />
+                    <circle cx={point.x} cy={point.y} r="1.1" fill="#e0f2fe" />
+                    <text x={point.x} y="96" textAnchor={point.label === "24h" ? "end" : "middle"} className="fill-muted text-[5px] uppercase tracking-[0.18em]">
+                      {point.label}
+                    </text>
+                  </g>
                 ))}
-                <text x="8" y="96" className="fill-muted text-[5px] uppercase tracking-[0.18em]">0h</text>
-                <text x="90" y="96" textAnchor="end" className="fill-muted text-[5px] uppercase tracking-[0.18em]">24h</text>
               </svg>
             </div>
             <div className="mt-4 flex flex-wrap gap-3 text-xs uppercase tracking-[0.18em] text-muted">
-              <span className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-ink" />Simulated Performance</span>
-              <span className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-slate-400" />Industry Standard</span>
+              <span className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-cyan-400" />Simulated Performance</span>
+              <span className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-slate-300" />Industry Standard</span>
             </div>
           </Card>
         </div>
