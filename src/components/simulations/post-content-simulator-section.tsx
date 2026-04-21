@@ -11,7 +11,6 @@ import {
   Info,
   Lightbulb,
   LineChart,
-  Palette,
   Sparkles,
   Target,
   TimerReset,
@@ -20,6 +19,7 @@ import {
   Users,
   Video,
 } from "lucide-react";
+import { BrainViewerLazy } from "../brain/BrainViewerLazy";
 
 import { SimulationPromptChat } from "@/components/simulations/simulation-prompt-chat";
 import { Card, Pill, ProgressBar, SectionHeading, Surface } from "@/components/ui";
@@ -379,42 +379,26 @@ export function PostContentSimulatorSection() {
       <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-3xl">
-            <p className="kicker">Visual perception &amp; saliency map</p>
-            <h3 className="headline mt-2 text-3xl sm:text-4xl">Where attention lands first</h3>
+            <p className="kicker">Neural activation map</p>
+            <h3 className="headline mt-2 text-3xl sm:text-4xl">Where the brain responds first</h3>
             <p className="mt-3 text-sm leading-relaxed text-muted">
-              This is the science layer: focal points, color meaning, object detection, and composition scoring are combined into one visual readout.
+              fMRI-based neural simulation: activation peaks in visual cortex (V1/V2/V3) and lateral occipital regions show how your content drives real brain responses before publishing.
             </p>
           </div>
           <Pill tone="accent">Science layer</Pill>
         </div>
 
-        <div className="mt-8 grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
+        <div className="mt-8 grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
           <Card className="overflow-hidden p-0">
             <div className="flex items-center justify-between border-b border-line/70 px-5 py-4">
               <div>
-                <p className="kicker">Simulated AI Heatmap</p>
-                <p className="headline mt-1 text-xl">Focal points and first glance zones</p>
+                <p className="kicker">3D neural activation</p>
+                <p className="headline mt-1 text-xl">Predicted cortical response to content</p>
               </div>
-              <Palette size={18} className="text-accent" />
+              <BrainCircuit size={18} className="text-accent" />
             </div>
-            <div className="relative min-h-[420px] overflow-hidden bg-[radial-gradient(circle_at_25%_20%,rgba(125,211,252,0.45),transparent_18%),radial-gradient(circle_at_70%_25%,rgba(15,23,42,0.28),transparent_20%),radial-gradient(circle_at_60%_70%,rgba(245,158,11,0.25),transparent_20%),linear-gradient(135deg,rgba(255,255,255,0.95),rgba(241,245,249,0.9))]">
-              <div className="absolute left-[18%] top-[20%] h-28 w-28 rounded-full bg-cyan-300/35 blur-3xl" />
-              <div className="absolute left-[48%] top-[28%] h-36 w-36 rounded-full bg-slate-900/20 blur-3xl" />
-              <div className="absolute right-[18%] bottom-[18%] h-24 w-24 rounded-full bg-amber-400/30 blur-3xl" />
-              <div className="absolute inset-0 grid place-items-center">
-                <div className="relative h-[320px] w-[320px] rounded-[2rem] border border-white/70 bg-white/25 shadow-soft backdrop-blur-md">
-                  <div className="absolute left-[14%] top-[18%] h-24 w-24 rounded-full bg-accent/35 blur-2xl" />
-                  <div className="absolute left-[52%] top-[20%] h-20 w-20 rounded-full bg-[#f59e0b]/35 blur-2xl" />
-                  <div className="absolute left-[36%] top-[54%] h-28 w-28 rounded-full bg-slate-950/15 blur-3xl" />
-                  <div className="absolute inset-0 rounded-[2rem] border border-white/60" />
-                  <div className="absolute left-4 top-4 rounded-full bg-white/70 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink soft-border backdrop-blur-md">
-                    Focal point A
-                  </div>
-                  <div className="absolute bottom-4 right-4 rounded-full bg-white/70 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-ink soft-border backdrop-blur-md">
-                    Focal point B
-                  </div>
-                </div>
-              </div>
+            <div className="h-[460px]">
+              <BrainViewerLazy />
             </div>
           </Card>
 
@@ -422,55 +406,55 @@ export function PostContentSimulatorSection() {
             <Card className="p-5">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <p className="kicker">Color palette harmony</p>
-                  <p className="headline mt-1 text-xl">Hex codes and psychological impact</p>
-                </div>
-                <span title="Hover labels for jargon explainers in prototype mode.">
-                  <Info size={18} className="text-muted" />
-                </span>
-              </div>
-              <div className="mt-4 space-y-3">
-                {palette.map((entry) => (
-                  <div key={entry.name} className="rounded-[1.2rem] bg-panelSoft p-3">
-                    <div className="flex items-center justify-between gap-4 text-sm">
-                      <div className="flex items-center gap-3">
-                        <span className="h-4 w-4 rounded-full border border-white/60" style={{ backgroundColor: entry.name }} />
-                        <span className="font-semibold text-ink">{entry.name}</span>
-                      </div>
-                      <span className="text-muted">{entry.meaning}</span>
-                    </div>
-                    <div className="mt-3 h-2 rounded-full bg-line/70">
-                      <div className="h-full rounded-full bg-accent" style={{ width: `${entry.width}%` }} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Card>
-
-            <Card className="p-5">
-              <div className="flex items-center justify-between gap-3">
-                <div>
-                  <p className="kicker">Object detection</p>
-                  <p className="headline mt-1 text-xl">Identified elements in frame</p>
+                  <p className="kicker">fMRI-based commentary</p>
+                  <p className="headline mt-1 text-xl">Simulated preference signal</p>
                 </div>
                 <BrainCircuit size={18} className="text-accent" />
               </div>
               <div className="mt-4 space-y-3">
-                {objects.map(([name, score]) => (
-                  <div key={name} className="flex items-center justify-between rounded-[1.2rem] bg-panelSoft px-4 py-3">
-                    <span className="text-sm font-medium text-ink">{name}</span>
-                    <span className="text-sm text-muted">{score}</span>
+                {[
+                  {
+                    title: "Overall reaction: Likely to be liked",
+                    note: "Visual cortex + lateral occipital activation suggests fast positive attention in the first seconds.",
+                    score: 82,
+                  },
+                  {
+                    title: "Why users may like it",
+                    note: "Strong object clarity and composition support fluency, which often correlates with perceived quality.",
+                    score: 87,
+                  },
+                  {
+                    title: "What can still reduce preference",
+                    note: "Moderate prefrontal engagement indicates decision friction; simplify CTA wording to improve instant trust.",
+                    score: 41,
+                  },
+                  {
+                    title: "Optimization opportunity",
+                    note: "If headline-to-product contrast is increased, simulated saliency becomes more stable across mixed audiences.",
+                    score: 74,
+                  },
+                ].map((item) => (
+                  <div key={item.title} className="rounded-[1.2rem] bg-panelSoft p-3">
+                    <div className="mb-2 flex items-center justify-between gap-4 text-sm">
+                      <div>
+                        <span className="font-semibold text-ink">{item.title}</span>
+                      </div>
+                      <span className="shrink-0 text-muted">{item.score}%</span>
+                    </div>
+                    <p className="text-xs leading-relaxed text-muted">{item.note}</p>
+                    <div className="h-2 rounded-full bg-line/70">
+                      <div
+                        className="h-full rounded-full"
+                        style={{
+                          width: `${item.score}%`,
+                          background: `linear-gradient(to right, #a855f7, ${
+                            item.score > 80 ? "#f472b6" : item.score > 60 ? "#ec4899" : "#c026d3"
+                          })`,
+                        }}
+                      />
+                    </div>
                   </div>
                 ))}
-              </div>
-              <div className="mt-4 rounded-[1.2rem] bg-panelSoft p-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-ink">Rule of Thirds Compliance</span>
-                  <Pill tone="soft">Pass</Pill>
-                </div>
-                <div className="mt-3">
-                  <ProgressBar value={84} />
-                </div>
               </div>
             </Card>
           </div>
