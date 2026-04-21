@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className="light">
-      <body className={`${inter.variable} ${spaceGrotesk.variable}`}>
+      <body suppressHydrationWarning className={`${inter.variable} ${spaceGrotesk.variable}`}>
         <PageTransition>{children}</PageTransition>
       </body>
     </html>

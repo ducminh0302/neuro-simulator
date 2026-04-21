@@ -2,6 +2,7 @@ import {
   Activity,
   ArrowUpRight,
   Brain,
+  BrainCircuit,
   CheckCircle2,
   Eye,
   Gauge,
@@ -15,6 +16,7 @@ import {
   Zap,
 } from "lucide-react";
 
+import { BrainViewerLazy } from "@/components/brain/BrainViewerLazy";
 import { SimulationPromptChat } from "@/components/simulations/simulation-prompt-chat";
 import { Card, Pill, ProgressBar, SectionHeading, Surface } from "@/components/ui";
 
@@ -393,6 +395,95 @@ export function NeuroFocusSimulatorSection() {
               <div className="mt-4">
                 <ProgressBar value={86} />
                 <p className="mt-2 text-xs uppercase tracking-[0.16em] text-muted">Estimated message decode time: 420ms</p>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div className="max-w-3xl">
+            <p className="kicker">Neural activation map</p>
+            <h3 className="headline mt-2 text-3xl sm:text-4xl">Where cognitive load concentrates</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted">
+              fMRI-based simulation sampled during the sustained-attention window: high-response clusters in the dorsal attention network reveal where the creative is holding focus, while low-response traces mark regions under cognitive strain.
+            </p>
+          </div>
+          <Pill tone="accent">Science layer</Pill>
+        </div>
+
+        <div className="mt-8 grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
+          <Card className="overflow-hidden p-0">
+            <div className="flex items-center justify-between border-b border-line/70 px-5 py-4">
+              <div>
+                <p className="kicker">3D neural activation</p>
+                <p className="headline mt-1 text-xl">Predicted cortical load under this stimulus</p>
+              </div>
+              <BrainCircuit size={18} className="text-accent" />
+            </div>
+            <div className="h-[460px]">
+              <BrainViewerLazy
+                predictionKey="stim2.predictions"
+                segmentRange={[10, 18]}
+                colorTheme="default"
+              />
+            </div>
+          </Card>
+
+          <div className="space-y-5">
+            <Card className="p-5">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="kicker">fMRI-based commentary</p>
+                  <p className="headline mt-1 text-xl">Simulated attention signal</p>
+                </div>
+                <BrainCircuit size={18} className="text-accent" />
+              </div>
+              <div className="mt-4 space-y-3">
+                {[
+                  {
+                    title: "Overall reaction: Focused but effortful",
+                    note: "Dorsal attention network lights up strongly, meaning the stimulus is gripping — but the extended duration hints at above-average processing cost.",
+                    score: 79,
+                  },
+                  {
+                    title: "Why attention holds",
+                    note: "Sustained activation along the intraparietal sulcus and frontal eye fields shows the composition keeps the viewer scanning instead of disengaging.",
+                    score: 86,
+                  },
+                  {
+                    title: "What raises cognitive friction",
+                    note: "Low-response regions in lateral prefrontal cortex mark working-memory load — the layout asks the brain to hold too many elements at once.",
+                    score: 44,
+                  },
+                  {
+                    title: "Optimization opportunity",
+                    note: "Reducing the top-fold text density should flatten overload peaks and let the focus signal travel further toward the CTA.",
+                    score: 72,
+                  },
+                ].map((item) => (
+                  <div key={item.title} className="rounded-[1.2rem] bg-panelSoft p-3">
+                    <div className="mb-2 flex items-center justify-between gap-4 text-sm">
+                      <div>
+                        <span className="font-semibold text-ink">{item.title}</span>
+                      </div>
+                      <span className="shrink-0 text-muted">{item.score}%</span>
+                    </div>
+                    <p className="text-xs leading-relaxed text-muted">{item.note}</p>
+                    <div className="h-2 rounded-full bg-line/70">
+                      <div
+                        className="h-full rounded-full"
+                        style={{
+                          width: `${item.score}%`,
+                          background: `linear-gradient(to right, #d946ef, ${
+                            item.score > 80 ? "#22d3ee" : item.score > 60 ? "#2563eb" : "#6366f1"
+                          })`,
+                        }}
+                      />
+                    </div>
+                  </div>
+                ))}
               </div>
             </Card>
           </div>

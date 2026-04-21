@@ -1,5 +1,6 @@
 import {
   BarChart3,
+  BrainCircuit,
   Camera,
   CheckCircle2,
   Gem,
@@ -11,6 +12,7 @@ import {
   WandSparkles,
 } from "lucide-react";
 
+import { BrainViewerLazy } from "@/components/brain/BrainViewerLazy";
 import { SimulationPromptChat } from "@/components/simulations/simulation-prompt-chat";
 import { Card, Pill, ProgressBar, SectionHeading, Surface } from "@/components/ui";
 
@@ -332,6 +334,95 @@ export function GalaReadySimulatorSection() {
               </div>
             </div>
           </Card>
+        </div>
+      </section>
+
+      <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div className="max-w-3xl">
+            <p className="kicker">Neural activation map</p>
+            <h3 className="headline mt-2 text-3xl sm:text-4xl">Where elegance lights up the brain</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted">
+              fMRI-based simulation captured at the ballroom-entrance moment: high-response regions cluster around the fusiform face area and orbitofrontal cortex, the regions that encode luxurious materials and social status signals.
+            </p>
+          </div>
+          <Pill tone="accent">Science layer</Pill>
+        </div>
+
+        <div className="mt-8 grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
+          <Card className="overflow-hidden p-0">
+            <div className="flex items-center justify-between border-b border-line/70 px-5 py-4">
+              <div>
+                <p className="kicker">3D neural activation</p>
+                <p className="headline mt-1 text-xl">Predicted cortical response to your look</p>
+              </div>
+              <BrainCircuit size={18} className="text-accent" />
+            </div>
+            <div className="h-[460px]">
+              <BrainViewerLazy
+                predictionKey="stim.predictions"
+                segmentRange={[2, 7]}
+                colorTheme="default"
+              />
+            </div>
+          </Card>
+
+          <div className="space-y-5">
+            <Card className="p-5">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="kicker">fMRI-based commentary</p>
+                  <p className="headline mt-1 text-xl">Simulated elegance signal</p>
+                </div>
+                <BrainCircuit size={18} className="text-accent" />
+              </div>
+              <div className="mt-4 space-y-3">
+                {[
+                  {
+                    title: "Overall reaction: High prestige attention",
+                    note: "Strong right-hemisphere face-area activation indicates guests will visually lock onto the silhouette within the first glance.",
+                    score: 88,
+                  },
+                  {
+                    title: "Why the look commands the room",
+                    note: "Orbitofrontal cortex response to fabric sheen and silver accessories signals subconscious associations with luxury and trust.",
+                    score: 91,
+                  },
+                  {
+                    title: "What can still dim the impact",
+                    note: "Mid-level parietal load suggests the ensemble reads slightly busy under flash photography — consider simplifying one accessory line.",
+                    score: 38,
+                  },
+                  {
+                    title: "Optimization opportunity",
+                    note: "Adding a deeper lip tone would push ventral stream contrast higher, amplifying the red-carpet signature without breaking dress-code compliance.",
+                    score: 76,
+                  },
+                ].map((item) => (
+                  <div key={item.title} className="rounded-[1.2rem] bg-panelSoft p-3">
+                    <div className="mb-2 flex items-center justify-between gap-4 text-sm">
+                      <div>
+                        <span className="font-semibold text-ink">{item.title}</span>
+                      </div>
+                      <span className="shrink-0 text-muted">{item.score}%</span>
+                    </div>
+                    <p className="text-xs leading-relaxed text-muted">{item.note}</p>
+                    <div className="h-2 rounded-full bg-line/70">
+                      <div
+                        className="h-full rounded-full"
+                        style={{
+                          width: `${item.score}%`,
+                          background: `linear-gradient(to right, #0ea5a4, ${
+                            item.score > 80 ? "#fcd34d" : item.score > 60 ? "#f59e0b" : "#d97706"
+                          })`,
+                        }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </div>
         </div>
       </section>
 

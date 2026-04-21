@@ -1,5 +1,6 @@
 import {
   AlertTriangle,
+  BrainCircuit,
   CheckCircle2,
   Clock3,
   Eye,
@@ -17,6 +18,7 @@ import {
   Zap,
 } from "lucide-react";
 
+import { BrainViewerLazy } from "@/components/brain/BrainViewerLazy";
 import { SimulationPromptChat } from "@/components/simulations/simulation-prompt-chat";
 import { Card, Pill, ProgressBar, SectionHeading, Surface } from "@/components/ui";
 
@@ -387,6 +389,95 @@ export function WorkspaceProductivitySimulatorSection() {
                       <span>{axis.value}%</span>
                     </div>
                     <ProgressBar value={axis.value} />
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div className="max-w-3xl">
+            <p className="kicker">Neural activation map</p>
+            <h3 className="headline mt-2 text-3xl sm:text-4xl">Where deep work settles in the brain</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted">
+              fMRI-based simulation taken during a sustained coding-sprint window: strong-response traces spread across the prefrontal and parietal flow-state circuits, while low-response cues highlight the default-mode regions that need to stay quiet for deep work to hold.
+            </p>
+          </div>
+          <Pill tone="accent">Science layer</Pill>
+        </div>
+
+        <div className="mt-8 grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
+          <Card className="overflow-hidden p-0">
+            <div className="flex items-center justify-between border-b border-line/70 px-5 py-4">
+              <div>
+                <p className="kicker">3D neural activation</p>
+                <p className="headline mt-1 text-xl">Predicted cortical state during this setup</p>
+              </div>
+              <BrainCircuit size={18} className="text-accent" />
+            </div>
+            <div className="h-[460px]">
+              <BrainViewerLazy
+                predictionKey="text.predictions"
+                segmentRange={[16, 23]}
+                colorTheme="default"
+              />
+            </div>
+          </Card>
+
+          <div className="space-y-5">
+            <Card className="p-5">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="kicker">fMRI-based commentary</p>
+                  <p className="headline mt-1 text-xl">Simulated flow-state signal</p>
+                </div>
+                <BrainCircuit size={18} className="text-accent" />
+              </div>
+              <div className="mt-4 space-y-3">
+                {[
+                  {
+                    title: "Overall reaction: Deep work engaged",
+                    note: "High-response coverage across lateral prefrontal and parietal networks indicates strong executive control — the environment is actively sponsoring focus instead of fighting it.",
+                    score: 84,
+                  },
+                  {
+                    title: "Why flow holds longer here",
+                    note: "Stable anterior cingulate activation paired with reduced default-mode noise predicts fewer mind-wandering escapes across the next 90 minutes of coding.",
+                    score: 81,
+                  },
+                  {
+                    title: "What threatens the session",
+                    note: "Low-response flickers along visual cortex regions suggest glare and desktop clutter are siphoning attention — likely to become fatigue by early afternoon.",
+                    score: 46,
+                  },
+                  {
+                    title: "Optimization opportunity",
+                    note: "Elevating the monitor and adding a biophilic anchor would raise parietal coherence and extend the focus window by an estimated 35-45 minutes per block.",
+                    score: 69,
+                  },
+                ].map((item) => (
+                  <div key={item.title} className="rounded-[1.2rem] bg-panelSoft p-3">
+                    <div className="mb-2 flex items-center justify-between gap-4 text-sm">
+                      <div>
+                        <span className="font-semibold text-ink">{item.title}</span>
+                      </div>
+                      <span className="shrink-0 text-muted">{item.score}%</span>
+                    </div>
+                    <p className="text-xs leading-relaxed text-muted">{item.note}</p>
+                    <div className="h-2 rounded-full bg-line/70">
+                      <div
+                        className="h-full rounded-full"
+                        style={{
+                          width: `${item.score}%`,
+                          background: `linear-gradient(to right, #8b5cf6, ${
+                            item.score > 80 ? "#10b981" : item.score > 60 ? "#14b8a6" : "#0ea5a4"
+                          })`,
+                        }}
+                      />
+                    </div>
                   </div>
                 ))}
               </div>
