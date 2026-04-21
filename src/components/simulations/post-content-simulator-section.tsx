@@ -6,6 +6,7 @@ import {
   Camera,
   ChevronRight,
   CircleHelp,
+  FileText,
   Globe2,
   Gauge,
   Info,
@@ -25,8 +26,6 @@ import { SimulationPromptChat } from "@/components/simulations/simulation-prompt
 import { Card, Pill, ProgressBar, SectionHeading, Surface } from "@/components/ui";
 
 const assets = [
-  { name: "hero-reel.mp4", type: "Reel", icon: Video },
-  { name: "cover-frame.jpg", type: "Image", icon: Camera },
   { name: "caption-draft.txt", type: "Caption", icon: Sparkles },
 ];
 
@@ -179,96 +178,32 @@ export function PostContentSimulatorSection() {
       />
 
       <Surface className="overflow-hidden p-6 sm:p-8">
-        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-          <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-muted soft-border backdrop-blur-md">
-              IG-Insight Sim <ChevronRight size={14} /> Predictive launch readout
-            </div>
-            <div className="space-y-4">
-              <h2 className="headline max-w-3xl text-4xl leading-[0.94] sm:text-5xl lg:text-6xl">
-                Predictive analytics for post performance, saliency, and audience psychology.
-              </h2>
-              <p className="max-w-2xl text-sm leading-relaxed text-muted sm:text-base">
-                The report blends creative review, behavioral scoring, and market context into one decision surface so teams can tune the post before publishing.
-              </p>
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-3">
-              {assets.map((asset) => {
-                const Icon = asset.icon;
-                return (
-                  <div key={asset.name} className="group rounded-[1.6rem] bg-white/80 p-4 soft-border transition-transform hover:-translate-y-0.5">
-                    <div className="flex items-center justify-between gap-3">
-                      <div>
-                        <p className="kicker">Asset</p>
-                        <p className="headline mt-2 text-lg">{asset.name}</p>
-                      </div>
-                      <Icon size={18} className="text-accent transition-transform group-hover:scale-110" />
-                    </div>
-                    <p className="mt-2 text-xs uppercase tracking-[0.18em] text-muted">{asset.type}</p>
-                  </div>
-                );
-              })}
-            </div>
+        <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr] lg:items-start">
+          <div className="space-y-4">
+            <h2 className="headline max-w-3xl text-4xl leading-[0.94] sm:text-5xl lg:text-6xl">
+              Predictive analytics for post performance, saliency, and audience psychology.
+            </h2>
+            <p className="max-w-2xl text-sm leading-relaxed text-muted sm:text-base">
+              The report blends creative review, behavioral scoring, and market context into one decision surface so teams can tune the post before publishing.
+            </p>
           </div>
 
-          <div className="rounded-[2rem] bg-white/70 p-5 soft-border backdrop-blur-xl">
-            <div className="flex items-center justify-between gap-4">
-              <div>
-                <p className="kicker">Primary input</p>
-                <h3 className="headline mt-2 text-2xl">Creative evaluation block</h3>
-              </div>
-              <Upload className="text-accent" size={22} />
+          <div className="rounded-[2rem] bg-white/70 p-5 soft-border backdrop-blur-xl space-y-4">
+            <div>
+              <p className="kicker">Primary input</p>
             </div>
 
-            <div className="mt-5 space-y-4">
-              <div className="rounded-[1.4rem] bg-panelSoft p-4 soft-border">
-                <div className="flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-2">
-                    <Camera size={16} className="text-accent" />
-                    <p className="text-sm font-semibold text-ink">Media Upload</p>
-                  </div>
-                  <span title="Supports image, video, and reel assets.">
-                    <Info size={16} className="text-muted" />
-                  </span>
-                </div>
-                <div className="mt-3 rounded-[1rem] border border-dashed border-line bg-white/80 p-4 text-sm text-muted">
-                  Drag and drop Image / Video / Reel files here
+            <div className="space-y-4">
+              <div className="relative rounded-[2rem] bg-white/70 p-5 soft-border backdrop-blur-xl overflow-hidden">
+                <img src="/pc.jpg" alt="Creative evaluation" className="w-full h-auto rounded-[1.4rem] object-cover" />
+                <div className="absolute bottom-4 right-4 bg-black rounded-full w-[67px] h-[67px] flex items-center justify-center">
+                  <p className="text-white font-semibold text-2xl">+3</p>
                 </div>
               </div>
 
-              <div className="rounded-[1.4rem] bg-panelSoft p-4 soft-border">
-                <div className="flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-2">
-                    <Sparkles size={16} className="text-accent" />
-                    <p className="text-sm font-semibold text-ink">Caption Preview</p>
-                  </div>
-                  <span title="NLP analysis of tone, keywords, and urgency.">
-                    <Info size={16} className="text-muted" />
-                  </span>
-                </div>
-                <div className="mt-3 rounded-[1rem] bg-white/90 p-4 text-sm leading-relaxed text-muted">
-                  Analyze caption tone, keyword density, and CTA strength before launch.
-                </div>
-              </div>
-
-              <div className="rounded-[1.4rem] bg-panelSoft p-4 soft-border">
-                <div className="flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-2">
-                    <Users size={16} className="text-accent" />
-                    <p className="text-sm font-semibold text-ink">Target Audience Segment</p>
-                  </div>
-                  <span title="Example segments: Gen Z, Tech Enthusiasts, Luxury Shoppers.">
-                    <Info size={16} className="text-muted" />
-                  </span>
-                </div>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {["Gen Z", "Tech Enthusiasts", "Luxury Shoppers"].map((segment, index) => (
-                    <Pill key={segment} tone={index === 0 ? "accent" : "soft"}>
-                      {segment}
-                    </Pill>
-                  ))}
-                </div>
+              <div className="rounded-[1.6rem] bg-white/80 p-4 soft-border transition-transform hover:-translate-y-0.5 w-fit flex items-center gap-2">
+                <FileText size={20} className="text-accent shrink-0" />
+                <p className="text-base font-semibold">caption-draft.txt</p>
               </div>
             </div>
           </div>

@@ -5,6 +5,7 @@ import {
   CheckCircle2,
   Gem,
   Radar,
+  Search,
   Sparkles,
   Star,
   Table2,
@@ -38,15 +39,6 @@ const kpis = [
 
 const colorAuthority = [88, 70, 93, 78, 85, 76, 91];
 
-const radarValues = [86, 72, 78, 91, 67];
-const radarLabels = [
-  [50, 10, "Sophistication"],
-  [91, 35, "Approachability"],
-  [76, 92, "Boldness"],
-  [24, 92, "Timelessness"],
-  [8, 35, "Trendiness"],
-] as const;
-
 const benchmarkRows = [
   {
     metric: "Uniqueness Score",
@@ -68,24 +60,6 @@ const benchmarkRows = [
   },
 ];
 
-const personas = [
-  {
-    name: "The Fashion Critic",
-    reaction: "Impressed by the tailoring.",
-    note: "High Approval",
-  },
-  {
-    name: "The Socialite",
-    reaction: "Likely to ask for your designer's name.",
-    note: "Strong Curiosity",
-  },
-  {
-    name: "The Photographer",
-    reaction: "Ideal for high-contrast flash photography.",
-    note: "Camera Favorite",
-  },
-];
-
 const recommendations = [
   {
     label: "Accessories",
@@ -101,28 +75,63 @@ const recommendations = [
   },
 ];
 
-function buildRadarPolygon(values: number[]) {
-  const points = [
-    [50, 18],
-    [82, 40],
-    [70, 78],
-    [30, 78],
-    [18, 40],
-  ];
+type BenchmarkGaugeProps = {
+  label: string;
+  valueLabel: string;
+  subLabel: string;
+  description: string;
+  percentage: number;
+  highlighted?: boolean;
+};
 
-  return points
-    .map(([x, y], index) => {
-      const strength = values[index] / 100;
-      const px = 50 + (x - 50) * strength;
-      const py = 50 + (y - 50) * strength;
-      return `${px},${py}`;
-    })
-    .join(" ");
+function BenchmarkGauge({
+  label,
+  valueLabel,
+  subLabel,
+  description,
+  percentage,
+  highlighted = false,
+}: BenchmarkGaugeProps) {
+  const ringStyle = {
+    background: `conic-gradient(from 220deg, rgba(15, 23, 42, 0.95) 0deg, rgba(30, 64, 175, 0.95) ${percentage * 3.6}deg, rgba(191, 219, 254, 0.18) ${percentage * 3.6}deg, rgba(191, 219, 254, 0.18) 360deg)`,
+    boxShadow: highlighted
+      ? "0 0 0 1px rgba(30, 64, 175, 0.24), 0 0 42px rgba(30, 64, 175, 0.28), 0 0 70px rgba(15, 23, 42, 0.08)"
+      : "0 0 0 1px rgba(15, 23, 42, 0.08), 0 0 28px rgba(15, 23, 42, 0.1)",
+  };
+
+  return (
+    <div
+      className={`rounded-[1.8rem] border bg-white/90 p-5 text-center shadow-sm ${
+        highlighted ? "border-accent/30 ring-1 ring-accent/10" : "border-line"
+      }`}
+    >
+      <div
+        className="mx-auto flex h-60 w-60 items-center justify-center rounded-full p-4 sm:h-64 sm:w-64 lg:h-72 lg:w-72"
+        style={ringStyle}
+      >
+        <div className="flex h-full w-full flex-col items-center justify-center rounded-full border border-white/90 bg-[radial-gradient(circle_at_30%_25%,rgba(30,64,175,0.14),transparent_34%),radial-gradient(circle_at_70%_78%,rgba(15,23,42,0.04),transparent_28%),linear-gradient(180deg,#ffffff,#f8fafc)] px-7 shadow-[inset_0_1px_0_rgba(255,255,255,0.96)]">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500">{label}</p>
+          <p
+            className={`mt-4 text-5xl font-semibold tracking-[0.08em] text-[#081225] sm:text-6xl ${
+              highlighted ? "drop-shadow-[0_0_18px_rgba(30,64,175,0.35)]" : ""
+            }`}
+            style={{ fontFamily: '"IBM Plex Mono", "SFMono-Regular", Consolas, monospace' }}
+          >
+            {valueLabel}
+          </p>
+          <p className="mt-4 text-[11px] font-medium uppercase tracking-[0.2em] text-[#1d4ed8]">{subLabel}</p>
+        </div>
+      </div>
+
+      <div className="mt-5 space-y-2">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">{label}</p>
+        <p className="text-sm leading-relaxed text-ink/85">{description}</p>
+      </div>
+    </div>
+  );
 }
 
 export function GalaReadySimulatorSection() {
-  const radarPolygon = buildRadarPolygon(radarValues);
-
   return (
     <div className="space-y-8 pb-10">
       <SimulationPromptChat prompt="Evaluate my gala outfit photo for elegance, dress-code fit, social perception, red-carpet benchmark, and finishing recommendations." />
@@ -143,30 +152,32 @@ export function GalaReadySimulatorSection() {
                 <Camera size={18} className="text-accent" />
               </div>
               <div className="mt-4 rounded-[1.6rem] border border-white/80 bg-white/70 p-5 backdrop-blur-sm">
-                <p className="kicker">User&apos;s Evening Wear Photo</p>
-                <div className="relative mt-4 min-h-[180px] rounded-[1.3rem] border border-line bg-[linear-gradient(145deg,#f8fafc,#eceff4)]">
-                  <span className="absolute left-[18%] top-[18%] inline-flex h-6 w-6 items-center justify-center rounded-full bg-accent text-[11px] font-semibold text-white">A</span>
-                  <span className="absolute left-[52%] top-[35%] inline-flex h-6 w-6 items-center justify-center rounded-full bg-ink text-[11px] font-semibold text-white">B</span>
-                  <span className="absolute right-[16%] top-[62%] inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#d97706] text-[11px] font-semibold text-white">C</span>
+                <div className="relative overflow-hidden rounded-[1.3rem] border border-line bg-[linear-gradient(145deg,#f8fafc,#eceff4)]">
+                  <img
+                    src="/outfit.png"
+                    alt="Uploaded gala outfit"
+                    className="mx-auto h-auto max-h-[460px] w-auto max-w-full"
+                  />
                 </div>
               </div>
             </div>
           </Card>
 
           <Card className="p-6">
-            <p className="kicker">Context prompt</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-muted">Context prompt</p>
             <div className="mt-4 space-y-4">
               <div className="rounded-[1.2rem] bg-panelSoft p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-muted">Event Prompt</p>
-                <p className="mt-2 text-base text-ink">A Black-Tie Charity Gala at the Grand Peninsula Ballroom.</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-muted">Event Prompt</p>
+                <p className="mt-2 text-lg leading-relaxed text-ink">Attending a Red Carpet Premiere at the International Film Festival. The environment requires high-fashion visibility, elegance, and a commanding presence for press photography.</p>
               </div>
               <div className="rounded-[1.2rem] bg-panelSoft p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-muted">Dress Code Detected</p>
-                <p className="mt-2 text-base font-semibold text-ink">Black Tie / Formal</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-muted">Dress Code Detected</p>
+                <p className="mt-2 text-lg font-semibold text-ink">Black Tie / Red Carpet Gala</p>
+                <p className="mt-1 text-base text-muted">Formal Evening Wear / Avant-Garde Elegance</p>
               </div>
               <div className="rounded-[1.2rem] border border-accent/25 bg-accentSoft/60 p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-accent">Tagline</p>
-                <p className="mt-2 text-sm leading-relaxed text-ink">Analyze your look against the world&apos;s most prestigious event standards.</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent">Tagline</p>
+                <p className="mt-2 text-base leading-relaxed text-ink">Analyzing silhouette precision, texture harmony, and visual impact against elite fashion benchmarks.</p>
               </div>
             </div>
           </Card>
@@ -236,108 +247,6 @@ export function GalaReadySimulatorSection() {
       </section>
 
       <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="kicker">Visual & fabric analysis</p>
-            <h2 className="headline mt-2 text-3xl sm:text-4xl">Attire Composition & Texture Detection</h2>
-          </div>
-          <Gem size={20} className="text-accent" />
-        </div>
-
-        <div className="mt-7 grid gap-6 xl:grid-cols-[1fr_1fr]">
-          <Card className="p-0 overflow-hidden">
-            <div className="relative min-h-[340px] bg-[linear-gradient(160deg,#f8fafc,#eceff5)] p-6">
-              <div className="absolute left-[20%] top-[20%] h-3 w-3 rounded-full bg-accent" />
-              <div className="absolute left-[58%] top-[36%] h-3 w-3 rounded-full bg-accent" />
-              <div className="absolute left-[44%] bottom-[20%] h-3 w-3 rounded-full bg-accent" />
-              <div className="absolute left-[21%] top-[21%] h-[1px] w-[130px] bg-accent/60" />
-              <div className="absolute left-[59%] top-[37%] h-[1px] w-[95px] bg-accent/60" />
-              <div className="absolute left-[45%] bottom-[21%] h-[1px] w-[120px] bg-accent/60" />
-              <div className="absolute right-5 top-5 rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-ink soft-border">Anchor points active</div>
-            </div>
-          </Card>
-
-          <Card className="p-5">
-            <div className="flex items-center justify-between gap-3">
-              <p className="headline text-2xl">Material Intelligence Table</p>
-              <Table2 size={18} className="text-accent" />
-            </div>
-            <div className="mt-5 space-y-3 text-sm">
-              <div className="rounded-[1.2rem] bg-panelSoft p-4">
-                <p className="font-semibold text-ink">Fabric Texture</p>
-                <p className="mt-1 text-muted">Silk (40%), Velvet (30%), Satin (30%)</p>
-                <p className="mt-2 text-ink">Analysis: High Sheen, Luxurious.</p>
-              </div>
-              <div className="rounded-[1.2rem] bg-panelSoft p-4">
-                <p className="font-semibold text-ink">Accessory Synergy</p>
-                <p className="mt-1 text-muted">Silver Clutch & Diamond Earrings detected.</p>
-                <p className="mt-2 text-ink">Match: 98%.</p>
-              </div>
-              <div className="rounded-[1.2rem] bg-panelSoft p-4">
-                <p className="font-semibold text-ink">Lighting Reflection</p>
-                <p className="mt-1 text-ink">Predicted glow under warm ballroom chandeliers.</p>
-              </div>
-            </div>
-          </Card>
-        </div>
-      </section>
-
-      <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="kicker">Psychological & social impact</p>
-            <h2 className="headline mt-2 text-3xl sm:text-4xl">Persona Perception Radar</h2>
-          </div>
-          <Radar size={20} className="text-accent" />
-        </div>
-
-        <div className="mt-7 grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
-          <Card className="p-6">
-            <div className="grid place-items-center rounded-[1.8rem] bg-panelSoft p-5">
-              <svg viewBox="0 0 100 100" className="h-72 w-72 overflow-visible">
-                <polygon points="50,14 86,38 74,82 26,82 14,38" fill="rgba(125,211,252,0.15)" stroke="rgba(15,23,42,0.2)" />
-                <polygon points={radarPolygon} fill="rgba(15,23,42,0.72)" stroke="rgba(15,23,42,0.95)" strokeWidth="1.5" />
-                <line x1="50" y1="14" x2="50" y2="86" stroke="rgba(100,109,114,0.22)" />
-                <line x1="14" y1="38" x2="86" y2="38" stroke="rgba(100,109,114,0.22)" />
-                <line x1="26" y1="82" x2="74" y2="82" stroke="rgba(100,109,114,0.22)" />
-                {radarLabels.map(([x, y, label]) => (
-                  <text key={label} x={x} y={y} textAnchor="middle" className="fill-muted text-[5px] uppercase tracking-[0.16em]">
-                    {label}
-                  </text>
-                ))}
-              </svg>
-            </div>
-          </Card>
-
-          <Card className="p-6">
-            <p className="headline text-2xl">Impact Analysis</p>
-            <div className="mt-5 space-y-4">
-              <div className="rounded-[1.2rem] bg-panelSoft p-4">
-                <div className="flex items-center justify-between gap-4">
-                  <span className="font-semibold text-ink">First Impression Score</span>
-                  <Pill tone="soft">Commanding & Graceful</Pill>
-                </div>
-              </div>
-              <div className="rounded-[1.2rem] bg-panelSoft p-4">
-                <div className="mb-2 flex items-center justify-between text-sm">
-                  <span className="font-medium text-ink">Confidence Projection</span>
-                  <span className="text-muted">88%</span>
-                </div>
-                <ProgressBar value={88} />
-              </div>
-              <div className="rounded-[1.2rem] bg-panelSoft p-4">
-                <div className="mb-2 flex items-center justify-between text-sm">
-                  <span className="font-medium text-ink">Aesthetic Longevity</span>
-                  <span className="text-muted">Classic</span>
-                </div>
-                <ProgressBar value={92} />
-              </div>
-            </div>
-          </Card>
-        </div>
-      </section>
-
-      <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
         <div className="flex items-center justify-between gap-4">
           <div>
             <p className="kicker">Neural Activation Map</p>
@@ -401,6 +310,163 @@ export function GalaReadySimulatorSection() {
       <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
         <div className="flex items-center justify-between">
           <div>
+            <p className="kicker">Visual & fabric analysis</p>
+            <h2 className="headline mt-2 text-3xl sm:text-4xl">Attire Composition & Texture Detection</h2>
+          </div>
+          <Gem size={20} className="text-accent" />
+        </div>
+
+        <div className="mt-7 grid gap-6 xl:grid-cols-[1fr_1fr]">
+          <Card className="overflow-hidden p-0">
+            <div className="relative min-h-[360px] bg-white p-4 sm:p-5">
+              <img
+                src="/Palette-Silhouette.png"
+                alt="Palette and silhouette analysis board"
+                className="h-full w-full rounded-[1.3rem] object-contain"
+              />
+              <div className="absolute right-5 top-5 rounded-full bg-white/85 px-3 py-1 text-xs font-semibold text-ink soft-border">
+                Anchor points active
+              </div>
+            </div>
+          </Card>
+
+          <Card className="p-5">
+            <div className="flex items-center justify-between gap-3">
+              <p className="headline text-2xl">Material Intelligence Table</p>
+              <Table2 size={18} className="text-accent" />
+            </div>
+            <div className="mt-5 space-y-3 text-sm">
+              <div className="rounded-[1.2rem] bg-panelSoft p-4">
+                <p className="font-semibold text-ink">Fabric Texture</p>
+                <div className="mt-3 space-y-2 text-xs uppercase tracking-[0.14em] text-muted">
+                  <div>
+                    <div className="mb-1 flex items-center justify-between gap-2">
+                      <span>Midnight Tulle</span>
+                      <span className="font-semibold text-ink">50%</span>
+                    </div>
+                    <div className="h-2 rounded-full bg-white/70">
+                      <div className="h-2 w-1/2 rounded-full bg-accent" />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="mb-1 flex items-center justify-between gap-2">
+                      <span>Sequin Embroidery</span>
+                      <span className="font-semibold text-ink">30%</span>
+                    </div>
+                    <div className="h-2 rounded-full bg-white/70">
+                      <div className="h-2 w-[30%] rounded-full bg-[#6366f1]" />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="mb-1 flex items-center justify-between gap-2">
+                      <span>Silk Lining</span>
+                      <span className="font-semibold text-ink">20%</span>
+                    </div>
+                    <div className="h-2 rounded-full bg-white/70">
+                      <div className="h-2 w-1/5 rounded-full bg-[#f59e0b]" />
+                    </div>
+                  </div>
+                </div>
+                <p className="mt-3 text-ink">Analysis: High-density shimmering particles detected. Stellar effect under 3200K studio lighting.</p>
+              </div>
+              <div className="rounded-[1.2rem] bg-panelSoft p-4">
+                <p className="font-semibold text-ink">Accessory Synergy</p>
+                <p className="mt-1 text-muted">Detected: Metallic Gold Waist Chain &amp; Silver-toned Box Clutch detected.</p>
+                <p className="mt-2 text-ink">Match: 94% (High Harmony)</p>
+                <p className="mt-2 text-ink">Critique: The gold accent provides a structural anchor to the flowing tulle. Recommendation: Match earrings with the waist chain material for 100% synergy.</p>
+              </div>
+              <div className="rounded-[1.2rem] bg-panelSoft p-4">
+                <p className="font-semibold text-ink">Lighting Reflection</p>
+                <p className="mt-1 text-muted">Environment: Simulated Red Carpet (Outdoor Night with Flash)</p>
+                <p className="mt-2 text-ink">Behavior: The fabric is designed to absorb ambient shadows while reflecting direct strobe light, enhancing the Glow factor by 1.5x.</p>
+              </div>
+            </div>
+            <p className="mt-4 text-xs italic leading-relaxed text-muted">
+              AI Stylist Note: The contrast between the sheer sleeves and the opaque bodice creates a sophisticated Depth Map that performs exceptionally well on high-resolution broadcast cameras.
+            </p>
+          </Card>
+        </div>
+      </section>
+
+      <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="kicker">Psychological & social impact</p>
+            <div className="mt-2 flex items-center gap-3">
+              <h2 className="headline text-3xl sm:text-4xl">Persona Perception Radar</h2>
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-line bg-panelSoft text-muted shadow-sm">
+                <Search size={15} />
+              </span>
+            </div>
+          </div>
+          <Radar size={20} className="text-accent" />
+        </div>
+
+        <div className="mt-7 grid gap-6 xl:grid-cols-[1fr_1.02fr]">
+          <Card className="overflow-hidden p-0">
+            <div className="min-h-[420px] bg-white p-4 sm:p-5">
+              <img
+                src="/radar.png"
+                alt="Persona perception radar"
+                className="h-full w-full object-contain"
+              />
+            </div>
+          </Card>
+
+          <Card className="p-6 sm:p-7">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-xs uppercase tracking-[0.22em] text-muted">Social cognition summary</p>
+                <p className="mt-2 headline text-2xl">Social Perception Breakdown</p>
+              </div>
+              <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line bg-panelSoft text-muted shadow-sm">
+                <span className="relative flex h-5.5 w-5.5 items-center justify-center">
+                  <Users size={16} className="absolute inset-0 m-auto opacity-60" />
+                  <Search size={9} className="absolute -right-0.5 -top-0.5" />
+                </span>
+              </span>
+            </div>
+
+            <div className="mt-5 space-y-4">
+              <div className="rounded-[1.2rem] bg-panelSoft p-4">
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-sm font-semibold text-ink">Social Gravity Score</span>
+                  <Pill tone="soft">DOMINANT &amp; ETHEREAL</Pill>
+                </div>
+                <p className="mt-3 text-sm leading-relaxed text-ink">
+                  Insight: &quot;The Midnight Blue palette triggers subconscious associations with authority and trust, while the shimmer adds a layer of mystery.&quot;
+                </p>
+              </div>
+
+              <div className="rounded-[1.2rem] bg-panelSoft p-4">
+                <div className="mb-2 flex items-center justify-between text-sm">
+                  <span className="font-medium text-ink">Confidence Projection</span>
+                  <span className="text-lg font-semibold tracking-wide text-accent drop-shadow-[0_0_10px_rgba(99,102,241,0.45)]">92%</span>
+                </div>
+                <ProgressBar value={92} />
+                <p className="mt-3 text-sm leading-relaxed text-ink">
+                  Description: &quot;The structure of the bodice reinforces upright posture and poise, conveying intrinsic self-assurance.&quot;
+                </p>
+              </div>
+
+              <div className="rounded-[1.2rem] bg-panelSoft p-4">
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-sm font-semibold text-ink">Media Resonance</span>
+                  <Pill tone="soft">HIGH / RED CARPET READY</Pill>
+                </div>
+                <p className="mt-3 text-sm leading-relaxed text-ink">
+                  Description: &quot;Material reflectivity and silhouette clarity are optimized for high-contrast red carpet flash photography.&quot;
+                </p>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </section>
+
+
+      <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
+        <div className="flex items-center justify-between">
+          <div>
             <p className="kicker">The Red Carpet Factor</p>
             <h2 className="headline mt-2 text-3xl sm:text-4xl">Gala Standard Benchmarking</h2>
           </div>
@@ -456,34 +522,36 @@ export function GalaReadySimulatorSection() {
         <div className="flex items-center justify-between">
           <div>
             <p className="kicker">Audience reaction simulation</p>
-            <h2 className="headline mt-2 text-3xl sm:text-4xl">Guest List Resonance</h2>
+            <h2 className="headline mt-2 text-3xl sm:text-4xl">Style Performance Benchmarks</h2>
           </div>
           <Users size={20} className="text-accent" />
         </div>
 
-        <div className="mt-7 grid gap-6 xl:grid-cols-[1fr_1fr]">
-          <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-1">
-            {personas.map((persona) => (
-              <Card key={persona.name} className="p-5">
-                <p className="kicker">Persona</p>
-                <h3 className="headline mt-2 text-xl">{persona.name}</h3>
-                <p className="mt-2 text-sm text-ink">{persona.reaction}</p>
-                <p className="mt-3 text-xs uppercase tracking-[0.16em] text-muted">{persona.note}</p>
-              </Card>
-            ))}
-          </div>
+        <div className="mt-8 grid gap-5 lg:grid-cols-3">
+          <BenchmarkGauge
+            label="Protocol Compliance"
+            valueLabel="98%"
+            subLabel="Dress Code Alignment"
+            description="Quantitative match against global Black-Tie standards and event-specific constraints."
+            percentage={98}
+          />
 
-          <Card className="overflow-hidden p-0">
-            <div className="p-5">
-              <p className="headline text-xl">Attention Heatmap</p>
-              <p className="mt-2 text-sm text-muted">High-attention zones detected around neckline shimmer and gown silhouette line.</p>
-            </div>
-            <div className="relative min-h-[300px] bg-[linear-gradient(145deg,#f8fafc,#eef2ff)]">
-              <div className="absolute left-[45%] top-[22%] h-24 w-24 rounded-full bg-rose-300/35 blur-3xl" />
-              <div className="absolute left-[28%] top-[52%] h-20 w-20 rounded-full bg-amber-300/30 blur-3xl" />
-              <div className="absolute right-[22%] bottom-[20%] h-24 w-24 rounded-full bg-sky-300/35 blur-3xl" />
-            </div>
-          </Card>
+          <BenchmarkGauge
+            label="Global Style Index"
+            valueLabel="94%"
+            subLabel="Red Carpet Benchmark"
+            description="Positioning of the current ensemble within the top 1% of historically successful gala aesthetics."
+            percentage={94}
+            highlighted
+          />
+
+          <BenchmarkGauge
+            label="Aesthetic Harmony"
+            valueLabel="87%"
+            subLabel="Minimalism vs. Glamour"
+            description="Balanced ratio analysis between structural simplicity and decorative elements (Sequins/Embroidery)."
+            percentage={87}
+          />
         </div>
       </section>
 
