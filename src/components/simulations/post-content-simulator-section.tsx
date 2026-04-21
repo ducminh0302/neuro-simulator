@@ -112,11 +112,13 @@ const personas = [
   },
 ];
 
-const regions = [
-  ["Southeast Asia", "Trending now"],
-  ["Western Europe", "High resonance"],
-  ["North America", "Rising"],
-  ["Middle East", "Experimental lift"],
+const emotionBubbles = [
+  { label: "Excitement", intensity: 88, x: "16%", y: "18%", size: 118, tone: "from-cyan-400/60 to-blue-500/50" },
+  { label: "Curiosity", intensity: 79, x: "54%", y: "10%", size: 102, tone: "from-sky-300/55 to-indigo-500/45" },
+  { label: "Trust", intensity: 74, x: "30%", y: "52%", size: 96, tone: "from-emerald-300/55 to-teal-500/45" },
+  { label: "Inspiration", intensity: 63, x: "68%", y: "48%", size: 84, tone: "from-violet-300/50 to-fuchsia-400/40" },
+  { label: "Skepticism", intensity: 36, x: "8%", y: "66%", size: 72, tone: "from-slate-200/65 to-slate-400/45" },
+  { label: "Urgency", intensity: 58, x: "58%", y: "68%", size: 82, tone: "from-amber-300/55 to-orange-500/45" },
 ];
 
 const recommendations = [
@@ -151,8 +153,15 @@ function buildPolygon(points: number[][]) {
 
 export function PostContentSimulatorSection() {
   const radarPolygon = buildPolygon(radarPoints);
-  const simulatedPath = "M0 90 C12 84, 20 78, 33 74 C46 70, 55 52, 66 44 C76 37, 86 28, 100 20";
-  const standardPath = "M0 96 C13 91, 24 86, 35 82 C48 76, 60 67, 70 60 C81 53, 91 46, 100 41";
+  const simulatedPath = "M8 84 C16 80, 24 74, 32 66 C40 58, 50 51, 60 44 C70 37, 79 30, 92 22";
+  const standardPath = "M8 88 C16 85, 24 80, 32 74 C41 68, 50 63, 60 57 C70 52, 80 48, 92 42";
+  const simulatedAreaPath = `${simulatedPath} L92 92 L8 92 Z`;
+  const keyIntervals = [
+    { label: "0H", x: 8, y: 84 },
+    { label: "6H", x: 36, y: 62 },
+    { label: "12H", x: 62, y: 42 },
+    { label: "24H", x: 92, y: 22 },
+  ];
 
   return (
     <div className="space-y-8 pb-10">
@@ -625,31 +634,80 @@ export function PostContentSimulatorSection() {
             <div className="mt-6 rounded-[2rem] bg-panelSoft p-4">
               <svg viewBox="0 0 100 100" className="h-72 w-full">
                 <defs>
-                  <linearGradient id="simulatedLine" x1="0%" x2="100%" y1="0%" y2="0%">
-                    <stop offset="0%" stopColor="#0f172a" />
-                    <stop offset="100%" stopColor="#7dd3fc" />
+                  <linearGradient id="simulatedLineGradient" x1="8%" y1="86%" x2="95%" y2="20%">
+                    <stop offset="0%" stopColor="#00B8FF" />
+                    <stop offset="52%" stopColor="#4D8BFF" />
+                    <stop offset="100%" stopColor="#8B5CF6" />
                   </linearGradient>
-                  <linearGradient id="standardLine" x1="0%" x2="100%" y1="0%" y2="0%">
-                    <stop offset="0%" stopColor="#94a3b8" />
-                    <stop offset="100%" stopColor="#cbd5e1" />
+                  <linearGradient id="simulatedAreaGradient" x1="0%" y1="10%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.18" />
+                    <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0" />
                   </linearGradient>
+                  <filter id="lineGlow" x="-25%" y="-25%" width="150%" height="150%">
+                    <feGaussianBlur stdDeviation="1.6" result="softGlow" />
+                    <feMerge>
+                      <feMergeNode in="softGlow" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                  <filter id="pointGlow" x="-120%" y="-120%" width="340%" height="340%">
+                    <feGaussianBlur stdDeviation="1.2" result="pointSoftGlow" />
+                    <feMerge>
+                      <feMergeNode in="pointSoftGlow" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
                 </defs>
                 <rect x="0" y="0" width="100" height="100" rx="12" fill="transparent" />
-                {[20, 40, 60, 80].map((y) => (
-                  <line key={y} x1="8" y1={y} x2="94" y2={y} stroke="rgba(100,109,114,0.14)" />
+                {[20, 38, 56, 74, 92].map((y) => (
+                  <line key={y} x1="8" y1={y} x2="92" y2={y} stroke="rgba(148,163,184,0.2)" strokeWidth="0.6" />
                 ))}
-                <path d={simulatedPath} fill="none" stroke="url(#simulatedLine)" strokeWidth="2.8" strokeLinecap="round" />
-                <path d={standardPath} fill="none" stroke="url(#standardLine)" strokeWidth="2.8" strokeDasharray="4 3" strokeLinecap="round" />
-                {[0, 16, 32, 48, 64, 80, 96].map((x, index) => (
-                  <circle key={index} cx={index === 0 ? 0 : x} cy={index === 0 ? 90 : 90 - index * 9} r="1.5" fill={index % 2 === 0 ? "#0f172a" : "#7dd3fc"} />
+                <path d={simulatedAreaPath} fill="url(#simulatedAreaGradient)" />
+                <path
+                  d={simulatedPath}
+                  fill="none"
+                  stroke="url(#simulatedLineGradient)"
+                  strokeWidth="3.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  filter="url(#lineGlow)"
+                />
+                <path
+                  d={standardPath}
+                  fill="none"
+                  stroke="rgba(203,213,225,0.9)"
+                  strokeWidth="1.6"
+                  strokeDasharray="3.2 3"
+                  strokeLinecap="round"
+                />
+                {keyIntervals.map((point) => (
+                  <g key={point.label}>
+                    <circle cx={point.x} cy={point.y} r="2.3" fill="rgba(77,139,255,0.26)" filter="url(#pointGlow)" />
+                    <circle cx={point.x} cy={point.y} r="1.3" fill="#EEF4FF" />
+                  </g>
                 ))}
-                <text x="8" y="96" className="fill-muted text-[5px] uppercase tracking-[0.18em]">0h</text>
-                <text x="90" y="96" textAnchor="end" className="fill-muted text-[5px] uppercase tracking-[0.18em]">24h</text>
+                {keyIntervals.map((point) => (
+                  <text
+                    key={`label-${point.label}`}
+                    x={point.x}
+                    y="97"
+                    textAnchor={point.label === "0H" ? "start" : point.label === "24H" ? "end" : "middle"}
+                    className="fill-muted text-[5px] uppercase tracking-[0.2em]"
+                  >
+                    {point.label}
+                  </text>
+                ))}
               </svg>
             </div>
             <div className="mt-4 flex flex-wrap gap-3 text-xs uppercase tracking-[0.18em] text-muted">
-              <span className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-ink" />Simulated Performance</span>
-              <span className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-slate-400" />Industry Standard</span>
+              <span className="inline-flex items-center gap-2">
+                <span className="h-[3px] w-6 rounded-full bg-gradient-to-r from-sky-400 via-blue-500 to-violet-500" />
+                Simulated Performance
+              </span>
+              <span className="inline-flex items-center gap-2">
+                <span className="h-[2px] w-6 rounded-full border-t border-dashed border-slate-300" />
+                Industry Standard
+              </span>
             </div>
           </Card>
         </div>
@@ -694,22 +752,48 @@ export function PostContentSimulatorSection() {
           <Card className="p-5">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <p className="kicker">Global map</p>
-                <p className="headline mt-1 text-xl">Aesthetic trend regions</p>
+                <p className="kicker">Audience emotion flow</p>
+                <p className="headline mt-1 text-xl">Emotion clusters from the simulated response</p>
               </div>
-              <Globe2 size={18} className="text-accent" />
+              <Sparkles size={18} className="text-accent" />
             </div>
-            <div className="mt-4 rounded-[2rem] bg-[radial-gradient(circle_at_50%_40%,rgba(125,211,252,0.28),transparent_28%),linear-gradient(135deg,#eff6ff,#f8fafc)] p-5">
-              <div className="grid min-h-[250px] place-items-center rounded-[1.5rem] border border-white/70 bg-white/55 backdrop-blur-sm">
-                <div className="relative h-40 w-56 rounded-[2rem] border border-line/60 bg-white/80 p-4">
-                  {regions.map(([region, status], index) => (
-                    <div key={region} className={`absolute rounded-full border border-white/70 bg-white/85 px-3 py-2 text-xs shadow-soft ${index === 0 ? "left-3 top-6" : index === 1 ? "right-3 top-10" : index === 2 ? "left-14 bottom-8" : "right-14 bottom-6"}`}>
-                      <div className="font-semibold text-ink">{region}</div>
-                      <div className="text-[10px] uppercase tracking-[0.18em] text-muted">{status}</div>
+            <div className="mt-4 rounded-[2rem] bg-[radial-gradient(circle_at_20%_20%,rgba(56,189,248,0.26),transparent_38%),radial-gradient(circle_at_85%_15%,rgba(99,102,241,0.2),transparent_35%),linear-gradient(145deg,#eef5ff,#f8fbff)] p-5">
+              <div className="min-h-[280px] rounded-[1.5rem] border border-white/70 bg-white/60 p-4 backdrop-blur-md">
+                <div className="relative h-[248px] overflow-hidden rounded-[1.2rem] border border-line/70 bg-white/65">
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(99,102,241,0.14),transparent_35%),radial-gradient(circle_at_25%_75%,rgba(56,189,248,0.16),transparent_45%)]" />
+                  {emotionBubbles.map((emotion) => (
+                    <div
+                      key={emotion.label}
+                      className="absolute grid place-items-center rounded-full border border-white/70 text-center shadow-soft backdrop-blur-md"
+                      style={{
+                        left: emotion.x,
+                        top: emotion.y,
+                        width: `${emotion.size}px`,
+                        height: `${emotion.size}px`,
+                        background: "rgba(255,255,255,0.42)",
+                        boxShadow: "0 0 22px rgba(79,70,229,0.16)",
+                      }}
+                    >
+                      <div className={`absolute inset-0 rounded-full bg-gradient-to-br ${emotion.tone}`} />
+                      <div className="relative z-10 px-2">
+                        <p className="headline text-[11px] leading-tight text-ink sm:text-xs">{emotion.label}</p>
+                        <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-ink/70">{emotion.intensity}%</p>
+                      </div>
                     </div>
                   ))}
                 </div>
               </div>
+            </div>
+            <div className="mt-4 flex flex-wrap gap-2 text-[11px] uppercase tracking-[0.14em] text-muted">
+              {emotionBubbles
+                .slice()
+                .sort((a, b) => b.intensity - a.intensity)
+                .slice(0, 3)
+                .map((emotion) => (
+                  <span key={`dominant-${emotion.label}`} className="rounded-full bg-panelSoft px-3 py-1.5">
+                    {emotion.label}
+                  </span>
+                ))}
             </div>
           </Card>
 
