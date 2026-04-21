@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronLeft, Menu, PanelLeftOpen, Plus } from "lucide-react";
 import { type ReactNode, useState, useEffect } from "react";
 
 import { appName, footerLinks, navItems } from "@/lib/site";
@@ -42,10 +41,10 @@ export function SiteShell({ active, title, subtitle, children, ctaLabel = "New S
         {mounted && isCollapsed && (
           <button
             onClick={() => handleToggle(false)}
-            className="fixed left-6 top-6 z-50 hidden h-[66px] w-[66px] items-center justify-center rounded-full bg-white/80 text-ink shadow-soft soft-border backdrop-blur-md transition-all duration-300 hover:scale-110 lg:flex"
+            className="fixed left-6 top-6 z-50 hidden h-[66px] w-[66px] items-center justify-center rounded-full bg-white/80 text-ink shadow-soft soft-border backdrop-blur-md transition-all duration-300 hover:scale-110 lg:flex text-[10px] font-bold tracking-widest uppercase"
             aria-label="Expand sidebar"
           >
-            <PanelLeftOpen size={30} strokeWidth={1.8} />
+            Open
           </button>
         )}
 
@@ -59,10 +58,10 @@ export function SiteShell({ active, title, subtitle, children, ctaLabel = "New S
             <div className="relative mb-8 space-y-4 rounded-[2rem] bg-panel p-6 shadow-soft soft-border">
               <button
                 onClick={() => handleToggle(true)}
-                className="absolute -right-5 -top-5 flex h-[54px] w-[54px] items-center justify-center rounded-full bg-white text-ink shadow-soft border border-line transition-transform duration-300 hover:scale-110 active:scale-95"
+                className="absolute -right-5 -top-5 flex h-[54px] w-[54px] items-center justify-center rounded-full bg-white text-ink shadow-soft border border-line transition-transform duration-300 hover:scale-110 active:scale-95 text-[10px] font-bold tracking-widest uppercase"
                 title="Collapse sidebar"
               >
-                <ChevronLeft size={28} strokeWidth={2.2} />
+                Close
               </button>
               <div className="flex items-center justify-between">
                 <div>
@@ -74,14 +73,12 @@ export function SiteShell({ active, title, subtitle, children, ctaLabel = "New S
                 </span>
               </div>
               <button className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-3 text-sm font-semibold text-white transition-transform duration-300 hover:-translate-y-0.5 w-full justify-center">
-                <Plus size={16} />
                 {ctaLabel}
               </button>
             </div>
 
             <nav className="flex-1 space-y-2">
               {navItems.map((item) => {
-                const Icon = item.icon;
                 const activeMatch =
                   item.href === "/dashboard"
                     ? active === "dashboard" || active === "landing"
@@ -95,7 +92,6 @@ export function SiteShell({ active, title, subtitle, children, ctaLabel = "New S
                       activeMatch ? "bg-ink text-white shadow-soft" : "text-muted hover:bg-panelSoft hover:text-ink",
                     )}
                   >
-                    <Icon size={18} strokeWidth={1.9} />
                     <span className="uppercase tracking-wide">{item.label}</span>
                   </Link>
                 );
@@ -125,8 +121,8 @@ export function SiteShell({ active, title, subtitle, children, ctaLabel = "New S
           <header className="sticky top-0 z-30 border-b border-line/70 bg-white/72 backdrop-blur-xl">
             <div className="flex items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-10">
               <div className="flex items-center gap-3 lg:hidden">
-                <button className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-panel soft-border text-ink shadow-sm">
-                  <Menu size={18} />
+                <button className="inline-flex h-11 px-4 items-center justify-center rounded-full bg-panel soft-border text-ink shadow-sm text-[10px] font-bold tracking-widest uppercase">
+                  Menu
                 </button>
                 <div>
                   <p className="headline text-xl">{appName}</p>
@@ -141,8 +137,7 @@ export function SiteShell({ active, title, subtitle, children, ctaLabel = "New S
                 <button className="rounded-full bg-panel px-4 py-2 text-sm font-medium text-ink soft-border transition-transform hover:-translate-y-0.5">
                   Preview
                 </button>
-                <button className="inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5">
-                  <Plus size={16} />
+                <button className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5">
                   {ctaLabel}
                 </button>
               </div>

@@ -1,15 +1,6 @@
-import type { LucideIcon } from "lucide-react";
-import {
-  BrainCircuit,
-  LayoutDashboard,
-  LibraryBig,
-  LogIn,
-} from "lucide-react";
-
 export type NavItem = {
   href: string;
   label: string;
-  icon: LucideIcon;
 };
 
 export type LibraryItem = {
@@ -30,10 +21,10 @@ export type SimulationSection = {
 export const appName = "NEURO";
 
 export const navItems: NavItem[] = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/library", label: "Library", icon: LibraryBig },
-  { href: "/simulate", label: "Simulations", icon: BrainCircuit },
-  { href: "/auth", label: "Auth", icon: LogIn },
+  { href: "/dashboard", label: "Dashboard" },
+  { href: "/library", label: "Library" },
+  { href: "/simulate", label: "Simulations" },
+  { href: "/auth", label: "Auth" },
 ];
 
 export const footerLinks = [

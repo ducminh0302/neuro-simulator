@@ -51,20 +51,17 @@ export function StatCard({
   label,
   value,
   delta,
-  icon,
   accent = false,
 }: {
   label: string;
   value: string;
   delta?: string;
-  icon?: ReactNode;
   accent?: boolean;
 }) {
   return (
     <Card className={`p-6 ${accent ? "bg-accent text-white" : ""}`}>
       <div className="flex items-start justify-between gap-4">
         <p className={`kicker ${accent ? "text-white/70" : ""}`}>{label}</p>
-        {icon ? <div className={accent ? "text-white" : "text-accent"}>{icon}</div> : null}
       </div>
       <div className="mt-10 space-y-2">
         <div className={`headline text-4xl md:text-5xl leading-none ${accent ? "text-white" : ""}`}>{value}</div>

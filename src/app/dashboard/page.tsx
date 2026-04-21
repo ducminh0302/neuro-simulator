@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ArrowUpRight, Bell, BrainCircuit, ChartColumn, Sparkles, Telescope } from "lucide-react";
 
 import { SiteShell } from "@/components/site-shell";
 import { Card, Pill, ProgressBar, SectionHeading, StatCard, Surface } from "@/components/ui";
@@ -29,23 +28,22 @@ export default function DashboardPage() {
           description="A static, connected view of the whole product: metrics, analysis, simulation health, and the next actions that matter."
           action={
             <Link href="/simulate" className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5">
-              Launch simulation <ArrowUpRight size={16} />
+              Launch simulation
             </Link>
           }
         />
 
         <div className="grid gap-6 lg:grid-cols-12">
           <div className="grid gap-6 md:grid-cols-2 lg:col-span-8 xl:grid-cols-4">
-            <StatCard label="Content analyzed" value="1,492" delta="+12% vs last week" icon={<Telescope size={20} />} />
-            <StatCard label="Active campaigns" value="08" delta="3 pending review" icon={<Sparkles size={20} />} />
-            <StatCard label="Simulations run" value="45k" delta="+4% vs last month" icon={<BrainCircuit size={20} />} />
-            <StatCard label="Prediction accuracy" value="94.2%" delta="Stable across all cohorts" icon={<ChartColumn size={20} />} accent />
+            <StatCard label="Content analyzed" value="1,492" delta="+12% vs last week" />
+            <StatCard label="Active campaigns" value="08" delta="3 pending review" />
+            <StatCard label="Simulations run" value="45k" delta="+4% vs last month" />
+            <StatCard label="Prediction accuracy" value="94.2%" delta="Stable across all cohorts" accent />
           </div>
 
           <Card className="lg:col-span-4 p-6">
             <div className="flex items-center justify-between">
               <h2 className="headline text-2xl">Neuro-drivers</h2>
-              <Bell size={18} className="text-muted" />
             </div>
             <div className="mt-6 space-y-5">
               {driverItems.map((item) => (
@@ -90,7 +88,6 @@ export default function DashboardPage() {
           <Card className="xl:col-span-4 p-6">
             <div className="flex items-center justify-between">
               <h2 className="headline text-2xl">Next steps</h2>
-              <Sparkles size={18} className="text-accent" />
             </div>
             <div className="mt-6 space-y-4">
               <div>

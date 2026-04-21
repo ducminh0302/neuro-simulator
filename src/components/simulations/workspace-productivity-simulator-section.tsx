@@ -1,24 +1,6 @@
-import {
-  AlertTriangle,
-  BrainCircuit,
-  CheckCircle2,
-  Clock3,
-  Eye,
-  LampDesk,
-  Leaf,
-  MoonStar,
-  Monitor,
-  MoveUp,
-  Sparkles,
-  Sun,
-  Volume2,
-  Waves,
-  Wind,
-  Zap,
-  Activity,
-  UserCheck,
-  Target,
-} from "lucide-react";
+"use client";
+
+import React from "react";
 import Image from "next/image";
 
 import { BrainViewerLazy } from "@/components/brain/BrainViewerLazy";
@@ -26,16 +8,15 @@ import { SimulationPromptChat } from "@/components/simulations/simulation-prompt
 import { Card, Pill, SectionHeading, Surface } from "@/components/ui";
 
 const setupInputs = [
-  { label: "Space Persona", value: "Creative Tech-Enthusiast / Deep Work", icon: UserCheck },
-  { label: "Ambient Context", value: "10:00 AM", icon: Clock3 },
+  { label: "Space Persona", value: "Creative Tech-Enthusiast / Deep Work" },
+  { label: "Ambient Context", value: "10:00 AM" },
   {
     label: "Detected Elements",
     value:
       "MacBook on Stand, External Monitor (Screenbar active), Mechanical Keyboard, Wrist Rest, Personal Collectibles (Goku/Arsenal), Hydration (Iced Coffee)",
-    icon: Monitor,
   },
-  { label: "Vibe Analysis", value: "High Inspiration (Decor-rich) / Potential Visual Clutter Risk", icon: Activity },
-  { label: "Focus Objective", value: "LLM Research & Multi-agent System Dev", icon: Target },
+  { label: "Vibe Analysis", value: "High Inspiration (Decor-rich) / Potential Visual Clutter Risk" },
+  { label: "Focus Objective", value: "LLM Research & Multi-agent System Dev" },
 ];
 
 const focusVitals = [
@@ -119,21 +100,131 @@ const upgrades = [
   {
     title: "Biophilic Add-on",
     text: "Add a snake plant to the left corner to improve CO2 filtration and stress response.",
-    icon: Leaf,
   },
   {
     title: "Lighting",
     text: "Install a monitor light bar to reduce screen glare and eye strain at midday.",
-    icon: LampDesk,
   },
   {
     title: "Furniture",
     text: "Raise monitor by 5cm to align top bezel with eye level for neutral neck posture.",
-    icon: MoveUp,
+  },
+];
+
+const multiAgentResponses = [
+  {
+    name: "Grid",
+    role: "Focus architect",
+    perspective: "Optimizes deep-work continuity over 4-hour blocks.",
+    response:
+      "Your setup supports strong initial focus. Add a strict 90-minute cycle with 10-minute reset windows to avoid the 12:30 dip.",
+    confidence: 86,
+    stance: "Positive",
+  },
+  {
+    name: "Harbor",
+    role: "Ergonomic sentinel",
+    perspective: "Flags posture and strain risks first.",
+    response:
+      "Monitor height is still below neutral eye level, increasing neck compression risk. Correct this before extending to long coding sessions.",
+    confidence: 61,
+    stance: "Critical",
+  },
+  {
+    name: "Tempo",
+    role: "Rhythm planner",
+    perspective: "Balances energy rhythm, breaks, and context switches.",
+    response:
+      "Cognitive rhythm is good in the first 2 hours, then unstable. Add a pre-planned low-complexity task block around noon.",
+    confidence: 74,
+    stance: "Mixed",
+  },
+  {
+    name: "Axon",
+    role: "Layout systems analyst",
+    perspective: "Evaluates physical layout logic and friction points.",
+    response:
+      "Tool placement is mostly efficient, but cable routes still create micro-friction. Re-route power and IO lines to clear the leg zone.",
+    confidence: 69,
+    stance: "Critical",
+  },
+  {
+    name: "Loom",
+    role: "Mood stability analyst",
+    perspective: "Tracks emotional stability during long focus windows.",
+    response:
+      "Ambient setup supports calm concentration and low anxiety. Introduce a short music protocol after lunch to prevent motivation drop.",
+    confidence: 80,
+    stance: "Mixed",
+  },
+  {
+    name: "Pivot",
+    role: "Output efficiency coach",
+    perspective: "Optimizes output quality per hour.",
+    response:
+      "Your environment can support high-output sprints if interruptions are blocked. Use one full-screen mode window and mute all non-critical notifications.",
+    confidence: 92,
+    stance: "Positive",
+  },
+  {
+    name: "Byte",
+    role: "Visual hygiene auditor",
+    perspective: "Assesses visual clutter and attention leaks.",
+    response:
+      "Decor elements are inspiring but begin to compete after prolonged focus. Reduce two peripheral objects during high-complexity tasks.",
+    confidence: 66,
+    stance: "Mixed",
+  },
+  {
+    name: "Cedar",
+    role: "Operations benchmarker",
+    perspective: "Compares your station against elite engineering desk standards.",
+    response:
+      "You are above average in ergonomic readiness but below top-tier in lighting control. Add directional desk light for better late-morning consistency.",
+    confidence: 72,
+    stance: "Mixed",
+  },
+  {
+    name: "Ember",
+    role: "Fatigue forecaster",
+    perspective: "Predicts strain and energy decay risks.",
+    response:
+      "Neck and eye fatigue risk will spike after 120 minutes without posture reset. Add standing intervals every second Pomodoro.",
+    confidence: 59,
+    stance: "Critical",
+  },
+  {
+    name: "Helm",
+    role: "Workspace decision lead",
+    perspective: "Converts diagnostics into actionable setup decisions.",
+    response:
+      "Current setup is strong enough for productive work today. Apply monitor lift and cable cleanup first for durable long-session performance.",
+    confidence: 84,
+    stance: "Positive",
   },
 ];
 
 export function WorkspaceProductivitySimulatorSection() {
+  const stanceToneClass: Record<string, string> = {
+    Positive: "bg-emerald-100 text-emerald-700 border border-emerald-200",
+    Mixed: "bg-amber-100 text-amber-700 border border-amber-200",
+    Critical: "bg-rose-100 text-rose-700 border border-rose-200",
+  };
+  const stanceCardClass: Record<string, string> = {
+    Positive: "border-emerald-300 bg-[linear-gradient(180deg,rgba(16,185,129,0.14),rgba(255,255,255,0.94))] shadow-[inset_0_0_0_1px_rgba(16,185,129,0.08)]",
+    Mixed: "border-amber-300 bg-[linear-gradient(180deg,rgba(245,158,11,0.16),rgba(255,255,255,0.94))] shadow-[inset_0_0_0_1px_rgba(245,158,11,0.08)]",
+    Critical: "border-rose-300 bg-[linear-gradient(180deg,rgba(244,63,94,0.14),rgba(255,255,255,0.94))] shadow-[inset_0_0_0_1px_rgba(244,63,94,0.08)]",
+  };
+  const stanceReplyClass: Record<string, string> = {
+    Positive: "border-emerald-200/90 bg-white/88",
+    Mixed: "border-amber-200/90 bg-white/88",
+    Critical: "border-rose-200/90 bg-white/88",
+  };
+  const stanceBarClass: Record<string, string> = {
+    Positive: "bg-emerald-500",
+    Mixed: "bg-amber-500",
+    Critical: "bg-rose-500",
+  };
 
   return (
     <div className="space-y-8 pb-10">
@@ -152,7 +243,6 @@ export function WorkspaceProductivitySimulatorSection() {
             <div className="min-h-[340px] bg-[radial-gradient(circle_at_18%_20%,rgba(251,191,36,0.26),transparent_28%),radial-gradient(circle_at_80%_18%,rgba(56,189,248,0.22),transparent_28%),linear-gradient(145deg,#f8fafc,#eef3f7)] p-6">
               <div className="flex items-center justify-between">
                 <Pill tone="soft">Header & Environment Input</Pill>
-                <Monitor size={18} className="text-accent" />
               </div>
 
               <div className="mt-4 overflow-hidden rounded-[1.5rem] border border-line bg-panelSoft shadow-soft">
@@ -171,15 +261,11 @@ export function WorkspaceProductivitySimulatorSection() {
             <p className="kicker">Input Data</p>
             <div className="mt-5 space-y-4">
               {setupInputs.map((item) => {
-                const Icon = item.icon;
                 return (
                   <div
                     key={item.label}
                     className="group relative flex items-start gap-4 rounded-[1.2rem] border border-line/50 bg-white/50 p-4 transition-all duration-300 hover:border-accent/40 hover:bg-white hover:shadow-soft"
                   >
-                    <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-panelSoft text-accent transition-colors group-hover:bg-accent group-hover:text-white">
-                      <Icon size={20} />
-                    </div>
                     <div className="min-w-0 flex-1">
                       <p className="text-[10px] uppercase tracking-[0.25em] text-muted transition-colors group-hover:text-accent">
                         {item.label}
@@ -202,7 +288,6 @@ export function WorkspaceProductivitySimulatorSection() {
             <p className="kicker">The Focus Vitals</p>
             <h2 className="headline mt-2 text-3xl sm:text-4xl">Flow-state performance indicators</h2>
           </div>
-          <Zap size={20} className="text-accent" />
         </div>
 
         <div className="mt-7 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
@@ -261,9 +346,7 @@ export function WorkspaceProductivitySimulatorSection() {
                 <p className="headline mt-2 text-3xl">{metric.value}</p>
                 <p className="mt-2 text-sm text-muted">{metric.detail}</p>
                 <div className="mt-5 flex items-center justify-center gap-4 rounded-[1rem] bg-panelSoft p-3">
-                  <Sun size={20} className="text-amber-500" />
                   <span className="h-px w-10 bg-line" />
-                  <MoonStar size={20} className="text-sky-600" />
                 </div>
               </Card>
             );
@@ -277,7 +360,6 @@ export function WorkspaceProductivitySimulatorSection() {
             <p className="kicker">Neural Activation Map</p>
             <h2 className="headline mt-2 text-3xl sm:text-4xl">Cortical focus & cognitive load profile</h2>
           </div>
-          <BrainCircuit size={20} className="text-accent" />
         </div>
 
         <div className="mt-7 grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
@@ -338,7 +420,6 @@ export function WorkspaceProductivitySimulatorSection() {
             <p className="kicker">Spatial & Sensory Analysis</p>
             <h2 className="headline mt-2 text-3xl sm:text-4xl">Spatial Mapping & Heatmap Analysis</h2>
           </div>
-          <Eye size={20} className="text-accent" />
         </div>
 
         <div className="mt-7 grid gap-6 xl:grid-cols-[1.04fr_0.96fr]">
@@ -353,7 +434,7 @@ export function WorkspaceProductivitySimulatorSection() {
           </Card>
 
           <div className="space-y-4">
-            {spatialStats.map((item, index) => (
+            {spatialStats.map((item) => (
               <Card key={item.label} className="p-5">
                 <div className="flex items-start justify-between gap-3">
                   <div>
@@ -361,13 +442,6 @@ export function WorkspaceProductivitySimulatorSection() {
                     <p className="headline mt-2 text-2xl">{item.value}</p>
                     <p className="mt-2 text-sm text-muted">{item.note}</p>
                   </div>
-                  {index === 0 ? (
-                    <Waves size={18} className="text-accent" />
-                  ) : index === 1 ? (
-                    <AlertTriangle size={18} className="text-amber-500" />
-                  ) : (
-                    <Volume2 size={18} className="text-sky-600" />
-                  )}
                 </div>
               </Card>
             ))}
@@ -381,7 +455,6 @@ export function WorkspaceProductivitySimulatorSection() {
             <p className="kicker">Psychological Impact & Mood</p>
             <h2 className="headline mt-2 text-3xl sm:text-4xl">Focus Sustainability & Cognitive Alignment</h2>
           </div>
-          <Sparkles size={20} className="text-accent" />
         </div>
 
         <div className="mt-8 grid gap-10 xl:grid-cols-[1.1fr_0.9fr]">
@@ -527,7 +600,6 @@ export function WorkspaceProductivitySimulatorSection() {
             <p className="kicker">Benchmarking</p>
             <h2 className="headline mt-2 text-3xl sm:text-4xl">Executive Office Standards vs. Current</h2>
           </div>
-          <Wind size={20} className="text-accent" />
         </div>
 
         <Card className="mt-7 overflow-hidden p-0">
@@ -562,7 +634,6 @@ export function WorkspaceProductivitySimulatorSection() {
             <p className="kicker">Behavior Simulation</p>
             <h2 className="headline mt-2 text-3xl sm:text-4xl">4-Hour Fatigue Simulation</h2>
           </div>
-          <Clock3 size={20} className="text-accent" />
         </div>
 
         <div className="mt-7 grid gap-5 xl:grid-cols-[1fr_1fr]">
@@ -575,13 +646,6 @@ export function WorkspaceProductivitySimulatorSection() {
                     <p className="headline mt-2 text-2xl">{item.risk}</p>
                     <p className="mt-2 text-sm text-muted">{item.note}</p>
                   </div>
-                  {item.tone === "warning" ? (
-                    <AlertTriangle size={18} className="text-rose-500" />
-                  ) : item.tone === "medium" ? (
-                    <Eye size={18} className="text-amber-500" />
-                  ) : (
-                    <Clock3 size={18} className="text-sky-600" />
-                  )}
                 </div>
               </Card>
             ))}
@@ -592,8 +656,8 @@ export function WorkspaceProductivitySimulatorSection() {
               <p className="headline text-xl">Body Load Pressure Map</p>
             </div>
             <div className="relative h-[400px] bg-panelSoft overflow-hidden rounded-[1.5rem]">
-              <Image 
-                src="/heatmap.png" 
+              <Image
+                src="/heatmap.png"
                 alt="Body Load Pressure Map"
                 width={800}
                 height={600}
@@ -605,22 +669,69 @@ export function WorkspaceProductivitySimulatorSection() {
       </section>
 
       <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div className="max-w-3xl">
+            <p className="kicker">Multi-agent response simulation</p>
+            <h3 className="headline mt-2 text-3xl sm:text-4xl">10 agents respond to the initial prompt</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted">
+              Each agent simulates a distinct evaluation role for the same starting prompt, so you can compare aligned and conflicting viewpoints before deciding.
+            </p>
+          </div>
+          <Pill tone="accent">Consensus check</Pill>
+        </div>
+
+        <div className="mt-8 space-y-4">
+          {multiAgentResponses.map((agent) => (
+            <Card key={agent.name} className={`soft-border border p-4 sm:p-5 ${stanceCardClass[agent.stance] ?? "border-slate-200 bg-slate-50/80"}`}>
+              <div className="grid gap-4 lg:grid-cols-[280px_minmax(0,1fr)_120px] lg:items-start">
+                <div>
+                  <p className="kicker">{agent.role}</p>
+                  <h4 className="headline mt-1 text-xl">{agent.name}</h4>
+                  <p className="mt-2 text-sm leading-relaxed text-muted">{agent.perspective}</p>
+                </div>
+
+                <div className={`rounded-[0.9rem] border p-3 ${stanceReplyClass[agent.stance] ?? "border-slate-200 bg-white/90"}`}>
+                  <p className="text-xs uppercase tracking-[0.16em] text-muted">Simulated reply</p>
+                  <p className="mt-1.5 text-sm leading-relaxed text-ink/90">{agent.response}</p>
+                </div>
+
+                <div>
+                  <div className="mb-2 flex items-center justify-between text-xs uppercase tracking-[0.16em] text-muted">
+                    <span>Confidence</span>
+                    <span>{agent.confidence}%</span>
+                  </div>
+                  <div className="h-2 rounded-full bg-line/70 overflow-hidden">
+                    <div
+                      className={`h-full rounded-full ${stanceBarClass[agent.stance] ?? "bg-slate-500"}`}
+                      style={{ width: `${agent.confidence}%` }}
+                    />
+                  </div>
+                  <div className="mt-3 flex justify-end">
+                    <span className={`inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] ${stanceToneClass[agent.stance] ?? "bg-slate-100 text-slate-600 border border-slate-200"}`}>
+                      {agent.stance}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
         <div className="flex items-center justify-between gap-4">
           <div>
             <p className="kicker">Smart Optimization</p>
             <h2 className="headline mt-2 text-3xl sm:text-4xl">AI-Recommended Workspace Upgrades</h2>
           </div>
-          <Leaf size={20} className="text-accent" />
         </div>
 
         <div className="mt-7 grid gap-6 xl:grid-cols-[1fr_0.9fr]">
           <div className="space-y-4">
             {upgrades.map((item) => {
-              const Icon = item.icon;
               return (
                 <Card key={item.title} className="p-5">
                   <div className="flex items-start gap-3">
-                    <Icon size={18} className="mt-0.5 text-accent" />
                     <div>
                       <p className="kicker">{item.title}</p>
                       <p className="mt-2 text-sm leading-relaxed text-ink sm:text-base">{item.text}</p>
@@ -642,7 +753,6 @@ export function WorkspaceProductivitySimulatorSection() {
               </p>
             </div>
             <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#e8f7ef] px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-[#15803d]">
-              <CheckCircle2 size={14} />
               Upgrade Path Ready
             </div>
           </div>

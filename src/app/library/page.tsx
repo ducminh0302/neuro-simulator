@@ -1,36 +1,10 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import {
-  File as FileIcon,
-  FileAudio,
-  FileImage,
-  FileSpreadsheet,
-  FileText,
-  FileVideo,
-  Filter,
-  Folder,
-  FolderOpen,
-  LucideIcon,
-  Search,
-  User,
-  XCircle,
-} from "lucide-react";
 
 import { SiteShell } from "@/components/site-shell";
 import { Card, Pill, SectionHeading, Surface } from "@/components/ui";
 import { libraryItems } from "@/lib/site";
-
-const IconMap: Record<string, LucideIcon> = {
-  Text: FileText,
-  Video: FileVideo,
-  Image: FileImage,
-  Folder: Folder,
-  Audio: FileAudio,
-  Spreadsheet: FileSpreadsheet,
-  Document: FileIcon,
-  Profile: User,
-};
 
 const FILTERS = [
   { label: "All files", value: "all" },
@@ -73,12 +47,10 @@ export default function LibraryPage() {
           description="A realistic upload library for videos, images, text files, and folders in a clean full-width list view."
           action={
             <div className="flex items-center gap-3">
-              <button className="inline-flex items-center gap-2 rounded-full bg-panel px-4 py-3 text-sm font-medium soft-border hover:bg-panelSoft transition-colors">
-                <Filter size={16} />
+              <button className="inline-flex items-center gap-2 rounded-full bg-panel px-6 py-3 text-sm font-medium soft-border hover:bg-panelSoft transition-colors">
                 Filter
               </button>
-              <button className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-semibold text-white shadow-lift hover:scale-105 active:scale-95 transition-all">
-                <FolderOpen size={16} />
+              <button className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white shadow-lift hover:scale-105 active:scale-95 transition-all">
                 New folder
               </button>
             </div>
@@ -88,23 +60,19 @@ export default function LibraryPage() {
         <Surface className="p-5 sm:p-6 shadow-soft">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="relative w-full md:max-w-xl">
-              <Search
-                className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted"
-                size={18}
-              />
               <input
                 type="text"
                 placeholder="Search library..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-full border border-line bg-white px-12 py-4 text-sm outline-none transition-all focus:border-accent/40 focus:shadow-soft"
+                className="w-full rounded-full border border-line bg-white px-6 py-4 text-sm outline-none transition-all focus:border-accent/40 focus:shadow-soft"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery("")}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted hover:text-ink transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold uppercase tracking-widest text-muted hover:text-ink transition-colors"
                 >
-                  <XCircle size={18} />
+                  Clear
                 </button>
               )}
             </div>
@@ -127,7 +95,6 @@ export default function LibraryPage() {
         <div className="space-y-4">
           {filteredItems.length > 0 ? (
             filteredItems.map((item) => {
-              const Icon = IconMap[item.type] || FileIcon;
               return (
                 <Card
                   key={item.name}
@@ -136,9 +103,9 @@ export default function LibraryPage() {
                   <div className="flex min-h-[86px] w-full items-center justify-between gap-4 bg-[linear-gradient(135deg,#ffffff,#f4f7ff_50%,#efe7ff)] px-6 py-4 transition-colors group-hover:bg-[#fbfbff]">
                     <div className="flex min-w-0 items-center gap-5">
                       <div
-                        className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl ${item.accent} shadow-sm transition-transform duration-500 group-hover:scale-110 group-hover:shadow-md`}
+                        className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl ${item.accent} shadow-sm transition-transform duration-500 group-hover:scale-110 group-hover:shadow-md text-[10px] font-bold uppercase tracking-tighter text-center leading-none`}
                       >
-                        <Icon size={26} strokeWidth={1.5} />
+                        {item.type.slice(0, 3)}
                       </div>
                       <div className="min-w-0">
                         <p className="headline truncate text-lg sm:text-2xl">
@@ -152,10 +119,10 @@ export default function LibraryPage() {
                       </div>
                     </div>
                     <div className="hidden shrink-0 items-center gap-3 sm:flex">
-                      <button className="rounded-full px-5 py-2.5 text-xs font-bold text-muted transition-all hover:bg-black/5 hover:text-ink">
+                      <button className="rounded-full px-5 py-2.5 text-xs font-bold text-muted transition-all hover:bg-black/5 hover:text-ink uppercase tracking-widest">
                         View
                       </button>
-                      <button className="rounded-full bg-accent/10 px-5 py-2.5 text-xs font-bold text-accent transition-all hover:bg-accent hover:text-white hover:shadow-lift">
+                      <button className="rounded-full bg-accent/10 px-5 py-2.5 text-xs font-bold text-accent transition-all hover:bg-accent hover:text-white hover:shadow-lift uppercase tracking-widest">
                         Inspect
                       </button>
                     </div>
@@ -165,9 +132,6 @@ export default function LibraryPage() {
             })
           ) : (
             <div className="flex flex-col items-center justify-center py-20 text-center">
-              <div className="h-20 w-20 rounded-full bg-panelSoft flex items-center justify-center text-muted mb-6">
-                <Search size={40} strokeWidth={1} />
-              </div>
               <h3 className="headline text-2xl mb-2">No assets found</h3>
               <p className="text-muted max-w-xs mx-auto">
                 We couldn&apos;t find any items matching &quot;{searchQuery}&quot; in this
@@ -178,7 +142,7 @@ export default function LibraryPage() {
                   setSearchQuery("");
                   setActiveFilter("all");
                 }}
-                className="mt-6 text-accent font-semibold hover:underline"
+                className="mt-6 text-accent font-semibold hover:underline uppercase tracking-widest text-xs"
               >
                 Clear all filters
               </button>

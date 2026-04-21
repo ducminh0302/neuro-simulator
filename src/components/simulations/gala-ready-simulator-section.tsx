@@ -1,17 +1,3 @@
-import {
-  BarChart3,
-  BrainCircuit,
-  Camera,
-  CheckCircle2,
-  Gem,
-  Radar,
-  Search,
-  Sparkles,
-  Star,
-  Table2,
-  Users,
-  WandSparkles,
-} from "lucide-react";
 import Image from "next/image";
 
 import { BrainViewerLazy } from "@/components/brain/BrainViewerLazy";
@@ -76,6 +62,99 @@ const recommendations = [
   },
 ];
 
+const multiAgentResponses = [
+  {
+    name: "Vesper",
+    role: "Runway editor",
+    perspective: "Prioritizes camera impact in first-look moments.",
+    response:
+      "Silhouette reads powerfully under flash and distance. A cleaner clutch line will sharpen full-body symmetry in press photos.",
+    confidence: 91,
+    stance: "Positive",
+  },
+  {
+    name: "Elan",
+    role: "Etiquette examiner",
+    perspective: "Flags formal-wear risks against strict event norms.",
+    response:
+      "Neckline and shimmer balance are strong, but jewelry hierarchy is slightly noisy for black-tie purists. Simplify one accessory layer.",
+    confidence: 57,
+    stance: "Critical",
+  },
+  {
+    name: "Marlowe",
+    role: "Fashion signal watcher",
+    perspective: "Tracks trend fit with luxury audience expectations.",
+    response:
+      "This styling is aligned with current couture signals and should score high in fashion communities. Keep hair volume controlled to preserve neckline authority.",
+    confidence: 83,
+    stance: "Positive",
+  },
+  {
+    name: "Opal",
+    role: "Heritage stylist",
+    perspective: "Ensures outfit language matches timeless luxury codes.",
+    response:
+      "Material choice and tailoring signal premium consistency. Replace silver heel option with a subtler metallic to keep the palette disciplined.",
+    confidence: 69,
+    stance: "Mixed",
+  },
+  {
+    name: "Celine",
+    role: "Perception analyst",
+    perspective: "Models audience perception of confidence and warmth.",
+    response:
+      "The look communicates authority first, then elegance. Add a softer facial expression in portrait shots to improve approachability.",
+    confidence: 78,
+    stance: "Mixed",
+  },
+  {
+    name: "Drape",
+    role: "Pose engineer",
+    perspective: "Optimizes posture and angle for lens outcomes.",
+    response:
+      "The gown has strong drape behavior in motion. A 30-45 degree stance with one shoulder forward will maximize line length.",
+    confidence: 87,
+    stance: "Positive",
+  },
+  {
+    name: "Noir",
+    role: "Fabric diagnostician",
+    perspective: "Examines fabric response under mixed lighting.",
+    response:
+      "Sequin density performs well in strobe bursts, but sleeve transparency can flatten in side light. Raise key light by one stop.",
+    confidence: 62,
+    stance: "Mixed",
+  },
+  {
+    name: "Poise",
+    role: "Gala benchmark juror",
+    perspective: "Compares the outfit against top gala references.",
+    response:
+      "This look ranks near best-dressed tier on silhouette and compliance. It trails slightly on distinctiveness due to conservative accessory choices.",
+    confidence: 73,
+    stance: "Mixed",
+  },
+  {
+    name: "Lattice",
+    role: "Warmth calibrator",
+    perspective: "Evaluates relatability without losing prestige.",
+    response:
+      "Visual excellence is clear, but emotional warmth is moderate. A softer color accent can increase perceived openness in social coverage.",
+    confidence: 54,
+    stance: "Critical",
+  },
+  {
+    name: "Regent",
+    role: "Verdict curator",
+    perspective: "Converts style diagnostics into decision confidence.",
+    response:
+      "Event-ready with high formal compliance and strong visual authority. Apply minor accessory edits and proceed with confidence.",
+    confidence: 95,
+    stance: "Positive",
+  },
+];
+
 type BenchmarkGaugeProps = {
   label: string;
   valueLabel: string;
@@ -102,9 +181,8 @@ function BenchmarkGauge({
 
   return (
     <div
-      className={`rounded-[1.8rem] border bg-white/90 p-5 text-center shadow-sm ${
-        highlighted ? "border-accent/30 ring-1 ring-accent/10" : "border-line"
-      }`}
+      className={`rounded-[1.8rem] border bg-white/90 p-5 text-center shadow-sm ${highlighted ? "border-accent/30 ring-1 ring-accent/10" : "border-line"
+        }`}
     >
       <div
         className="mx-auto flex h-60 w-60 items-center justify-center rounded-full p-4 sm:h-64 sm:w-64 lg:h-72 lg:w-72"
@@ -113,9 +191,8 @@ function BenchmarkGauge({
         <div className="flex h-full w-full flex-col items-center justify-center rounded-full border border-white/90 bg-[radial-gradient(circle_at_30%_25%,rgba(30,64,175,0.14),transparent_34%),radial-gradient(circle_at_70%_78%,rgba(15,23,42,0.04),transparent_28%),linear-gradient(180deg,#ffffff,#f8fafc)] px-7 shadow-[inset_0_1px_0_rgba(255,255,255,0.96)]">
           <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500">{label}</p>
           <p
-            className={`mt-4 text-5xl font-semibold tracking-[0.08em] text-[#081225] sm:text-6xl ${
-              highlighted ? "drop-shadow-[0_0_18px_rgba(30,64,175,0.35)]" : ""
-            }`}
+            className={`mt-4 text-5xl font-semibold tracking-[0.08em] text-[#081225] sm:text-6xl ${highlighted ? "drop-shadow-[0_0_18px_rgba(30,64,175,0.35)]" : ""
+              }`}
             style={{ fontFamily: '"IBM Plex Mono", "SFMono-Regular", Consolas, monospace' }}
           >
             {valueLabel}
@@ -133,6 +210,27 @@ function BenchmarkGauge({
 }
 
 export function GalaReadySimulatorSection() {
+  const stanceToneClass: Record<string, string> = {
+    Positive: "bg-emerald-100 text-emerald-700 border border-emerald-200",
+    Mixed: "bg-amber-100 text-amber-700 border border-amber-200",
+    Critical: "bg-rose-100 text-rose-700 border border-rose-200",
+  };
+  const stanceCardClass: Record<string, string> = {
+    Positive: "border-emerald-300 bg-[linear-gradient(180deg,rgba(16,185,129,0.14),rgba(255,255,255,0.94))] shadow-[inset_0_0_0_1px_rgba(16,185,129,0.08)]",
+    Mixed: "border-amber-300 bg-[linear-gradient(180deg,rgba(245,158,11,0.16),rgba(255,255,255,0.94))] shadow-[inset_0_0_0_1px_rgba(245,158,11,0.08)]",
+    Critical: "border-rose-300 bg-[linear-gradient(180deg,rgba(244,63,94,0.14),rgba(255,255,255,0.94))] shadow-[inset_0_0_0_1px_rgba(244,63,94,0.08)]",
+  };
+  const stanceReplyClass: Record<string, string> = {
+    Positive: "border-emerald-200/90 bg-white/88",
+    Mixed: "border-amber-200/90 bg-white/88",
+    Critical: "border-rose-200/90 bg-white/88",
+  };
+  const stanceBarClass: Record<string, string> = {
+    Positive: "bg-emerald-500",
+    Mixed: "bg-amber-500",
+    Critical: "bg-rose-500",
+  };
+
   return (
     <div className="space-y-8 pb-10">
       <SimulationPromptChat prompt="Evaluate my gala outfit photo for elegance, dress-code fit, social perception, red-carpet benchmark, and finishing recommendations." />
@@ -150,7 +248,6 @@ export function GalaReadySimulatorSection() {
             <div className="min-h-[330px] bg-[radial-gradient(circle_at_20%_15%,rgba(249,168,37,0.22),transparent_30%),radial-gradient(circle_at_80%_20%,rgba(56,189,248,0.2),transparent_28%),linear-gradient(160deg,#f8fafc,#f3f4f6)] p-6">
               <div className="flex items-center justify-between">
                 <Pill tone="soft">Input image</Pill>
-                <Camera size={18} className="text-accent" />
               </div>
               <div className="mt-4 rounded-[1.6rem] border border-white/80 bg-white/70 p-5 backdrop-blur-sm">
                 <div className="relative overflow-hidden rounded-[1.3rem] border border-line bg-[linear-gradient(145deg,#f8fafc,#eceff4)]">
@@ -193,7 +290,6 @@ export function GalaReadySimulatorSection() {
             <p className="kicker">The Presence Score</p>
             <h2 className="headline mt-2 text-3xl sm:text-4xl">High-level gala KPIs</h2>
           </div>
-          <BarChart3 size={20} className="text-accent" />
         </div>
 
         <div className="mt-6 grid gap-5 xl:grid-cols-4">
@@ -215,7 +311,6 @@ export function GalaReadySimulatorSection() {
             <p className="headline mt-2 text-3xl">{kpis[1].value}</p>
             <p className="mt-2 text-sm text-muted">{kpis[1].detail}</p>
             <div className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#e8f7ef] px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-[#15803d]">
-              <CheckCircle2 size={14} />
               Perfect Match
             </div>
           </Card>
@@ -255,7 +350,6 @@ export function GalaReadySimulatorSection() {
             <p className="kicker">Neural Activation Map</p>
             <h2 className="headline mt-2 text-3xl sm:text-4xl">Cortical aesthetic & status response</h2>
           </div>
-          <BrainCircuit size={20} className="text-accent" />
         </div>
 
         <div className="mt-7 grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
@@ -316,7 +410,6 @@ export function GalaReadySimulatorSection() {
             <p className="kicker">Visual & fabric analysis</p>
             <h2 className="headline mt-2 text-3xl sm:text-4xl">Attire Composition & Texture Detection</h2>
           </div>
-          <Gem size={20} className="text-accent" />
         </div>
 
         <div className="mt-7 grid gap-6 xl:grid-cols-[1fr_1fr]">
@@ -335,7 +428,6 @@ export function GalaReadySimulatorSection() {
           <Card className="p-5">
             <div className="flex items-center justify-between gap-3">
               <p className="headline text-2xl">Material Intelligence Table</p>
-              <Table2 size={18} className="text-accent" />
             </div>
             <div className="mt-5 space-y-3 text-sm">
               <div className="rounded-[1.2rem] bg-panelSoft p-4">
@@ -396,12 +488,8 @@ export function GalaReadySimulatorSection() {
             <p className="kicker">Psychological & social impact</p>
             <div className="mt-2 flex items-center gap-3">
               <h2 className="headline text-3xl sm:text-4xl">Persona Perception Radar</h2>
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-line bg-panelSoft text-muted shadow-sm">
-                <Search size={15} />
-              </span>
             </div>
           </div>
-          <Radar size={20} className="text-accent" />
         </div>
 
         <div className="mt-7 grid gap-6 xl:grid-cols-[1fr_1.02fr]">
@@ -423,12 +511,6 @@ export function GalaReadySimulatorSection() {
                 <p className="text-xs uppercase tracking-[0.22em] text-muted">Social cognition summary</p>
                 <p className="mt-2 headline text-2xl">Social Perception Breakdown</p>
               </div>
-              <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line bg-panelSoft text-muted shadow-sm">
-                <span className="relative flex h-5.5 w-5.5 items-center justify-center">
-                  <Users size={16} className="absolute inset-0 m-auto opacity-60" />
-                  <Search size={9} className="absolute -right-0.5 -top-0.5" />
-                </span>
-              </span>
             </div>
 
             <div className="mt-5 space-y-4">
@@ -474,7 +556,6 @@ export function GalaReadySimulatorSection() {
             <p className="kicker">The Red Carpet Factor</p>
             <h2 className="headline mt-2 text-3xl sm:text-4xl">Gala Standard Benchmarking</h2>
           </div>
-          <Star size={20} className="text-accent" />
         </div>
 
         <div className="mt-7 grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
@@ -528,7 +609,6 @@ export function GalaReadySimulatorSection() {
             <p className="kicker">Audience reaction simulation</p>
             <h2 className="headline mt-2 text-3xl sm:text-4xl">Style Performance Benchmarks</h2>
           </div>
-          <Users size={20} className="text-accent" />
         </div>
 
         <div className="mt-8 grid gap-5 lg:grid-cols-3">
@@ -560,12 +640,61 @@ export function GalaReadySimulatorSection() {
       </section>
 
       <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div className="max-w-3xl">
+            <p className="kicker">Multi-agent response simulation</p>
+            <h3 className="headline mt-2 text-3xl sm:text-4xl">10 agents respond to the initial prompt</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted">
+              Each agent simulates a distinct evaluation role for the same starting prompt, so you can compare aligned and conflicting viewpoints before deciding.
+            </p>
+          </div>
+          <Pill tone="accent">Consensus check</Pill>
+        </div>
+
+        <div className="mt-8 space-y-4">
+          {multiAgentResponses.map((agent) => (
+            <Card key={agent.name} className={`soft-border border p-4 sm:p-5 ${stanceCardClass[agent.stance] ?? "border-slate-200 bg-slate-50/80"}`}>
+              <div className="grid gap-4 lg:grid-cols-[280px_minmax(0,1fr)_120px] lg:items-start">
+                <div>
+                  <p className="kicker">{agent.role}</p>
+                  <h4 className="headline mt-1 text-xl">{agent.name}</h4>
+                  <p className="mt-2 text-sm leading-relaxed text-muted">{agent.perspective}</p>
+                </div>
+
+                <div className={`rounded-[0.9rem] border p-3 ${stanceReplyClass[agent.stance] ?? "border-slate-200 bg-white/90"}`}>
+                  <p className="text-xs uppercase tracking-[0.16em] text-muted">Simulated reply</p>
+                  <p className="mt-1.5 text-sm leading-relaxed text-ink/90">{agent.response}</p>
+                </div>
+
+                <div>
+                  <div className="mb-2 flex items-center justify-between text-xs uppercase tracking-[0.16em] text-muted">
+                    <span>Confidence</span>
+                    <span>{agent.confidence}%</span>
+                  </div>
+                  <div className="h-2 rounded-full bg-line/70 overflow-hidden">
+                    <div
+                      className={`h-full rounded-full ${stanceBarClass[agent.stance] ?? "bg-slate-500"}`}
+                      style={{ width: `${agent.confidence}%` }}
+                    />
+                  </div>
+                  <div className="mt-3 flex justify-end">
+                    <span className={`inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] ${stanceToneClass[agent.stance] ?? "bg-slate-100 text-slate-600 border border-slate-200"}`}>
+                      {agent.stance}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
         <div className="flex items-center justify-between">
           <div>
             <p className="kicker">AI Styling Recommendations</p>
             <h2 className="headline mt-2 text-3xl sm:text-4xl">Optimization & Finishing Touches</h2>
           </div>
-          <WandSparkles size={20} className="text-accent" />
         </div>
 
         <div className="mt-7 grid gap-6 xl:grid-cols-[1fr_0.9fr]">
@@ -593,7 +722,6 @@ export function GalaReadySimulatorSection() {
               </p>
             </div>
             <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-accentSoft px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-accent">
-              <Sparkles size={14} />
               Presence Impact Score: 91
             </div>
           </div>

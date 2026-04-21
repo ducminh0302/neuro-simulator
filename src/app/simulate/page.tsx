@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ArrowUpRight, Clock3, Search, Sparkles } from "lucide-react";
 
 import { SiteShell } from "@/components/site-shell";
 import { Card, Pill, SectionHeading, Surface } from "@/components/ui";
@@ -29,14 +28,12 @@ export default function SimulateIndexPage() {
           <div className="mx-auto max-w-5xl space-y-6">
             <div className="rounded-[1.8rem] bg-white/90 p-4 sm:p-5 soft-border">
               <div className="flex items-center gap-3 rounded-[1.2rem] border border-line bg-panelSoft px-4 py-3">
-                <Search size={18} className="text-muted" />
                 <input
                   type="text"
                   placeholder="Type your simulation prompt here..."
-                  className="w-full bg-transparent text-sm text-ink outline-none placeholder:text-muted"
+                  className="w-full bg-transparent text-sm text-ink outline-none placeholder:text-muted px-2"
                 />
-                <button className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white transition-transform hover:-translate-y-0.5">
-                  <Sparkles size={14} />
+                <button className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white transition-transform hover:-translate-y-0.5">
                   Send
                 </button>
               </div>
@@ -57,14 +54,13 @@ export default function SimulateIndexPage() {
                     <div className="min-w-0">
                       <h2 className="headline mt-3 text-2xl leading-tight text-ink">{section.title}</h2>
                       <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted">{section.summary}</p>
-                      <div className="mt-3 inline-flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-muted">
-                        <Clock3 size={13} />
+                      <div className="mt-3 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.16em] text-muted font-bold">
                         {index === 0 ? "Latest active simulation" : "Recent simulation thread"}
                       </div>
                     </div>
 
-                    <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-panel px-3 py-2 text-xs font-semibold text-ink soft-border transition-transform group-hover:-translate-y-0.5">
-                      Open <ArrowUpRight size={14} />
+                    <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-panel px-4 py-2 text-xs font-semibold text-ink soft-border transition-transform group-hover:-translate-y-0.5 uppercase tracking-widest">
+                      Open
                     </span>
                   </Link>
                 </Card>

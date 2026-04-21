@@ -1,17 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import {
-  Activity,
-  ArrowUpRight,
-  Brain,
-  BrainCircuit,
-  CheckCircle2,
-  Eye,
-  Lightbulb,
-  Sparkles,
-  Target,
-} from "lucide-react";
+import React from "react";
 import Image from "next/image";
 
 import { BrainViewerLazy } from "@/components/brain/BrainViewerLazy";
@@ -61,7 +50,7 @@ const visualProcessingLayers = [
     share: "68%",
     shareValue: 68,
     description: "Represents the 'First Fixation.' This is the element that breaks the visual threshold within the first 150-200ms. It commands the highest neural metabolic cost and is the anchor for brand recall.",
-    color: "#0ea5e9", // Sky 500
+    color: "#0ea5e9",
     colorText: "text-sky-500",
     bgColor: "bg-sky-500",
   },
@@ -71,8 +60,8 @@ const visualProcessingLayers = [
     title: "Environment: Minimalist Living Room",
     share: "22%",
     shareValue: 22,
-    description: "Represents the 'Secondary Scanpath.' Once the primary subject is identified, the brain maps the surrounding geometry to establish a semantic 'story.' High processing fluency reduces cognitive friction.",
-    color: "#22d3ee", // Cyan 400
+    description: "Represents the 'Secondary Scanpath.' Once the primary subject is identified, the brain maps the surrounding geometry to establish a semantic story. High processing fluency reduces cognitive friction.",
+    color: "#22d3ee",
     colorText: "text-cyan-500",
     bgColor: "bg-cyan-400",
   },
@@ -82,31 +71,28 @@ const visualProcessingLayers = [
     title: "Decor: Indoor Plant & Furniture",
     share: "10%",
     shareValue: 10,
-    description: "Represents elements processed by peripheral vision. These are 'low-interest' zones that provide atmospheric value but do not distract the user from the primary CTA.",
-    color: "#94a3b8", // Slate 400
+    description: "Represents elements processed by peripheral vision. These low-interest zones provide atmosphere but should not distract from the primary CTA.",
+    color: "#94a3b8",
     colorText: "text-slate-500",
     bgColor: "bg-slate-400",
   },
 ];
 
-
 function WaveformOscilloscope() {
-
-
   const smoothPath = "M 0 50 Q 50 20, 100 50 T 200 50 T 300 50 T 400 50";
 
   return (
     <div className="relative h-32 w-full rounded-xl bg-[#080d1a] overflow-hidden border border-slate-800 shadow-[inset_0_2px_10px_rgba(0,0,0,0.5)]">
-      {/* Grid Pattern */}
-      <div className="absolute inset-0 opacity-10" style={{
-        backgroundImage: 'linear-gradient(#38bdf8 1px, transparent 1px), linear-gradient(90deg, #38bdf8 1px, transparent 1px)',
-        backgroundSize: '30px 30px'
-      }} />
+      <div
+        className="absolute inset-0 opacity-10"
+        style={{
+          backgroundImage: "linear-gradient(#38bdf8 1px, transparent 1px), linear-gradient(90deg, #38bdf8 1px, transparent 1px)",
+          backgroundSize: "30px 30px",
+        }}
+      />
 
-      {/* Horizontal Scan Line (Middle) */}
       <div className="absolute top-1/2 left-0 w-full h-[1px] bg-slate-800" />
 
-      {/* The Wave */}
       <svg viewBox="0 0 400 100" className="absolute inset-0 w-full h-full preserve-3d" preserveAspectRatio="none">
         <defs>
           <filter id="wave-glow">
@@ -124,13 +110,13 @@ function WaveformOscilloscope() {
           strokeLinecap="round"
           className="animate-oscilloscope"
         />
-
-        {/* Moving Dot Scaffolding */}
-        <div className="absolute right-0 top-0 h-full w-20 bg-gradient-to-l from-[#080d1a] to-transparent z-10" />
       </svg>
 
-      <style dangerouslySetInnerHTML={{
-        __html: `
+      <div className="absolute right-0 top-0 h-full w-20 bg-gradient-to-l from-[#080d1a] to-transparent z-10" />
+
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         @keyframes oscilloscope {
           0% { stroke-dasharray: 0 1000; stroke-dashoffset: 0; }
           50% { stroke-dasharray: 1000 0; stroke-dashoffset: 0; }
@@ -139,7 +125,9 @@ function WaveformOscilloscope() {
         .animate-oscilloscope {
           animation: oscilloscope 4s linear infinite;
         }
-      `}} />
+      `,
+        }}
+      />
     </div>
   );
 }
@@ -177,18 +165,108 @@ function NeuroMathFormula() {
 const recommendations = [
   {
     title: "Contrast",
-    text: "Increase contrast in the top-right quadrant to guide the gaze toward the logo.",
-    icon: Target,
+    text: "Increase contrast in the top-right quadrant to guide the gaze toward the gaze toward the logo.",
   },
   {
     title: "Color Saturation",
     text: "Reduce saturation of the background to lower cognitive fatigue.",
-    icon: Sparkles,
   },
   {
     title: "Typography",
     text: "Use a Sans-serif font for the sub-headline to speed up neural processing by 20%.",
-    icon: Lightbulb,
+  },
+];
+
+const multiAgentResponses = [
+  {
+    name: "Axial",
+    role: "Saliency commander",
+    perspective: "Prioritizes first-fixation capture and attention lock.",
+    response:
+      "Primary saliency is strong and should capture fixation in under 250ms. Keep the hero object isolated from competing high-contrast edges.",
+    confidence: 90,
+    stance: "Positive",
+  },
+  {
+    name: "Synap",
+    role: "Friction scanner",
+    perspective: "Detects cognitive overload and ambiguity risks.",
+    response:
+      "Peripheral zones introduce minor attentional competition. Simplify one background cluster to reduce cognitive friction.",
+    confidence: 55,
+    stance: "Critical",
+  },
+  {
+    name: "Cortex",
+    role: "Arousal tracker",
+    perspective: "Monitors predicted arousal stability over exposure time.",
+    response:
+      "Arousal should remain moderate-positive through the first scan. A clearer CTA anchor can convert attention into action.",
+    confidence: 73,
+    stance: "Mixed",
+  },
+  {
+    name: "Voxel",
+    role: "Hierarchy mapper",
+    perspective: "Maps visual hierarchy against neural processing order.",
+    response:
+      "Hierarchy is mostly coherent from object to context to CTA. Increase text-background separation to avoid delayed parsing.",
+    confidence: 79,
+    stance: "Positive",
+  },
+  {
+    name: "Lambda",
+    role: "Valence modeler",
+    perspective: "Predicts emotional polarity and confidence drift.",
+    response:
+      "Valence trends positive, but confidence softens in longer views. Add an explicit trust cue in-frame to stabilize intent.",
+    confidence: 67,
+    stance: "Mixed",
+  },
+  {
+    name: "Nerve",
+    role: "Recall engineer",
+    perspective: "Optimizes recall probability after brief exposure.",
+    response:
+      "Object shape and contrast support high recall potential. Repeating one distinct visual motif will improve delayed memory retrieval.",
+    confidence: 88,
+    stance: "Positive",
+  },
+  {
+    name: "Kappa",
+    role: "Saccade auditor",
+    perspective: "Tracks saccade sequence and peripheral distractions.",
+    response:
+      "Saccade path is efficient but not equally stable across audience segments. Tone down one bright secondary element to reduce drift.",
+    confidence: 62,
+    stance: "Mixed",
+  },
+  {
+    name: "Theta",
+    role: "Study comparator",
+    perspective: "Benchmarks predicted neural response against reference studies.",
+    response:
+      "Compared with similar high-performing stimuli, saliency is above baseline. Improvement headroom remains in CTA dwell-time optimization.",
+    confidence: 76,
+    stance: "Positive",
+  },
+  {
+    name: "Delta",
+    role: "Load forecaster",
+    perspective: "Forecasts cognitive effort under repeated exposure.",
+    response:
+      "Processing load is acceptable at first exposure but rises with repetition. Reduce visual density near text for better resilience.",
+    confidence: 49,
+    stance: "Critical",
+  },
+  {
+    name: "Sigma",
+    role: "Neural decision synth",
+    perspective: "Combines neural indicators into go/no-go recommendation.",
+    response:
+      "The stimulus is deployable for awareness testing now. Run one quick variant with reduced background complexity for higher confidence.",
+    confidence: 83,
+    stance: "Mixed",
   },
 ];
 
@@ -317,6 +395,26 @@ export function NeuroFocusSimulatorSection() {
       color: "#f43f5e", // Rose/Ruby
     },
   ];
+  const stanceToneClass: Record<string, string> = {
+    Positive: "bg-emerald-100 text-emerald-700 border border-emerald-200",
+    Mixed: "bg-amber-100 text-amber-700 border border-amber-200",
+    Critical: "bg-rose-100 text-rose-700 border border-rose-200",
+  };
+  const stanceCardClass: Record<string, string> = {
+    Positive: "border-emerald-300 bg-[linear-gradient(180deg,rgba(16,185,129,0.14),rgba(255,255,255,0.94))] shadow-[inset_0_0_0_1px_rgba(16,185,129,0.08)]",
+    Mixed: "border-amber-300 bg-[linear-gradient(180deg,rgba(245,158,11,0.16),rgba(255,255,255,0.94))] shadow-[inset_0_0_0_1px_rgba(245,158,11,0.08)]",
+    Critical: "border-rose-300 bg-[linear-gradient(180deg,rgba(244,63,94,0.14),rgba(255,255,255,0.94))] shadow-[inset_0_0_0_1px_rgba(244,63,94,0.08)]",
+  };
+  const stanceReplyClass: Record<string, string> = {
+    Positive: "border-emerald-200/90 bg-white/88",
+    Mixed: "border-amber-200/90 bg-white/88",
+    Critical: "border-rose-200/90 bg-white/88",
+  };
+  const stanceBarClass: Record<string, string> = {
+    Positive: "bg-emerald-500",
+    Mixed: "bg-amber-500",
+    Critical: "bg-rose-500",
+  };
 
   return (
     <div className="space-y-8 pb-10">
@@ -335,7 +433,6 @@ export function NeuroFocusSimulatorSection() {
             <div className="min-h-[335px] bg-[radial-gradient(circle_at_20%_18%,rgba(14,165,233,0.28),transparent_28%),radial-gradient(circle_at_80%_22%,rgba(244,63,94,0.22),transparent_28%),linear-gradient(145deg,#f8fafc,#eef2ff)] p-6">
               <div className="flex items-center justify-between">
                 <Pill tone="soft">Header & Creative Input</Pill>
-                <Brain size={18} className="text-accent" />
               </div>
 
               <div className="mt-4 overflow-hidden rounded-[1.5rem] border border-white/80 bg-white/80 shadow-soft backdrop-blur-sm">
@@ -370,7 +467,6 @@ export function NeuroFocusSimulatorSection() {
             <p className="kicker">The Brain Metrics</p>
             <h2 className="headline mt-2 text-3xl sm:text-4xl">EEG-inspired cognitive KPI row</h2>
           </div>
-          <Activity size={20} className="text-accent" />
         </div>
 
         <div className="mt-7 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
@@ -431,7 +527,6 @@ export function NeuroFocusSimulatorSection() {
                 <p className="kicker">{metric.name}</p>
                 <div className="mt-2 flex items-center gap-2">
                   <p className="headline text-3xl">{metric.value}</p>
-                  <ArrowUpRight size={18} className="text-emerald-500" />
                 </div>
                 <p className="mt-2 text-sm text-muted">{metric.detail}</p>
                 <div className="mt-5">
@@ -449,7 +544,6 @@ export function NeuroFocusSimulatorSection() {
             <p className="kicker">Neural Activation Map</p>
             <h2 className="headline mt-2 text-3xl sm:text-4xl">Cortical response to visual stimulus</h2>
           </div>
-          <BrainCircuit size={20} className="text-accent" />
         </div>
 
         <div className="mt-7 grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
@@ -510,7 +604,6 @@ export function NeuroFocusSimulatorSection() {
             <p className="kicker">Neural Saliency & Eye-Tracking</p>
             <h2 className="headline mt-2 text-3xl sm:text-4xl">Predictive Eye-Tracking & Foveal Focus</h2>
           </div>
-          <Eye size={20} className="text-accent" />
         </div>
 
         <div className="mt-7 grid gap-5 xl:grid-cols-[0.8fr_1.2fr]">
@@ -613,7 +706,6 @@ export function NeuroFocusSimulatorSection() {
             <p className="kicker">The Neurotransmitter Gauge System</p>
             <h2 className="headline mt-2 text-3xl sm:text-4xl text-ink">NEURAL BIO-SIGNAL CONSOLE</h2>
           </div>
-          <Activity size={20} className="text-accent animate-pulse" />
         </div>
 
         <div className="mt-8 grid gap-5 lg:grid-cols-3">
@@ -629,7 +721,6 @@ export function NeuroFocusSimulatorSection() {
             <p className="kicker">Neural Flow & Audience Response</p>
             <h2 className="headline mt-2 text-3xl sm:text-4xl text-ink">Cognitive Flow & Neural Parsing</h2>
           </div>
-          <Activity size={22} className="text-accent animate-pulse" />
         </div>
 
         <div className="mt-8 grid gap-7 xl:grid-cols-[1.45fr_0.55fr]">
@@ -656,7 +747,6 @@ export function NeuroFocusSimulatorSection() {
                 </div>
                 <div className="flex-grow">
                   <div className="flex items-center gap-2 mb-2">
-                    <CheckCircle2 size={14} className="text-emerald-500" />
                     <p className="text-sm font-bold text-ink">Fast Neural Parsing: 420ms</p>
                   </div>
                   <p className="text-xs sm:text-sm text-muted leading-relaxed">
@@ -722,10 +812,60 @@ export function NeuroFocusSimulatorSection() {
                 <div className="h-full w-full bg-emerald-500/50" />
               </div>
             </div>
-            
+
             {/* Subtle background glow */}
             <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-emerald-500/5 blur-[100px] rounded-full" />
           </div>
+        </div>
+      </section>
+
+      <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div className="max-w-3xl">
+            <p className="kicker">Multi-agent response simulation</p>
+            <h3 className="headline mt-2 text-3xl sm:text-4xl">10 agents respond to the initial prompt</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted">
+              Each agent simulates a distinct evaluation role for the same starting prompt, so you can compare aligned and conflicting viewpoints before deciding.
+            </p>
+          </div>
+          <Pill tone="accent">Consensus check</Pill>
+        </div>
+
+        <div className="mt-8 space-y-4">
+          {multiAgentResponses.map((agent) => (
+            <Card key={agent.name} className={`soft-border border p-4 sm:p-5 ${stanceCardClass[agent.stance] ?? "border-slate-200 bg-slate-50/80"}`}>
+              <div className="grid gap-4 lg:grid-cols-[280px_minmax(0,1fr)_120px] lg:items-start">
+                <div>
+                  <p className="kicker">{agent.role}</p>
+                  <h4 className="headline mt-1 text-xl">{agent.name}</h4>
+                  <p className="mt-2 text-sm leading-relaxed text-muted">{agent.perspective}</p>
+                </div>
+
+                <div className={`rounded-[0.9rem] border p-3 ${stanceReplyClass[agent.stance] ?? "border-slate-200 bg-white/90"}`}>
+                  <p className="text-xs uppercase tracking-[0.16em] text-muted">Simulated reply</p>
+                  <p className="mt-1.5 text-sm leading-relaxed text-ink/90">{agent.response}</p>
+                </div>
+
+                <div>
+                  <div className="mb-2 flex items-center justify-between text-xs uppercase tracking-[0.16em] text-muted">
+                    <span>Confidence</span>
+                    <span>{agent.confidence}%</span>
+                  </div>
+                  <div className="h-2 rounded-full bg-line/70 overflow-hidden">
+                    <div
+                      className={`h-full rounded-full ${stanceBarClass[agent.stance] ?? "bg-slate-500"}`}
+                      style={{ width: `${agent.confidence}%` }}
+                    />
+                  </div>
+                  <div className="mt-3 flex justify-end">
+                    <span className={`inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] ${stanceToneClass[agent.stance] ?? "bg-slate-100 text-slate-600 border border-slate-200"}`}>
+                      {agent.stance}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          ))}
         </div>
       </section>
 
@@ -735,17 +875,14 @@ export function NeuroFocusSimulatorSection() {
             <p className="kicker">Neuro-Optimization Recommendations</p>
             <h2 className="headline mt-2 text-3xl sm:text-4xl">AI Neuro-Design Optimization</h2>
           </div>
-          <Sparkles size={20} className="text-accent" />
         </div>
 
         <div className="mt-7 grid gap-6 xl:grid-cols-[1fr_0.9fr]">
           <div className="space-y-4">
             {recommendations.map((item) => {
-              const Icon = item.icon;
               return (
                 <Card key={item.title} className="p-5">
                   <div className="flex items-start gap-3">
-                    <Icon size={18} className="mt-0.5 text-accent" />
                     <div>
                       <p className="kicker">{item.title}</p>
                       <p className="mt-2 text-sm leading-relaxed text-ink sm:text-base">{item.text}</p>
@@ -767,7 +904,6 @@ export function NeuroFocusSimulatorSection() {
               </p>
             </div>
             <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#e8f7ef] px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-[#15803d]">
-              <CheckCircle2 size={14} />
               Deployment Signal: Green
             </div>
           </div>

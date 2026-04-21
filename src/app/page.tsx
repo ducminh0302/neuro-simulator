@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
 import { appName, navItems } from "@/lib/site";
 
@@ -26,8 +25,8 @@ export default function LandingPage() {
             <Link href="/auth" className="rounded-full px-5 py-2 text-sm font-medium text-muted transition-colors hover:text-ink">
               Login
             </Link>
-            <Link href="/dashboard" className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5">
-              Get started <ArrowRight size={16} />
+            <Link href="/dashboard" className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-2 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5">
+              Get started
             </Link>
           </div>
         </header>
@@ -47,10 +46,10 @@ export default function LandingPage() {
             </div>
 
             <div className="flex flex-col gap-4 sm:flex-row">
-              <Link href="/dashboard" className="inline-flex items-center justify-center gap-3 rounded-full bg-accent px-7 py-4 text-base font-semibold text-white transition-transform hover:-translate-y-0.5">
-                Open Dashboard <ArrowRight size={18} />
+              <Link href="/dashboard" className="inline-flex items-center justify-center gap-3 rounded-full bg-accent px-8 py-4 text-base font-semibold text-white transition-transform hover:-translate-y-0.5">
+                Open Dashboard
               </Link>
-              <Link href="/simulate" className="inline-flex items-center justify-center gap-3 rounded-full border border-line bg-white/80 px-7 py-4 text-base font-semibold text-ink transition-colors hover:bg-panelSoft">
+              <Link href="/simulate" className="inline-flex items-center justify-center gap-3 rounded-full border border-line bg-white/80 px-8 py-4 text-base font-semibold text-ink transition-colors hover:bg-panelSoft">
                 Explore Simulation
               </Link>
             </div>

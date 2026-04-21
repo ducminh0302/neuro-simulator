@@ -1,23 +1,8 @@
-import Link from "next/link";
-import {
-  ArrowRight,
-  BarChart3,
-  BrainCircuit,
-  CircleHelp,
-  FileText,
-  Globe2,
-  Gauge,
-  Lightbulb,
-  LineChart,
-  Sparkles,
-  Target,
-  TimerReset,
-  TrendingUp,
-  Users,
-} from "lucide-react";
-import Image from "next/image";
-import { BrainViewerLazy } from "../brain/BrainViewerLazy";
+"use client";
 
+import Link from "next/link";
+import Image from "next/image";
+import { BrainViewerLazy } from "@/components/brain/BrainViewerLazy";
 import { SimulationPromptChat } from "@/components/simulations/simulation-prompt-chat";
 import { Card, Pill, ProgressBar, SectionHeading, Surface } from "@/components/ui";
 
@@ -50,10 +35,6 @@ const vitals = [
     tone: "positive",
   },
 ];
-
-
-
-
 
 const psychographicMetrics = [
   { label: "Urgency", value: 76 },
@@ -106,19 +87,109 @@ const emotionBubbles = [
 
 const recommendations = [
   {
-    icon: CircleHelp,
     label: "Caption",
     text: "Increase urgency by adding a limited-time offer keyword.",
   },
   {
-    icon: Lightbulb,
     label: "Visual",
     text: "Brighten the shadows in the bottom-left corner to increase clarity.",
   },
   {
-    icon: TimerReset,
     label: "Timing",
     text: "Best time to post: Tuesday, 7:00 PM (GMT+7) for maximum reach.",
+  },
+];
+
+const multiAgentResponses = [
+  {
+    name: "Flare",
+    role: "Hook architect",
+    perspective: "Optimizes first-impression speed and repost probability.",
+    response:
+      "Lead with the strongest product frame in the first slide and cut caption length by 20%. That should improve opening retention and save intent.",
+    confidence: 89,
+    stance: "Positive",
+  },
+  {
+    name: "Quill",
+    role: "Proof inspector",
+    perspective: "Scans for credibility gaps in proof and claims.",
+    response:
+      "The concept is attractive, but conversion risk remains high without proof anchors. Add a concrete metric or customer quote near the CTA.",
+    confidence: 52,
+    stance: "Critical",
+  },
+  {
+    name: "Tide",
+    role: "Trend cartographer",
+    perspective: "Reads platform-native behavior and audience trend fit.",
+    response:
+      "Visual language is trend-aligned for premium lifestyle feeds. A comment-bait question in line 2 can lift meaningful discussion.",
+    confidence: 77,
+    stance: "Mixed",
+  },
+  {
+    name: "Crest",
+    role: "Voice steward",
+    perspective: "Protects long-term tone consistency and voice signature.",
+    response:
+      "Design language matches brand DNA, but the CTA reads generic. Replace with your brand phrase pattern to improve recall.",
+    confidence: 82,
+    stance: "Mixed",
+  },
+  {
+    name: "Prism",
+    role: "Emotion decoder",
+    perspective: "Evaluates dominant emotional arc and friction points.",
+    response:
+      "Current tone lands on curiosity and aspiration. Add one certainty cue such as guarantee wording to reduce last-step hesitation.",
+    confidence: 71,
+    stance: "Mixed",
+  },
+  {
+    name: "Bolt",
+    role: "Conversion mechanic",
+    perspective: "Balances awareness lift with downstream action quality.",
+    response:
+      "Top-funnel performance should be strong, but purchase intent is underpowered. Add a quantified benefit and deadline phrase to boost action.",
+    confidence: 64,
+    stance: "Mixed",
+  },
+  {
+    name: "Sable",
+    role: "Attention tracer",
+    perspective: "Tracks eye-path flow and perceptual clarity.",
+    response:
+      "Primary attention lands correctly on the product, but corner clutter slows scan speed. Increase local contrast in the lower-left zone.",
+    confidence: 86,
+    stance: "Positive",
+  },
+  {
+    name: "Mint",
+    role: "Category comparator",
+    perspective: "Compares expected outcomes with top-decile competitors.",
+    response:
+      "You likely beat category average reach, but save-to-reach may lag category leaders. Sharpen the core promise into one memorable line.",
+    confidence: 68,
+    stance: "Mixed",
+  },
+  {
+    name: "Orbit",
+    role: "Comment strategist",
+    perspective: "Improves two-way conversation quality in comments.",
+    response:
+      "Audience will react, but discussion depth may stay shallow. Add a polarizing but safe question to increase comment quality.",
+    confidence: 74,
+    stance: "Positive",
+  },
+  {
+    name: "Nudge",
+    role: "Release arbitrator",
+    perspective: "Turns mixed signals into publish-now decisions.",
+    response:
+      "Publishable for awareness campaigns today. If conversion is the priority, revise copy and proof blocks first, then launch tomorrow.",
+    confidence: 79,
+    stance: "Mixed",
   },
 ];
 
@@ -145,6 +216,26 @@ export function PostContentSimulatorSection() {
     { label: "12H", x: 62, y: 42 },
     { label: "24H", x: 92, y: 22 },
   ];
+  const stanceToneClass: Record<string, string> = {
+    Positive: "bg-emerald-100 text-emerald-700 border border-emerald-200",
+    Mixed: "bg-amber-100 text-amber-700 border border-amber-200",
+    Critical: "bg-rose-100 text-rose-700 border border-rose-200",
+  };
+  const stanceCardClass: Record<string, string> = {
+    Positive: "border-emerald-300 bg-[linear-gradient(180deg,rgba(16,185,129,0.14),rgba(255,255,255,0.94))] shadow-[inset_0_0_0_1px_rgba(16,185,129,0.08)]",
+    Mixed: "border-amber-300 bg-[linear-gradient(180deg,rgba(245,158,11,0.16),rgba(255,255,255,0.94))] shadow-[inset_0_0_0_1px_rgba(245,158,11,0.08)]",
+    Critical: "border-rose-300 bg-[linear-gradient(180deg,rgba(244,63,94,0.14),rgba(255,255,255,0.94))] shadow-[inset_0_0_0_1px_rgba(244,63,94,0.08)]",
+  };
+  const stanceReplyClass: Record<string, string> = {
+    Positive: "border-emerald-200/90 bg-white/88",
+    Mixed: "border-amber-200/90 bg-white/88",
+    Critical: "border-rose-200/90 bg-white/88",
+  };
+  const stanceBarClass: Record<string, string> = {
+    Positive: "bg-emerald-500",
+    Mixed: "bg-amber-500",
+    Critical: "bg-rose-500",
+  };
 
   return (
     <div className="space-y-8 pb-10">
@@ -156,7 +247,7 @@ export function PostContentSimulatorSection() {
         description="Upload your creative assets to simulate audience engagement and sentiment response before going live."
         action={
           <Link href="/dashboard" className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5">
-            Back to overview <ArrowRight size={16} />
+            Back to overview
           </Link>
         }
       />
@@ -192,7 +283,6 @@ export function PostContentSimulatorSection() {
               </div>
 
               <div className="rounded-[1.6rem] bg-white/80 p-4 soft-border transition-transform hover:-translate-y-0.5 w-fit flex items-center gap-2">
-                <FileText size={20} className="text-accent shrink-0" />
                 <p className="text-base font-semibold">caption-draft.txt</p>
               </div>
             </div>
@@ -214,13 +304,10 @@ export function PostContentSimulatorSection() {
             if (metric.label === "Sentiment Index") {
               return (
                 <Card key={metric.label} className="p-5">
-                  <div className="flex items-start justify-between gap-4">
                     <div>
                       <p className="kicker">{metric.label}</p>
                       <h4 className="headline mt-2 text-3xl">{metric.value}</h4>
                     </div>
-                    <BrainCircuit size={20} className="text-accent" />
-                  </div>
                   <p className="mt-2 text-sm text-muted">{metric.detail}</p>
                   <div className="mt-4 flex items-center gap-2">
                     <div className="h-2 flex-1 overflow-hidden rounded-full bg-line/70">
@@ -235,13 +322,10 @@ export function PostContentSimulatorSection() {
             if (metric.label === "Virality Score") {
               return (
                 <Card key={metric.label} className="p-5">
-                  <div className="flex items-start justify-between gap-4">
                     <div>
                       <p className="kicker">{metric.label}</p>
                       <h4 className="headline mt-2 text-3xl">{metric.value}</h4>
                     </div>
-                    <Gauge size={20} className="text-accent" />
-                  </div>
                   <p className="mt-2 text-sm text-muted">{metric.detail}</p>
                   <div className="mt-4 grid place-items-center">
                     <div className="relative h-28 w-28 rounded-full bg-[conic-gradient(from_180deg,#0f172a_0_64%,#d6d9df_64%_100%)] p-2">
@@ -260,13 +344,10 @@ export function PostContentSimulatorSection() {
             if (metric.label === "Engagement Probability") {
               return (
                 <Card key={metric.label} className="p-5">
-                  <div className="flex items-start justify-between gap-4">
                     <div>
                       <p className="kicker">{metric.label}</p>
                       <h4 className="headline mt-2 text-3xl">{metric.value}</h4>
                     </div>
-                    <TrendingUp size={20} className="text-accent" />
-                  </div>
                   <p className="mt-2 text-sm text-muted">{metric.detail}</p>
                   <div className="mt-4 grid place-items-center">
                     <div className="relative h-28 w-28 rounded-full bg-[conic-gradient(from_180deg,#7dd3fc_0_78%,#e5e7eb_78%_100%)] p-2">
@@ -289,7 +370,6 @@ export function PostContentSimulatorSection() {
                     <p className="kicker">{metric.label}</p>
                     <h4 className="headline mt-2 text-3xl">{metric.value}</h4>
                   </div>
-                  <Target size={20} className="text-accent" />
                 </div>
                 <p className="mt-2 text-sm text-muted">{metric.detail}</p>
                 <div className="mt-4">
@@ -320,7 +400,6 @@ export function PostContentSimulatorSection() {
                 <p className="kicker">3D neural activation</p>
                 <p className="headline mt-1 text-xl">Predicted cortical response to content</p>
               </div>
-              <BrainCircuit size={18} className="text-accent" />
             </div>
             <div className="h-[460px]">
               <BrainViewerLazy />
@@ -334,7 +413,6 @@ export function PostContentSimulatorSection() {
                   <p className="kicker">fMRI-based commentary</p>
                   <p className="headline mt-1 text-xl">Simulated preference signal</p>
                 </div>
-                <BrainCircuit size={18} className="text-accent" />
               </div>
               <div className="mt-4 space-y-3">
                 {[
@@ -405,7 +483,6 @@ export function PostContentSimulatorSection() {
                 <p className="kicker">Radar chart</p>
                 <p className="headline mt-1 text-xl">Psychographic metrics</p>
               </div>
-              <BarChart3 size={18} className="text-accent" />
             </div>
 
             <div className="mt-6 grid place-items-center rounded-[2rem] bg-panelSoft p-5">
@@ -452,7 +529,6 @@ export function PostContentSimulatorSection() {
                   <p className="kicker">Caption sentiment breakdown</p>
                   <p className="headline mt-1 text-xl">Tone: professional vs. casual</p>
                 </div>
-                <Target size={18} className="text-accent" />
               </div>
               <div className="mt-6 space-y-4">
                 {sentimentBreakdown.map((item, index) => (
@@ -505,7 +581,6 @@ export function PostContentSimulatorSection() {
                 <p className="kicker">Comparison table</p>
                 <p className="headline mt-1 text-xl">Top 10% vs brand average</p>
               </div>
-              <Globe2 size={18} className="text-accent" />
             </div>
             <div className="overflow-x-auto">
               <table className="w-full min-w-[720px] border-collapse text-left">
@@ -537,7 +612,6 @@ export function PostContentSimulatorSection() {
                 <p className="kicker">Dual-axis trend</p>
                 <p className="headline mt-1 text-xl">Simulated performance vs industry standard</p>
               </div>
-              <LineChart size={18} className="text-accent" />
             </div>
 
             <div className="mt-6 rounded-[2rem] bg-panelSoft p-4">
@@ -642,7 +716,6 @@ export function PostContentSimulatorSection() {
                   <p className="kicker">User profile</p>
                   <h4 className="headline mt-2 text-xl">{persona.name}</h4>
                 </div>
-                <Users size={18} className="text-accent" />
               </div>
               <p className="mt-3 text-sm text-muted">{persona.detail}</p>
               <p className="mt-5 headline text-3xl">{persona.score}</p>
@@ -664,7 +737,6 @@ export function PostContentSimulatorSection() {
                 <p className="kicker">Audience emotion flow</p>
                 <p className="headline mt-1 text-xl">Emotion clusters from the simulated response</p>
               </div>
-              <Sparkles size={18} className="text-accent" />
             </div>
             <div className="mt-4 rounded-[2rem] bg-[radial-gradient(circle_at_20%_20%,rgba(56,189,248,0.26),transparent_38%),radial-gradient(circle_at_85%_15%,rgba(99,102,241,0.2),transparent_35%),linear-gradient(145deg,#eef5ff,#f8fbff)] p-5">
               <div className="min-h-[280px] rounded-[1.5rem] border border-white/70 bg-white/60 p-4 backdrop-blur-md">
@@ -712,7 +784,6 @@ export function PostContentSimulatorSection() {
                 <p className="kicker">Reaction intensity</p>
                 <p className="headline mt-1 text-xl">Global audience pull</p>
               </div>
-              <Sparkles size={18} className="text-accent" />
             </div>
             <div className="mt-5 grid gap-3 md:grid-cols-3">
               {[
@@ -738,6 +809,56 @@ export function PostContentSimulatorSection() {
       <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-3xl">
+            <p className="kicker">Multi-agent response simulation</p>
+            <h3 className="headline mt-2 text-3xl sm:text-4xl">10 agents respond to the initial prompt</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted">
+              Each agent simulates a distinct evaluation role for the same starting prompt, so you can compare aligned and conflicting viewpoints before deciding.
+            </p>
+          </div>
+          <Pill tone="accent">Consensus check</Pill>
+        </div>
+
+        <div className="mt-8 space-y-4">
+          {multiAgentResponses.map((agent) => (
+            <Card key={agent.name} className={`soft-border border p-4 sm:p-5 ${stanceCardClass[agent.stance] ?? "border-slate-200 bg-slate-50/80"}`}>
+              <div className="grid gap-4 lg:grid-cols-[280px_minmax(0,1fr)_120px] lg:items-start">
+                <div>
+                  <p className="kicker">{agent.role}</p>
+                  <h4 className="headline mt-1 text-xl">{agent.name}</h4>
+                  <p className="mt-2 text-sm leading-relaxed text-muted">{agent.perspective}</p>
+                </div>
+
+                <div className={`rounded-[0.9rem] border p-3 ${stanceReplyClass[agent.stance] ?? "border-slate-200 bg-white/90"}`}>
+                  <p className="text-xs uppercase tracking-[0.16em] text-muted">Simulated reply</p>
+                  <p className="mt-1.5 text-sm leading-relaxed text-ink/90">{agent.response}</p>
+                </div>
+
+                <div>
+                  <div className="mb-2 flex items-center justify-between text-xs uppercase tracking-[0.16em] text-muted">
+                    <span>Confidence</span>
+                    <span>{agent.confidence}%</span>
+                  </div>
+                  <div className="h-2 rounded-full bg-line/70 overflow-hidden">
+                    <div
+                      className={`h-full rounded-full ${stanceBarClass[agent.stance] ?? "bg-slate-500"}`}
+                      style={{ width: `${agent.confidence}%` }}
+                    />
+                  </div>
+                  <div className="mt-3 flex justify-end">
+                    <span className={`inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] ${stanceToneClass[agent.stance] ?? "bg-slate-100 text-slate-600 border border-slate-200"}`}>
+                      {agent.stance}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div className="max-w-3xl">
             <p className="kicker">AI-powered optimization suggestions</p>
             <h3 className="headline mt-2 text-3xl sm:text-4xl">Conclusion and next action</h3>
             <p className="mt-3 text-sm leading-relaxed text-muted">
@@ -750,7 +871,6 @@ export function PostContentSimulatorSection() {
         <div className="mt-8 grid gap-6 xl:grid-cols-[1fr_0.85fr]">
           <div className="grid gap-4 md:grid-cols-3">
             {recommendations.map((item) => {
-              const Icon = item.icon;
               return (
                 <Card key={item.label} className="p-5">
                   <div className="flex items-start justify-between gap-4">
@@ -758,7 +878,6 @@ export function PostContentSimulatorSection() {
                       <p className="kicker">{item.label}</p>
                       <h4 className="headline mt-2 text-xl">{item.text}</h4>
                     </div>
-                    <Icon size={18} className="text-accent" />
                   </div>
                 </Card>
               );
