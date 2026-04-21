@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import {
   Activity,
   ArrowUpRight,
@@ -105,6 +108,100 @@ const agentReactions = [
   },
 ];
 
+function WaveformOscilloscope() {
+  const [isFriction, setIsFriction] = useState(false);
+
+  const generatePath = (amplitude: number, frequency: number, noise: number) => {
+    let d = "M 0 50";
+    for (let x = 0; x <= 400; x += 5) {
+      const y = 50 + Math.sin(x * frequency) * amplitude + (Math.random() - 0.5) * noise;
+      d += ` L ${x} ${y}`;
+    }
+    return d;
+  };
+
+  const smoothPath = "M 0 50 Q 50 20, 100 50 T 200 50 T 300 50 T 400 50";
+  const jaggedPath = "M 0 50 L 20 70 L 40 30 L 60 80 L 80 20 L 100 60 L 120 40 L 140 90 L 160 10 L 180 50 L 200 70 L 220 30 L 240 80 L 260 20 L 280 60 L 300 40 L 320 90 L 340 10 L 360 50 L 380 70 L 400 50";
+
+  return (
+    <div className="relative h-32 w-full rounded-xl bg-[#080d1a] overflow-hidden border border-slate-800 shadow-[inset_0_2px_10px_rgba(0,0,0,0.5)]">
+      {/* Grid Pattern */}
+      <div className="absolute inset-0 opacity-10" style={{
+        backgroundImage: 'linear-gradient(#38bdf8 1px, transparent 1px), linear-gradient(90deg, #38bdf8 1px, transparent 1px)',
+        backgroundSize: '30px 30px'
+      }} />
+
+      {/* Horizontal Scan Line (Middle) */}
+      <div className="absolute top-1/2 left-0 w-full h-[1px] bg-slate-800" />
+
+      {/* The Wave */}
+      <svg viewBox="0 0 400 100" className="absolute inset-0 w-full h-full preserve-3d" preserveAspectRatio="none">
+        <defs>
+          <filter id="wave-glow">
+            <feGaussianBlur stdDeviation="1.5" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
+        </defs>
+
+        <path
+          d={smoothPath}
+          fill="none"
+          stroke="#22d3ee"
+          strokeWidth="2.5"
+          filter="url(#wave-glow)"
+          strokeLinecap="round"
+          className="animate-oscilloscope"
+        />
+
+        {/* Moving Dot Scaffolding */}
+        <div className="absolute right-0 top-0 h-full w-20 bg-gradient-to-l from-[#080d1a] to-transparent z-10" />
+      </svg>
+
+      <style dangerouslySetInnerHTML={{
+        __html: `
+        @keyframes oscilloscope {
+          0% { stroke-dasharray: 0 1000; stroke-dashoffset: 0; }
+          50% { stroke-dasharray: 1000 0; stroke-dashoffset: 0; }
+          100% { stroke-dasharray: 0 1000; stroke-dashoffset: -1000; }
+        }
+        .animate-oscilloscope {
+          animation: oscilloscope 4s linear infinite;
+        }
+      `}} />
+    </div>
+  );
+}
+
+function NeuroMathFormula() {
+  return (
+    <div className="inline-flex items-center bg-white/60 backdrop-blur-md px-7 py-6 rounded-[1.5rem] border border-line/40 shadow-md overflow-visible">
+      <svg width="280" height="70" viewBox="0 0 280 70" className="overflow-visible">
+        {/* Phi symbol */}
+        <text x="0" y="42" className="fill-ink text-4xl font-serif italic">Φ</text>
+        <text x="22" y="50" className="fill-muted text-[12px] font-sans">parsing</text>
+
+        {/* Equality */}
+        <text x="70" y="42" className="fill-ink text-3xl font-light">=</text>
+
+        {/* Integral symbol */}
+        <path d="M 110 60 Q 106 60 103 58 T 100 52 L 115 15 Q 118 10 120 10 T 125 14" fill="none" stroke="currentColor" strokeWidth="2" className="text-accent" />
+        <text x="98" y="65" className="fill-muted text-[10px] font-bold">0</text>
+        <text x="127" y="15" className="fill-muted text-[10px] font-bold">t</text>
+
+        {/* Fraction */}
+        <g transform="translate(140, 5)">
+          <text x="50" y="20" textAnchor="middle" className="fill-ink text-sm font-bold tracking-tight">Saliency</text>
+          <line x1="0" y1="28" x2="100" y2="28" stroke="currentColor" strokeWidth="1.5" className="text-line" />
+          <text x="50" y="48" textAnchor="middle" className="fill-ink text-sm font-bold tracking-tight">Visual Complexity</text>
+        </g>
+
+        {/* dt */}
+        <text x="255" y="42" className="fill-ink text-lg italic font-serif">dt</text>
+      </svg>
+    </div>
+  );
+}
+
 const recommendations = [
   {
     title: "Contrast",
@@ -162,9 +259,8 @@ function BenchmarkGauge({
 
   return (
     <div
-      className={`rounded-[1.8rem] border bg-white/90 p-5 text-center shadow-sm transition-all duration-300 hover:scale-[1.02] ${
-        highlighted ? "border-accent/30 ring-1 ring-accent/10" : "border-line"
-      }`}
+      className={`rounded-[1.8rem] border bg-white/90 p-5 text-center shadow-sm transition-all duration-300 hover:scale-[1.02] ${highlighted ? "border-accent/30 ring-1 ring-accent/10" : "border-line"
+        }`}
     >
       <div
         className="mx-auto flex h-60 w-60 items-center justify-center rounded-full p-4 sm:h-64 sm:w-64 lg:h-72 lg:w-72 transition-all duration-700"
@@ -172,9 +268,8 @@ function BenchmarkGauge({
       >
         <div className="flex h-full w-full flex-col items-center justify-center rounded-full border border-white/90 bg-[radial-gradient(circle_at_30%_25%,rgba(${rgb},0.12),transparent_34%),radial-gradient(circle_at_70%_78%,rgba(15,23,42,0.03),transparent_28%),linear-gradient(180deg,#ffffff,#f8fafc)] px-7 shadow-[inset_0_1px_0_rgba(255,255,255,0.96)]">
           <div
-            className={`mt-4 text-5xl font-black tracking-tight text-[#081225] sm:text-6xl ${
-              highlighted ? "drop-shadow-[0_0_15px_rgba(" + rgb + ",0.3)]" : ""
-            }`}
+            className={`mt-4 text-5xl font-black tracking-tight text-[#081225] sm:text-6xl ${highlighted ? "drop-shadow-[0_0_15px_rgba(" + rgb + ",0.3)]" : ""
+              }`}
             style={{ fontFamily: '"IBM Plex Mono", "SFMono-Regular", Consolas, monospace' }}
           >
             {valueLabel}
@@ -199,7 +294,8 @@ function BenchmarkGauge({
         </div>
       </div>
 
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @keyframes pulse-subtle {
           0%, 100% { transform: scale(1); opacity: 1; filter: saturate(1); }
           50% { transform: scale(1.015); opacity: 0.98; filter: saturate(1.1); }
@@ -445,7 +541,7 @@ export function NeuroFocusSimulatorSection() {
           <Eye size={20} className="text-accent" />
         </div>
 
-        <div className="mt-7 grid gap-8 xl:grid-cols-[0.8fr_1.2fr]">
+        <div className="mt-7 grid gap-5 xl:grid-cols-[0.8fr_1.2fr]">
           <Card className="overflow-hidden p-0">
             <div className="relative h-full min-h-[500px] bg-panelSoft p-6 flex items-center justify-center">
               <Image
@@ -458,10 +554,10 @@ export function NeuroFocusSimulatorSection() {
             </div>
           </Card>
 
-          <div className="flex flex-col lg:flex-row gap-8 items-center xl:items-start">
+          <div className="flex flex-col lg:flex-row gap-5 items-center xl:items-start">
             {/* The Visual Pyramid Chart */}
             <div className="relative w-full max-w-[380px] flex-shrink-0 pt-4">
-              <div className="relative h-[480px] w-full px-8">
+              <div className="relative h-[480px] w-full px-2">
                 <svg viewBox="0 0 200 240" className="w-full h-full drop-shadow-2xl overflow-visible" preserveAspectRatio="xMidYMid meet">
                   <defs>
                     <linearGradient id="grad-l1" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -555,38 +651,109 @@ export function NeuroFocusSimulatorSection() {
         </div>
       </section>
 
-      <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
+      <section id="neural-parsing" className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <p className="kicker">Real-time Audience Response</p>
-            <h2 className="headline mt-2 text-3xl sm:text-4xl">Multi-Agent Persona Reaction</h2>
+            <p className="kicker">Neural Flow & Audience Response</p>
+            <h2 className="headline mt-2 text-3xl sm:text-4xl text-ink">Cognitive Flow & Neural Parsing</h2>
           </div>
-          <Globe2 size={20} className="text-accent" />
+          <Activity size={22} className="text-accent animate-pulse" />
         </div>
 
-        <div className="mt-7 grid gap-6 xl:grid-cols-[1fr_1fr]">
-          <div className="space-y-4">
-            {agentReactions.map((agent) => (
-              <Card key={agent.persona} className="p-5">
-                <p className="kicker">Agent Persona</p>
-                <p className="headline mt-2 text-2xl">{agent.persona}</p>
-                <p className="mt-2 text-sm leading-relaxed text-ink">{agent.reaction}</p>
-                <p className="mt-3 text-xs uppercase tracking-[0.16em] text-muted">{agent.signal}</p>
-              </Card>
-            ))}
-          </div>
-
-          <Card className="overflow-hidden p-0">
-            <div className="p-5">
-              <p className="headline text-xl">Global Sentiment Map</p>
-              <p className="mt-2 text-sm text-muted">Predicted cross-cultural response to symbols, color, and urgency tone.</p>
+        <div className="mt-8 grid gap-7 xl:grid-cols-[1.45fr_0.55fr]">
+          <Card className="flex flex-col p-6 overflow-hidden">
+            <div className="flex items-center justify-between">
+              <p className="kicker !text-accent">The Cognitive Flow Waveform (Neural Parsing)</p>
+              <div className="flex items-center gap-2">
+                <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
+                <span className="text-[10px] font-bold text-emerald-600 tracking-widest uppercase">Live Buffer</span>
+              </div>
             </div>
-            <div className="relative min-h-[300px] bg-[linear-gradient(155deg,#f8fafc,#eaf2ff)]">
-              <div className="absolute left-[24%] top-[28%] h-20 w-20 rounded-full bg-emerald-300/35 blur-3xl" />
-              <div className="absolute left-[52%] top-[22%] h-24 w-24 rounded-full bg-amber-300/32 blur-3xl" />
-              <div className="absolute right-[20%] bottom-[20%] h-20 w-20 rounded-full bg-rose-300/32 blur-3xl" />
+
+            <div className="mt-6 flex-grow">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs font-black tracking-[0.2em] text-[#0ea5e9] uppercase">COGNITIVE PROCESSING FLUENCY (CPF)</span>
+                <span className="text-xs font-mono text-muted">98.4 MHz</span>
+              </div>
+
+              <WaveformOscilloscope />
+
+              <div className="mt-8 flex flex-col lg:flex-row items-center gap-8 bg-panelSoft/50 p-6 rounded-[1.5rem] border border-line/30">
+                <div className="flex-shrink-0">
+                  <NeuroMathFormula />
+                </div>
+                <div className="flex-grow">
+                  <div className="flex items-center gap-2 mb-2">
+                    <CheckCircle2 size={14} className="text-emerald-500" />
+                    <p className="text-sm font-bold text-ink">Fast Neural Parsing: 420ms</p>
+                  </div>
+                  <p className="text-xs sm:text-sm text-muted leading-relaxed">
+                    The brain decodes the spatial hierarchy effortlessly. Saliency alignment reduces neural metabolic cost, facilitating "instant" semantic comprehension.
+                  </p>
+                </div>
+              </div>
             </div>
           </Card>
+
+          <div className="flex flex-col rounded-[2.5rem] bg-[#080d1a] p-7 text-emerald-400 font-mono shadow-2xl border border-slate-800/80 relative overflow-hidden group">
+            {/* Terminal Header */}
+            <div className="flex items-center gap-3 mb-6 border-b border-slate-800/60 pb-4">
+              <div className="flex gap-2">
+                <div className="h-2.5 w-2.5 rounded-full bg-rose-500/80" />
+                <div className="h-2.5 w-2.5 rounded-full bg-amber-500/80" />
+                <div className="h-2.5 w-2.5 rounded-full bg-emerald-500/80" />
+              </div>
+              <div className="h-[1px] flex-grow bg-slate-800/40" />
+              <span className="text-[9px] text-slate-500 uppercase tracking-[0.2em] font-bold">TELEMETRY_SYNC_v4.2</span>
+            </div>
+
+            <div className="space-y-4 flex-grow">
+              <p className="text-slate-500 text-[10px] font-bold tracking-[0.3em] uppercase mb-6 flex items-center gap-2">
+                <span className="h-1 w-4 bg-emerald-500/30" /> NEURAL TELEMETRY LOG
+              </p>
+
+              <div className="space-y-3">
+                {[
+                  { label: "STATUS", value: "Synchronized", color: "text-emerald-300" },
+                  { label: "VALENCE", value: "Positive (0.78)", color: "text-sky-400" },
+                  { label: "AROUSAL", value: "Moderate (0.42)", color: "text-amber-400" },
+                ].map((log) => (
+                  <div key={log.label} className="flex items-center justify-between text-xs py-1.5 border-b border-slate-800/30">
+                    <span className="text-slate-500 tracking-widest">{log.label}:</span>
+                    <span className={`${log.color} font-bold`}>{log.value}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-10 p-5 rounded-[1.2rem] bg-slate-900/50 border border-slate-800/50 backdrop-blur-md relative">
+                <div className="absolute top-0 left-0 w-1 h-full bg-emerald-500/40 rounded-full" />
+                <p className="text-[9px] text-slate-500 font-bold tracking-widest mb-2 uppercase">PREDICTION ENGINE</p>
+                <p className="text-lg text-white font-bold tracking-tight leading-tight">
+                  High Conversion Probability
+                </p>
+                <div className="mt-4 flex items-center gap-2">
+                  <div className="flex-grow h-1 bg-slate-800 rounded-full overflow-hidden">
+                    <div className="h-full bg-emerald-500 w-[94%] animate-pulse" />
+                  </div>
+                  <span className="text-[10px] text-emerald-500 font-bold">94%</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Scanning Effect */}
+            <div className="absolute bottom-4 left-7 right-7 opacity-20 pointer-events-none">
+              <div className="text-[8px] flex justify-between mb-1">
+                <span>PARSING DATA...</span>
+                <span>DONE</span>
+              </div>
+              <div className="h-[2px] w-full bg-slate-800">
+                <div className="h-full w-full bg-emerald-500/50" />
+              </div>
+            </div>
+            
+            {/* Subtle background glow */}
+            <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-emerald-500/5 blur-[100px] rounded-full" />
+          </div>
         </div>
       </section>
 
