@@ -208,7 +208,9 @@ export function PostContentSimulatorSection() {
 
             <div className="rounded-[2rem] bg-white/70 p-5 soft-border backdrop-blur-xl">
               <div className="flex items-center justify-between gap-4">
-                <p className="kicker">Primary input</p>
+                <div>
+                  <p className="kicker">Primary input</p>
+                </div>
                 <Upload className="text-accent" size={22} />
               </div>
 
