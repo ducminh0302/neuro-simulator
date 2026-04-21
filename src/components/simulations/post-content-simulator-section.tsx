@@ -654,7 +654,7 @@ export function PostContentSimulatorSection() {
                   <g key={point.label}>
                     <circle cx={point.x} cy={point.y} r="2.2" fill="url(#simulatedLine)" opacity="0.35" />
                     <circle cx={point.x} cy={point.y} r="1.1" fill="#e0f2fe" />
-                    <text x={point.x} y="96" textAnchor={point.label === "24h" ? "end" : "middle"} className="fill-muted text-[5px] uppercase tracking-[0.18em]">
+                    <text x={point.x} y="96" textAnchor={point.label === "0h" ? "start" : point.label === "24h" ? "end" : "middle"} className="fill-muted text-[5px] uppercase tracking-[0.18em]">
                       {point.label}
                     </text>
                   </g>
