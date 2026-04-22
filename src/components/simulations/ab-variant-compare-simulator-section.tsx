@@ -16,6 +16,7 @@ import {
   TrendingUp,
   Users,
   Zap,
+  type LucideIcon,
 } from "lucide-react";
 
 import { Card, Pill } from "@/components/ui";
@@ -61,12 +62,20 @@ const conversionsPath = "M0,22 C12,18 22,28 34,24 C46,20 58,32 70,30 C82,28 92,2
 const awarenessPath = "M0,32 C18,30 32,26 48,22 C64,18 78,14 88,12 C94,11 98,10 100,10";
 const sentimentPath = "M0,34 C16,30 30,26 44,22 C58,18 72,14 86,10 C92,8 96,6 100,5";
 
-const funnelStages = [
+interface FunnelStage {
+  key: string;
+  label: string;
+  icon: LucideIcon;
+  a: number;
+  b: number;
+}
+
+const funnelStages: FunnelStage[] = [
   { key: "impressions", label: "Impressions",  icon: Eye,              a: 10_000, b: 10_000 }, // equal            → 90 / 90
   { key: "clicks",      label: "Clicks",        icon: MousePointerClick, a: 4_200,  b: 980    }, // A crushes 4.3x   → 90 / 21
   { key: "addToCart",   label: "Add to cart",   icon: ShoppingCart,      a: 370,    b: 860    }, // B dominates 2.3x → 39 / 90
   { key: "conversions", label: "Conversions",   icon: Target,            a: 185,    b: 130    }, // close race A 1.4x→ 90 / 63
-] as const;
+];
 
 
 const dailyTrend: Array<{ day: number; a: number; b: number }> = [
@@ -108,7 +117,13 @@ const creativeScores = [
   { label: "Brand fit", a: 78, b: 82 },
 ];
 
-const insights = [
+interface InsightItem {
+  icon: LucideIcon;
+  title: string;
+  detail: string;
+}
+
+const insights: InsightItem[] = [
   {
     icon: Zap,
     title: "Stronger hook drives click lift",
