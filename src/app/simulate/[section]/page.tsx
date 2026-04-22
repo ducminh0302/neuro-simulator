@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 
+import { AbVariantCompareSimulatorSection } from "@/components/simulations/ab-variant-compare-simulator-section";
 import { GalaReadySimulatorSection } from "@/components/simulations/gala-ready-simulator-section";
 import { NeuroFocusSimulatorSection } from "@/components/simulations/neuro-focus-simulator-section";
 import { PostContentSimulatorSection } from "@/components/simulations/post-content-simulator-section";
@@ -37,6 +38,8 @@ export default async function SimulationSectionPage({ params }: Props) {
         <WorkspaceProductivitySimulatorSection />
       ) : section.slug === "neuro-focus-attention-heatmap" ? (
         <NeuroFocusSimulatorSection />
+      ) : section.slug === "ab-variant-compare" ? (
+        <AbVariantCompareSimulatorSection />
       ) : (
         <SimulationPlaceholder title={section.title} summary={section.summary} />
       )}

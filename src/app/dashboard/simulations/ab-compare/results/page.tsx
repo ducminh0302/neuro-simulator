@@ -148,19 +148,7 @@ function AbCompareResultsInner() {
             <h1 className="headline mt-3 text-4xl leading-tight text-ink md:text-5xl">
               {title}
             </h1>
-            <p className="mt-2 flex flex-wrap items-center gap-2 text-xs text-muted">
-              <span>comparison</span>
-              <span>·</span>
-              <span>10.0K agents</span>
-              <span>·</span>
-              <span>1.9s</span>
-              {channels.length > 0 ? (
-                <>
-                  <span>·</span>
-                  <span>{channels.join(", ")}</span>
-                </>
-              ) : null}
-            </p>
+
           </div>
           <button
             type="button"

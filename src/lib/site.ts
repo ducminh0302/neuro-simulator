@@ -74,6 +74,12 @@ export const simulationSections: SimulationSection[] = [
     summary: "Predictive neural analytics to decode how the human brain processes your visual stimuli.",
     status: "Live",
   },
+  {
+    slug: "ab-variant-compare",
+    title: "A/B Variant Compare",
+    summary: "Run two creative variants head-to-head and surface the winning treatment with revenue, conversions, and sentiment lift.",
+    status: "Live",
+  },
 ];
 
 export const libraryItems: LibraryItem[] = [

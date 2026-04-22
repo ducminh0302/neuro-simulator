@@ -11,10 +11,12 @@ import { appName, simulationNewPath } from "@/lib/site";
 /* Constants                                                   */
 /* ─────────────────────────────────────────────────────────── */
 const TICKER_ITEMS = [
-  "Ship with confidence", "◆ Backed by Afore Capital", "◆ KPMG", "◆ Leap Year",
-  "◆ AI-powered user research", "◆ Feedback in 10 minutes",
-  "Ship with confidence", "◆ Backed by Afore Capital", "◆ KPMG", "◆ Leap Year",
-  "◆ AI-powered user research", "◆ Feedback in 10 minutes",
+  "Neuro-Focus Attention Mapping", "◆ Real-time Persona Simulation", "◆ Gala-Ready Event Prep", "◆ Content Optimization",
+  "◆ Rapid AI Feedback", "◆ Effortless A/B Comparison", "◆ Instant Behavior Prediction", "◆ Seamless Workflow",
+  "◆ Fast & Accurate Decisions", "◆ Convenient Simulation Suite",
+  "Neuro-Focus Attention Mapping", "◆ Real-time Persona Simulation", "◆ Gala-Ready Event Prep", "◆ Content Optimization",
+  "◆ Rapid AI Feedback", "◆ Effortless A/B Comparison", "◆ Instant Behavior Prediction", "◆ Seamless Workflow",
+  "◆ Fast & Accurate Decisions", "◆ Convenient Simulation Suite",
 ];
 
 const ease = [0.16, 1, 0.3, 1] as const;
