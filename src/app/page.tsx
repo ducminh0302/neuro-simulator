@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { appName, navItems } from "@/lib/site";
+import { appName, navItems, simulationNewPath } from "@/lib/site";
 
 export const metadata = {
   title: "Landing Page",
@@ -49,7 +49,7 @@ export default function LandingPage() {
               <Link href="/dashboard" className="inline-flex items-center justify-center gap-3 rounded-full bg-accent px-8 py-4 text-base font-semibold text-white transition-transform hover:-translate-y-0.5">
                 Open Dashboard
               </Link>
-              <Link href="/simulate" className="inline-flex items-center justify-center gap-3 rounded-full border border-line bg-white/80 px-8 py-4 text-base font-semibold text-ink transition-colors hover:bg-panelSoft">
+              <Link href={simulationNewPath} className="inline-flex items-center justify-center gap-3 rounded-full border border-line bg-white/80 px-8 py-4 text-base font-semibold text-ink transition-colors hover:bg-panelSoft">
                 Explore Simulation
               </Link>
             </div>

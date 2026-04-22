@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { type ReactNode, useState, useEffect } from "react";
 
-import { appName, footerLinks, navItems } from "@/lib/site";
+import { appName, footerLinks, navItems, simulationNewPath } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 export type ShellProps = {
@@ -12,9 +12,18 @@ export type ShellProps = {
   subtitle?: string;
   children: ReactNode;
   ctaLabel?: string;
+  /** Primary CTA in sidebar + top bar (default: new simulation chat page). */
+  ctaHref?: string;
 };
 
-export function SiteShell({ active, title, subtitle, children, ctaLabel = "New Simulation" }: ShellProps) {
+export function SiteShell({
+  active,
+  title,
+  subtitle,
+  children,
+  ctaLabel = "New Simulation",
+  ctaHref = simulationNewPath,
+}: ShellProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -72,9 +81,12 @@ export function SiteShell({ active, title, subtitle, children, ctaLabel = "New S
                   Live
                 </span>
               </div>
-              <button className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-3 text-sm font-semibold text-white transition-transform duration-300 hover:-translate-y-0.5 w-full justify-center">
+              <Link
+                href={ctaHref}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-ink px-4 py-3 text-sm font-semibold text-white transition-transform duration-300 hover:-translate-y-0.5"
+              >
                 {ctaLabel}
-              </button>
+              </Link>
             </div>
 
             <nav className="flex-1 space-y-2">
@@ -82,7 +94,11 @@ export function SiteShell({ active, title, subtitle, children, ctaLabel = "New S
                 const activeMatch =
                   item.href === "/dashboard"
                     ? active === "dashboard" || active === "landing"
-                    : active === item.href.slice(1);
+                    : item.href === "/competitive"
+                      ? active === "competitors"
+                    : item.href === "/simulate"
+                      ? active === "simulate"
+                      : active === item.href.slice(1);
                 return (
                   <Link
                     key={item.href}
@@ -137,9 +153,12 @@ export function SiteShell({ active, title, subtitle, children, ctaLabel = "New S
                 <button className="rounded-full bg-panel px-4 py-2 text-sm font-medium text-ink soft-border transition-transform hover:-translate-y-0.5">
                   Preview
                 </button>
-                <button className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5">
+                <Link
+                  href={ctaHref}
+                  className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
+                >
                   {ctaLabel}
-                </button>
+                </Link>
               </div>
             </div>
           </header>

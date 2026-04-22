@@ -1,110 +1,174 @@
 import Link from "next/link";
+import { TrendingUp } from "lucide-react";
 
 import { SiteShell } from "@/components/site-shell";
-import { Card, Pill, ProgressBar, SectionHeading, StatCard, Surface } from "@/components/ui";
+import { Card, Pill, SectionHeading, StatCard } from "@/components/ui";
+import { simulationIndexPath, simulationNewPath } from "@/lib/site";
 
-export const metadata = { title: "Dashboard Overview" };
+export const metadata = { title: "Dashboard · GlowUp Skincare" };
 
-const driverItems = [
-  { label: "Attention", value: 88, bars: [40, 60, 50, 80, 70, 90] },
-  { label: "Memory Encoding", value: 74, bars: [30, 45, 70, 55, 85, 75] },
-  { label: "Brand Recall", value: 91, bars: [55, 65, 58, 78, 86, 94] },
+const learningProgressPct = 70;
+
+const metrics: Array<{
+  label: string;
+  value: string;
+  sub: string;
+  accent?: boolean;
+}> = [
+  { label: "Content", value: "21", sub: "39 scored" },
+  { label: "Campaigns", value: "0", sub: "44 observations" },
+  { label: "Simulations", value: "10", sub: "completed" },
+  { label: "Prediction Accuracy", value: "—", sub: "No predictions yet" },
 ];
 
-const activity = [
-  ["Creative Alpha", "Analyzed 11 min ago"],
-  ["Audience Cluster", "Updated 24 min ago"],
-  ["A/B Variant B", "Published 1h ago"],
-  ["Simulation Run #42", "Completed 2h ago"],
-];
+const engagementDrivers = [
+  {
+    rank: 1,
+    title: "Memory",
+    body: "Strong memory increases engagement significantly for your brand.",
+    score: "+0.582",
+  },
+  {
+    rank: 2,
+    title: "Attention",
+    body: "Strong attention decreases engagement significantly for your brand.",
+    score: "-0.418",
+  },
+  {
+    rank: 3,
+    title: "Emotional Arousal",
+    body: "Emotional Arousal has a moderate effect on engagement.",
+    score: "+0.393",
+  },
+] as const;
+
+const recentFindings = [
+  "Social Resonance is a key strength (top 10%, score 72). Lean into this.",
+  "Instagram Feed is 2.0× more effective than baseline — consider increasing allocation here.",
+  "Sustained Attention is in the bottom 25% for this cohort — test clearer hooks in the first 2s.",
+  "In Story placements, Instagram Feed is underperforming (0.3× baseline) — reallocate or refresh creative.",
+] as const;
+
+const recentSimulations = [
+  { name: "IG Feed Post Test", meta: "single · 50.0K agents" },
+  { name: "Compare: Variant A vs Variant B", meta: "comparison · 10.0K agents" },
+  { name: "Niacinamide Launch - Acne Solutions", meta: "single · 10.0K agents" },
+] as const;
 
 export default function DashboardPage() {
   return (
     <SiteShell active="dashboard" title="Dashboard Overview" subtitle="A compact control center for campaigns, simulations, and model health.">
-      <div className="space-y-8">
+      <div className="space-y-8 pb-10">
         <SectionHeading
-          eyebrow="Control room"
-          title="Dashboard"
-          description="A static, connected view of the whole product: metrics, analysis, simulation health, and the next actions that matter."
+          eyebrow="Brand workspace"
+          title={<>GlowUp Skincare</>}
+          description="D2C skincare"
           action={
-            <Link href="/simulate" className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5">
-              Launch simulation
-            </Link>
+            <div className="flex flex-wrap items-center gap-3">
+              <Link
+                href={simulationNewPath}
+                className="inline-flex items-center gap-2 rounded-full bg-panel px-6 py-3 text-sm font-medium soft-border transition-colors hover:bg-panelSoft"
+              >
+                A/B Compare
+              </Link>
+              <Link
+                href={simulationNewPath}
+                className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
+              >
+                + New Simulation
+              </Link>
+            </div>
           }
         />
 
-        <div className="grid gap-6 lg:grid-cols-12">
-          <div className="grid gap-6 md:grid-cols-2 lg:col-span-8 xl:grid-cols-4">
-            <StatCard label="Content analyzed" value="1,492" delta="+12% vs last week" />
-            <StatCard label="Active campaigns" value="08" delta="3 pending review" />
-            <StatCard label="Simulations run" value="45k" delta="+4% vs last month" />
-            <StatCard label="Prediction accuracy" value="94.2%" delta="Stable across all cohorts" accent />
+        <Card className="p-6 sm:p-8">
+          <div className="flex items-start gap-4">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-accentSoft text-accent">
+              <TrendingUp className="h-5 w-5" strokeWidth={2} aria-hidden />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="kicker">Learning status</p>
+              <h2 className="headline mt-2 text-2xl sm:text-3xl">Calibrated from live observations</h2>
+              <p className="mt-2 text-sm leading-relaxed text-muted sm:text-base">
+                Calibrated from 30 observations across 1 platform — strong predictions
+              </p>
+              <p className="mt-4 text-xs uppercase tracking-[0.18em] text-muted">30 observations — calibrated</p>
+              <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-line/70">
+                <div className="h-full rounded-full bg-ink" style={{ width: `${learningProgressPct}%` }} />
+              </div>
+            </div>
           </div>
+        </Card>
 
-          <Card className="lg:col-span-4 p-6">
-            <div className="flex items-center justify-between">
-              <h2 className="headline text-2xl">Neuro-drivers</h2>
+        <section>
+          <div className="mb-4 flex items-end justify-between gap-4">
+            <div>
+              <p className="kicker">Overview</p>
+              <h2 className="headline mt-2 text-2xl sm:text-3xl">Key metrics</h2>
             </div>
-            <div className="mt-6 space-y-5">
-              {driverItems.map((item) => (
-                <div key={item.label} className="space-y-3">
-                  <div className="flex items-end justify-between gap-4">
-                    <div>
-                      <p className="kicker">{item.label}</p>
-                      <p className="headline text-2xl">{item.value}</p>
-                    </div>
-                    <div className="flex h-8 items-end gap-1">
-                      {item.bars.map((bar, index) => (
-                        <span key={index} className="w-2 rounded-t-sm bg-accent" style={{ height: `${bar}%` }} />
-                      ))}
-                    </div>
-                  </div>
-                  <div className="h-px bg-line" />
+            <Pill tone="soft">Live</Pill>
+          </div>
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {metrics.map((m) => (
+              <StatCard key={m.label} label={m.label} value={m.value} delta={m.sub} accent={m.accent} />
+            ))}
+          </div>
+        </section>
+
+        <Card className="p-6 sm:p-8">
+          <p className="kicker">Engagement model</p>
+          <h2 className="headline mt-2 text-2xl sm:text-3xl">Top engagement drivers</h2>
+          <ul className="mt-8 space-y-0 divide-y divide-line/70">
+            {engagementDrivers.map((row) => (
+              <li key={row.rank} className="flex gap-4 py-6 first:pt-0 last:pb-0">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ink text-xs font-bold text-white">{row.rank}</div>
+                <div className="min-w-0 flex-1">
+                  <p className="headline text-lg text-ink">{row.title}</p>
+                  <p className="mt-1.5 text-sm leading-relaxed text-muted">{row.body}</p>
                 </div>
+                <p className="shrink-0 tabular-nums text-sm font-semibold text-ink sm:text-base">{row.score}</p>
+              </li>
+            ))}
+          </ul>
+        </Card>
+
+        <div className="grid gap-6 lg:grid-cols-5">
+          <Card className="p-6 sm:p-8 lg:col-span-3">
+            <p className="kicker">Insights</p>
+            <h2 className="headline mt-2 text-2xl sm:text-3xl">Recent findings</h2>
+            <ul className="mt-6 space-y-4">
+              {recentFindings.map((line) => (
+                <li
+                  key={line}
+                  className="border-l-2 border-accent/40 bg-panelSoft/50 py-1 pl-4 text-sm leading-relaxed text-ink/90"
+                >
+                  {line}
+                </li>
               ))}
-            </div>
+            </ul>
           </Card>
-        </div>
 
-        <div className="grid gap-6 xl:grid-cols-12">
-          <Surface className="xl:col-span-8 p-6 sm:p-8">
-            <div className="flex items-center justify-between gap-4">
+          <Card className="p-6 sm:p-8 lg:col-span-2">
+            <div className="flex items-start justify-between gap-2">
               <div>
-                <p className="kicker">Operational view</p>
-                <h2 className="headline mt-2 text-3xl">Live system pulse</h2>
+                <p className="kicker">Activity</p>
+                <h2 className="headline mt-2 text-2xl">Recent simulations</h2>
               </div>
-              <Pill tone="accent">Stable</Pill>
+              <Link
+                href={simulationIndexPath}
+                className="shrink-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted transition-colors hover:text-ink"
+              >
+                View all →
+              </Link>
             </div>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              {activity.map(([name, detail]) => (
-                <div key={name} className="rounded-[1.5rem] bg-white p-5 soft-border">
-                  <p className="headline text-lg">{name}</p>
-                  <p className="mt-2 text-sm text-muted">{detail}</p>
-                </div>
+            <ul className="mt-6 space-y-3">
+              {recentSimulations.map((s) => (
+                <li key={s.name} className="rounded-[1.25rem] bg-panelSoft p-4 soft-border">
+                  <p className="headline text-base text-ink">{s.name}</p>
+                  <p className="mt-1.5 text-xs text-muted">{s.meta}</p>
+                </li>
               ))}
-            </div>
-          </Surface>
-
-          <Card className="xl:col-span-4 p-6">
-            <div className="flex items-center justify-between">
-              <h2 className="headline text-2xl">Next steps</h2>
-            </div>
-            <div className="mt-6 space-y-4">
-              <div>
-                <div className="mb-2 flex items-center justify-between text-sm">
-                  <span className="text-muted">Simulation readiness</span>
-                  <span className="font-semibold text-ink">87%</span>
-                </div>
-                <ProgressBar value={87} />
-              </div>
-              <div>
-                <div className="mb-2 flex items-center justify-between text-sm">
-                  <span className="text-muted">Library coverage</span>
-                  <span className="font-semibold text-ink">71%</span>
-                </div>
-                <ProgressBar value={71} />
-              </div>
-            </div>
+            </ul>
           </Card>
         </div>
       </div>

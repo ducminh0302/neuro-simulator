@@ -20,9 +20,19 @@ export type SimulationSection = {
 
 export const appName = "NEURO";
 
+/** Chat-style entry: new simulation prompt (LLM-style composer). */
+export const simulationNewPath = "/dashboard/simulations/new";
+
+/** Simulations list / history index. */
+export const simulationIndexPath = "/simulate";
+
+/** Competitors (competitive intelligence) — top-level route, same tier as /dashboard. */
+export const competitiveIntelligencePath = "/competitive";
+
 export const navItems: NavItem[] = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/library", label: "Library" },
+  { href: competitiveIntelligencePath, label: "Competitors" },
   { href: "/simulate", label: "Simulations" },
   { href: "/auth", label: "Auth" },
 ];

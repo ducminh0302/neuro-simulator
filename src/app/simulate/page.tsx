@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { SiteShell } from "@/components/site-shell";
 import { Card, Pill, SectionHeading, Surface } from "@/components/ui";
-import { simulationSections } from "@/lib/site";
+import { simulationNewPath, simulationSections } from "@/lib/site";
 
 export const metadata = {
   title: "Simulations",
@@ -27,16 +27,15 @@ export default function SimulateIndexPage() {
         <Surface className="p-5 sm:p-6 lg:p-8">
           <div className="mx-auto max-w-5xl space-y-6">
             <div className="rounded-[1.8rem] bg-white/90 p-4 sm:p-5 soft-border">
-              <div className="flex items-center gap-3 rounded-[1.2rem] border border-line bg-panelSoft px-4 py-3">
-                <input
-                  type="text"
-                  placeholder="Type your simulation prompt here..."
-                  className="w-full bg-transparent text-sm text-ink outline-none placeholder:text-muted px-2"
-                />
-                <button className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white transition-transform hover:-translate-y-0.5">
+              <Link
+                href={simulationNewPath}
+                className="flex items-center gap-3 rounded-[1.2rem] border border-line bg-panelSoft px-4 py-3 transition-colors hover:bg-white"
+              >
+                <span className="w-full bg-transparent text-sm text-muted px-2 text-left">Type your simulation prompt here…</span>
+                <span className="inline-flex shrink-0 items-center gap-2 rounded-full bg-ink px-6 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white transition-transform hover:-translate-y-0.5">
                   Send
-                </button>
-              </div>
+                </span>
+              </Link>
             </div>
 
             <div className="space-y-3">
