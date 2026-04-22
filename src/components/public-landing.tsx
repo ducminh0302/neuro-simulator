@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
@@ -15,11 +15,6 @@ const TICKER_ITEMS = [
   "◆ AI-powered user research", "◆ Feedback in 10 minutes",
   "Ship with confidence", "◆ Backed by Afore Capital", "◆ KPMG", "◆ Leap Year",
   "◆ AI-powered user research", "◆ Feedback in 10 minutes",
-];
-
-const MARQUEE_ITEMS = [
-  "Capital One", "Google", "Fidelity", "Ambient", "Chapter One", "Palantir", "Stripe", "Vercel",
-  "Capital One", "Google", "Fidelity", "Ambient", "Chapter One", "Palantir", "Stripe", "Vercel",
 ];
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -135,25 +130,6 @@ function Ticker() {
 }
 
 /* ── Marquee ── */
-function Marquee() {
-  return (
-    <div className="relative w-full overflow-hidden">
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-28 bg-gradient-to-r from-white to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-28 bg-gradient-to-l from-white to-transparent" />
-      <div
-        className="flex min-w-max gap-14 whitespace-nowrap items-center"
-        style={{ animation: "marquee-move 24s linear infinite" }}
-      >
-        {MARQUEE_ITEMS.map((item, i) => (
-          <span key={i} className="text-[12.5px] font-semibold uppercase tracking-[0.06em] text-[#d1d1d1]">
-            {item}
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 /* ── Hero title with word-by-word reveal ── */
 function HeroTitle({ inView }: { inView: boolean }) {
   const line1 = "Predict how minds".split(" ");
@@ -314,7 +290,7 @@ function FocusGroupMock() {
   return (
     <div ref={ref} className="mb-6">
       <div className="mb-4 border-l-2 border-[#d1d1d1] pl-3 text-[12px] italic text-[#6b6b6b]">
-        "What made you hesitate before upgrading?"
+        &quot;What made you hesitate before upgrading?&quot;
       </div>
       {msgs.map((m, i) => (
         <motion.div
@@ -542,7 +518,7 @@ export function PublicLanding() {
         <Reveal className="text-center">
           <p className="text-[10.5px] font-bold uppercase tracking-[0.14em] text-[#a3a3a3]">The Problem</p>
           <h2 className="mt-4 mx-auto max-w-[640px] text-[clamp(34px,4.8vw,64px)] leading-[1.06] tracking-[-0.025em]">
-            Most features ship to users you've never met
+            Most features ship to users you have never met
           </h2>
         </Reveal>
 
@@ -550,7 +526,7 @@ export function PublicLanding() {
           {/* Card 1 */}
           <motion.div variants={staggerItem} className="bg-white p-9">
             <p className="font-mono text-[11px] text-[#a3a3a3] mb-4">01 —</p>
-            <h3 className="text-[17px] font-semibold leading-[1.3] mb-2">Research takes weeks you don't have.</h3>
+            <h3 className="text-[17px] font-semibold leading-[1.3] mb-2">Research takes weeks you do not have.</h3>
             <p className="text-[13.5px] leading-[1.65] text-[#6b6b6b] mb-0">By the time discovery, interviews, and synthesis are done — the sprint is over.</p>
             <ResearchTimeline />
           </motion.div>
@@ -558,7 +534,7 @@ export function PublicLanding() {
           {/* Card 2 */}
           <motion.div variants={staggerItem} className="bg-white p-9">
             <p className="font-mono text-[11px] text-[#a3a3a3] mb-4">02 —</p>
-            <h3 className="text-[17px] font-semibold leading-[1.3] mb-2">Feedback arrives after you've shipped.</h3>
+            <h3 className="text-[17px] font-semibold leading-[1.3] mb-2">Feedback arrives after you ship.</h3>
             <p className="text-[13.5px] leading-[1.65] text-[#6b6b6b] mb-0">User data shows up in Week 3+. The feature is already live.</p>
             <div className="mt-5 rounded-xl border border-black/10 bg-white p-4 font-mono text-[11.5px]">
               <div className="flex justify-between items-center mb-3">
@@ -580,7 +556,7 @@ export function PublicLanding() {
           {/* Card 3 */}
           <motion.div variants={staggerItem} className="bg-white p-9">
             <p className="font-mono text-[11px] text-[#a3a3a3] mb-4">03 —</p>
-            <h3 className="text-[17px] font-semibold leading-[1.3] mb-2">Assumptions get baked in, never tested.</h3>
+            <h3 className="text-[17px] font-semibold leading-[1.3] mb-2">Assumptions get baked in and are never tested.</h3>
             <p className="text-[13.5px] leading-[1.65] text-[#6b6b6b] mb-0">Do users want this? Is onboarding clear? Why do they churn?</p>
             <div className="mt-5 flex flex-wrap gap-2">
               {["Do users want this??", "Is onboarding clear??", "Why do they churn??", "Will they find the CTA??", "Is pricing right??", "Does this make sense??"].map(q => (

@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Download, ChevronDown, Activity, Zap, Target, TrendingUp, TrendingDown, BrainCircuit, Star, ArrowRight, Info, Brain } from "lucide-react";
+import { ChevronDown, Target, Star, ArrowRight, Info, Brain } from "lucide-react";
 
 import { BrainViewerLazy } from "@/components/brain/BrainViewerLazy";
 import { SimulationPromptChat } from "@/components/simulations/simulation-prompt-chat";
@@ -963,10 +963,7 @@ export function WorkspaceProductivitySimulatorSection() {
 
                 <AnimatePresence>
                   {expandedAgent === agent.name && (
-                    <AgentDeepAnalysis 
-                      agent={agent} 
-                      stanceColor={stanceBarClass[agent.stance] || "bg-slate-500"} 
-                    />
+                    <AgentDeepAnalysis agent={agent} />
                   )}
                 </AnimatePresence>
               </div>

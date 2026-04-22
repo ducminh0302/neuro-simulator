@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ChevronUp, User, Target, Brain, Info, Download, Star, ArrowRight } from "lucide-react";
+import { ChevronDown, ChevronUp, User, Target, Brain, Info, Star, ArrowRight } from "lucide-react";
 import { BrainViewerLazy } from "@/components/brain/BrainViewerLazy";
 import { SimulationPromptChat } from "@/components/simulations/simulation-prompt-chat";
 import { Card, Pill, ProgressBar, SectionHeading, Surface } from "@/components/ui";
