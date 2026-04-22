@@ -3,14 +3,15 @@ import type { ReactNode } from "react";
 type CardProps = {
   children: ReactNode;
   className?: string;
+  onClick?: () => void;
 };
 
-export function Card({ children, className = "" }: CardProps) {
-  return <div className={`rounded-[2rem] bg-panel soft-border shadow-soft ${className}`}>{children}</div>;
+export function Card({ children, className = "", onClick }: CardProps) {
+  return <div onClick={onClick} className={`rounded-[2rem] bg-panel soft-border shadow-soft ${className}`}>{children}</div>;
 }
 
-export function Surface({ children, className = "" }: CardProps) {
-  return <div className={`rounded-[2.5rem] bg-panelSoft soft-border ${className}`}>{children}</div>;
+export function Surface({ children, className = "", onClick }: CardProps) {
+  return <div onClick={onClick} className={`rounded-[2.5rem] bg-panelSoft soft-border ${className}`}>{children}</div>;
 }
 
 export function SectionHeading({

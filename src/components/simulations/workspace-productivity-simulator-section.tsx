@@ -1,11 +1,106 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import { Download, ChevronDown, Activity, Zap, Target, TrendingUp, TrendingDown, BrainCircuit, Star, ArrowRight, Info, Brain } from "lucide-react";
 
 import { BrainViewerLazy } from "@/components/brain/BrainViewerLazy";
 import { SimulationPromptChat } from "@/components/simulations/simulation-prompt-chat";
 import { Card, Pill, SectionHeading, Surface } from "@/components/ui";
+
+function AgentDeepAnalysis({ agent }: { agent: any }) { // eslint-disable-line @typescript-eslint/no-explicit-any
+  const analysis = agent.deepAnalysis;
+  if (!analysis) return <div className="p-8 text-center text-muted italic">Deep analysis data is currently being synthesized for this agent...</div>;
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      className="mt-6 border-t border-line/40 pt-8 space-y-6"
+    >
+      {/* Agent Profile & Summary */}
+      <div className="flex items-start gap-4 p-5 rounded-2xl bg-white/60 border border-line/40">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white shadow-sm border border-line">
+          <Brain className="h-6 w-6 text-ink" />
+        </div>
+        <div className="flex-1">
+          <p className="kicker flex items-center gap-2">
+            <Info className="h-3 w-3" />
+            {agent.role}
+          </p>
+          <h5 className="headline mt-1 text-xl text-ink leading-tight">{agent.name}</h5>
+          <p className="text-sm text-muted leading-relaxed mt-2">{analysis.summary}</p>
+        </div>
+      </div>
+
+      {/* Metrics Grid */}
+      <div className="grid gap-3 sm:grid-cols-2">
+        {analysis.metrics.map((metric: any, idx: number) => ( // eslint-disable-line @typescript-eslint/no-explicit-any
+          <motion.div
+            key={metric.label}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: idx * 0.05 }}
+            className="rounded-xl bg-white/60 p-4 border border-line/40"
+          >
+            <div className="flex items-start justify-between gap-2">
+              <div>
+                <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-muted mb-2">{metric.label}</p>
+                <p className="headline text-lg text-ink">{metric.value}</p>
+              </div>
+              <div className="text-[11px] font-bold text-accent uppercase">
+                {metric.trend === 'up' ? '↑' : '↓'}
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Neural Signals with Bars */}
+      <div className="rounded-2xl bg-white/60 border border-line/40 p-5 space-y-4">
+        <div className="flex items-center gap-2">
+          <div className="p-1.5 rounded-lg bg-accent/10">
+            <Brain className="h-4 w-4 text-accent" />
+          </div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-ink">Neural Signals</p>
+        </div>
+        <div className="space-y-4">
+          {analysis.neuralSignals.map((signal: any, idx: number) => ( // eslint-disable-line @typescript-eslint/no-explicit-any
+            <div key={signal.label}>
+              <div className="flex justify-between text-xs mb-2">
+                <span className="font-medium text-muted">{signal.label}</span>
+                <span className="font-bold text-ink">{signal.value}%</span>
+              </div>
+              <div className="h-2 w-full rounded-full bg-line/30 overflow-hidden">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  animate={{ width: `${signal.value}%` }}
+                  transition={{ duration: 0.8, delay: 0.2 + idx * 0.1 }}
+                  className={`h-full rounded-full ${signal.color}`}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Recommendation */}
+      <div className="rounded-2xl bg-panelSoft/60 border border-line/30 p-5">
+        <div className="flex gap-3">
+          <div className="mt-1 h-5 w-5 shrink-0 rounded-full bg-accent/20 flex items-center justify-center">
+            <Target className="h-3 w-3 text-accent" />
+          </div>
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-ink/60 mb-2">Recommendation</p>
+            <p className="text-sm text-ink/80 leading-relaxed font-medium">{analysis.recommendation}</p>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
 const setupInputs = [
   { label: "Space Persona", value: "Creative Tech-Enthusiast / Deep Work" },
@@ -120,6 +215,18 @@ const multiAgentResponses = [
       "Your setup supports strong initial focus. Add a strict 90-minute cycle with 10-minute reset windows to avoid the 12:30 dip.",
     confidence: 86,
     stance: "Positive",
+    deepAnalysis: {
+      summary: "High durability focus profile with minor energy decay risks at the 2.5-hour mark.",
+      metrics: [
+        { label: "Flow Continuity", value: "92%", trend: "up" },
+        { label: "Energy Decay", value: "14%", trend: "down" }
+      ],
+      neuralSignals: [
+        { label: "Beta Rhythms", value: 84, color: "bg-emerald-500" },
+        { label: "Theta Waves", value: 45, color: "bg-amber-500" }
+      ],
+      recommendation: "Implement a 90-minute focus sprint followed by a 15-minute complete cognitive reset."
+    }
   },
   {
     name: "Harbor",
@@ -129,6 +236,18 @@ const multiAgentResponses = [
       "Monitor height is still below neutral eye level, increasing neck compression risk. Correct this before extending to long coding sessions.",
     confidence: 61,
     stance: "Critical",
+    deepAnalysis: {
+      summary: "Posture alignment is currently suboptimal, creating long-term strain vulnerability.",
+      metrics: [
+        { label: "Cervical Strain", value: "High", trend: "up" },
+        { label: "Joint Alignment", value: "62/100", trend: "down" }
+      ],
+      neuralSignals: [
+        { label: "Proprioception", value: 72, color: "bg-rose-500" },
+        { label: "Pain Threshold", value: 38, color: "bg-amber-500" }
+      ],
+      recommendation: "Raise monitor by 4 inches immediately to bring eye level to the top third of the screen."
+    }
   },
   {
     name: "Tempo",
@@ -138,6 +257,18 @@ const multiAgentResponses = [
       "Cognitive rhythm is good in the first 2 hours, then unstable. Add a pre-planned low-complexity task block around noon.",
     confidence: 74,
     stance: "Mixed",
+    deepAnalysis: {
+      summary: "Circadian rhythm alignment is strong, but metabolic dips are predicted post-11:30 AM.",
+      metrics: [
+        { label: "Alertness Peak", value: "10:15 AM", trend: "up" },
+        { label: "Cognitive Lag", value: "Moderate", trend: "up" }
+      ],
+      neuralSignals: [
+        { label: "Dopamine Cycle", value: 68, color: "bg-amber-500" },
+        { label: "Cortisol Level", value: 52, color: "bg-emerald-500" }
+      ],
+      recommendation: "Schedule your most demanding architectural tasks before 11:30 AM."
+    }
   },
   {
     name: "Axon",
@@ -147,6 +278,18 @@ const multiAgentResponses = [
       "Tool placement is mostly efficient, but cable routes still create micro-friction. Re-route power and IO lines to clear the leg zone.",
     confidence: 69,
     stance: "Critical",
+    deepAnalysis: {
+      summary: "Spatial friction is localized in the under-desk zone, causing unconscious distraction.",
+      metrics: [
+        { label: "Reach Radius", value: "Optimal", trend: "up" },
+        { label: "Cable Chaos", value: "78%", trend: "up" }
+      ],
+      neuralSignals: [
+        { label: "Spatial Awareness", value: 81, color: "bg-rose-500" },
+        { label: "Executive Function", value: 59, color: "bg-amber-500" }
+      ],
+      recommendation: "Use adhesive cable clips to route all power lines along the back of the desk frame."
+    }
   },
   {
     name: "Loom",
@@ -156,6 +299,18 @@ const multiAgentResponses = [
       "Ambient setup supports calm concentration and low anxiety. Introduce a short music protocol after lunch to prevent motivation drop.",
     confidence: 80,
     stance: "Mixed",
+    deepAnalysis: {
+      summary: "Visual aesthetics contribute positively to serotonin levels, maintaining steady morale.",
+      metrics: [
+        { label: "Aesthetic Load", value: "High", trend: "up" },
+        { label: "Stress Resilience", value: "88%", trend: "up" }
+      ],
+      neuralSignals: [
+        { label: "Serotonin Sync", value: 85, color: "bg-emerald-500" },
+        { label: "Alpha State", value: 72, color: "bg-emerald-500" }
+      ],
+      recommendation: "Introduce a lo-fi audio layer at 45dB to anchor the spatial vibe during research phases."
+    }
   },
   {
     name: "Pivot",
@@ -165,6 +320,18 @@ const multiAgentResponses = [
       "Your environment can support high-output sprints if interruptions are blocked. Use one full-screen mode window and mute all non-critical notifications.",
     confidence: 92,
     stance: "Positive",
+    deepAnalysis: {
+      summary: "Output potential is peaked; only software-level interruptions threaten focus durability.",
+      metrics: [
+        { label: "Throughput Est.", value: "Max", trend: "up" },
+        { label: "Context Swapping", value: "Low", trend: "down" }
+      ],
+      neuralSignals: [
+        { label: "Task Concentration", value: 94, color: "bg-emerald-500" },
+        { label: "Inhibition Control", value: 82, color: "bg-emerald-500" }
+      ],
+      recommendation: "Activate 'Do Not Disturb' on all devices and use a single-task browser window."
+    }
   },
   {
     name: "Byte",
@@ -174,6 +341,18 @@ const multiAgentResponses = [
       "Decor elements are inspiring but begin to compete after prolonged focus. Reduce two peripheral objects during high-complexity tasks.",
     confidence: 66,
     stance: "Mixed",
+    deepAnalysis: {
+      summary: "Visual complexity is near the saturation threshold for heavy cognitive processing.",
+      metrics: [
+        { label: "Clutter Index", value: "42/100", trend: "up" },
+        { label: "Attention Anchor", value: "Good", trend: "down" }
+      ],
+      neuralSignals: [
+        { label: "Visual Processing", value: 89, color: "bg-amber-500" },
+        { label: "Selective Attention", value: 64, color: "bg-amber-500" }
+      ],
+      recommendation: "Clear a 12-inch radius around your mouse pad to minimize peripheral movement."
+    }
   },
   {
     name: "Cedar",
@@ -183,6 +362,18 @@ const multiAgentResponses = [
       "You are above average in ergonomic readiness but below top-tier in lighting control. Add directional desk light for better late-morning consistency.",
     confidence: 72,
     stance: "Mixed",
+    deepAnalysis: {
+      summary: "Station ranks in the 82nd percentile of professional engineering setups.",
+      metrics: [
+        { label: "Standard Match", value: "82%", trend: "up" },
+        { label: "Lux Disparity", value: "15%", trend: "up" }
+      ],
+      neuralSignals: [
+        { label: "Cognitive Load", value: 48, color: "bg-emerald-500" },
+        { label: "Sustained Effort", value: 76, color: "bg-amber-500" }
+      ],
+      recommendation: "Add a monitor light bar to balance the contrast between the screen and surrounding walls."
+    }
   },
   {
     name: "Ember",
@@ -192,6 +383,18 @@ const multiAgentResponses = [
       "Neck and eye fatigue risk will spike after 120 minutes without posture reset. Add standing intervals every second Pomodoro.",
     confidence: 59,
     stance: "Critical",
+    deepAnalysis: {
+      summary: "Static posture load is high; physical fatigue is the primary focus inhibitor here.",
+      metrics: [
+        { label: "Muscle Tension", value: "Moderate", trend: "up" },
+        { label: "Ocular Strain", value: "High", trend: "up" }
+      ],
+      neuralSignals: [
+        { label: "Fatigue Response", value: 83, color: "bg-rose-500" },
+        { label: "Alertness Decay", value: 71, color: "bg-rose-500" }
+      ],
+      recommendation: "Use a standing desk converter or take a 2-minute active stretching break every 45 minutes."
+    }
   },
   {
     name: "Helm",
@@ -201,7 +404,19 @@ const multiAgentResponses = [
       "Current setup is strong enough for productive work today. Apply monitor lift and cable cleanup first for durable long-session performance.",
     confidence: 84,
     stance: "Positive",
-  },
+    deepAnalysis: {
+      summary: "Aggregated results indicate a highly productive environment with actionable physical fixes.",
+      metrics: [
+        { label: "Success Prob.", value: "89%", trend: "up" },
+        { label: "Fix Complexity", value: "Low", trend: "down" }
+      ],
+      neuralSignals: [
+        { label: "Decision Clarity", value: 91, color: "bg-emerald-500" },
+        { label: "System Synergy", value: 88, color: "bg-emerald-500" }
+      ],
+      recommendation: "Prioritize ergonomic adjustments (monitor height) over aesthetic upgrades (lighting/clutter)."
+    }
+  }
 ];
 
 export function WorkspaceProductivitySimulatorSection() {
@@ -225,6 +440,8 @@ export function WorkspaceProductivitySimulatorSection() {
     Mixed: "bg-amber-500",
     Critical: "bg-rose-500",
   };
+
+  const [expandedAgent, setExpandedAgent] = useState<string | null>(null);
 
   return (
     <div className="space-y-8 pb-10">
@@ -669,7 +886,7 @@ export function WorkspaceProductivitySimulatorSection() {
       </section>
 
       <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-3xl">
             <p className="kicker">Multi-agent response simulation</p>
             <h3 className="headline mt-2 text-3xl sm:text-4xl">10 agents respond to the initial prompt</h3>
@@ -677,41 +894,81 @@ export function WorkspaceProductivitySimulatorSection() {
               Each agent simulates a distinct evaluation role for the same starting prompt, so you can compare aligned and conflicting viewpoints before deciding.
             </p>
           </div>
-          <Pill tone="accent">Consensus check</Pill>
+          <div className="flex flex-col items-end gap-3">
+            <Pill tone="accent">Consensus check</Pill>
+            <button className="flex items-center gap-2.5 rounded-full bg-ink px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] text-white shadow-xl transition-all hover:scale-[1.02] hover:shadow-2xl active:scale-95">
+              Export Simulation Report
+              <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
         </div>
 
-        <div className="mt-8 space-y-4">
+        <div className="mt-8 space-y-6">
           {multiAgentResponses.map((agent) => (
-            <Card key={agent.name} className={`soft-border border p-4 sm:p-5 ${stanceCardClass[agent.stance] ?? "border-slate-200 bg-slate-50/80"}`}>
-              <div className="grid gap-4 lg:grid-cols-[280px_minmax(0,1fr)_120px] lg:items-start">
-                <div>
-                  <p className="kicker">{agent.role}</p>
-                  <h4 className="headline mt-1 text-xl">{agent.name}</h4>
-                  <p className="mt-2 text-sm leading-relaxed text-muted">{agent.perspective}</p>
-                </div>
-
-                <div className={`rounded-[0.9rem] border p-3 ${stanceReplyClass[agent.stance] ?? "border-slate-200 bg-white/90"}`}>
-                  <p className="text-xs uppercase tracking-[0.16em] text-muted">Simulated reply</p>
-                  <p className="mt-1.5 text-sm leading-relaxed text-ink/90">{agent.response}</p>
-                </div>
-
-                <div>
-                  <div className="mb-2 flex items-center justify-between text-xs uppercase tracking-[0.16em] text-muted">
-                    <span>Confidence</span>
-                    <span>{agent.confidence}%</span>
+            <Card 
+              key={agent.name} 
+              className={`soft-border border transition-all duration-300 cursor-pointer hover:shadow-md ${stanceCardClass[agent.stance] ?? "border-slate-200 bg-slate-50/80"} ${expandedAgent === agent.name ? 'ring-2 ring-ink/5' : ''}`}
+            >
+              <div 
+                className="p-4 sm:p-6"
+                onClick={() => setExpandedAgent(expandedAgent === agent.name ? null : agent.name)}
+              >
+                <div className="grid gap-6 lg:grid-cols-[280px_minmax(0,1fr)_120px] lg:items-start">
+                  <div className="flex flex-col h-full justify-between">
+                    <div>
+                      <p className="kicker flex items-center gap-2">
+                        <Info className="h-3 w-3" />
+                        {agent.role}
+                      </p>
+                      <h4 className="headline mt-1 text-2xl">{agent.name}</h4>
+                      <p className="mt-2 text-sm leading-relaxed text-muted">{agent.perspective}</p>
+                    </div>
+                    
+                    <div className="mt-4 flex items-center gap-2 text-xs font-semibold text-ink/60 group">
+                      {expandedAgent === agent.name ? (
+                        <>Collapse analysis <ChevronDown className="h-4 w-4 rotate-180" /></>
+                      ) : (
+                        <>View deep analysis <ChevronDown className="h-4 w-4 group-hover:translate-y-0.5 transition-transform" /></>
+                      )}
+                    </div>
                   </div>
-                  <div className="h-2 rounded-full bg-line/70 overflow-hidden">
-                    <div
-                      className={`h-full rounded-full ${stanceBarClass[agent.stance] ?? "bg-slate-500"}`}
-                      style={{ width: `${agent.confidence}%` }}
+
+                  <div className={`rounded-2xl border p-4 shadow-sm h-full flex flex-col justify-center ${stanceReplyClass[agent.stance] ?? "border-slate-200 bg-white/90"}`}>
+                    <div className="flex items-center justify-between mb-3">
+                      <p className="text-[10px] uppercase tracking-[0.2em] text-muted font-bold">Simulated response</p>
+                      <Star className="h-3 w-3 text-amber-400 fill-amber-400" />
+                    </div>
+                    <p className="text-[15px] leading-relaxed text-ink/90 italic font-medium">&quot;{agent.response}&quot;</p>
+                  </div>
+
+                  <div className="flex flex-col justify-center lg:pt-2">
+                    <div className="mb-2 flex items-center justify-between text-xs uppercase tracking-[0.16em] text-muted font-bold">
+                      <span>Confidence</span>
+                      <span>{agent.confidence}%</span>
+                    </div>
+                    <div className="h-2 rounded-full bg-line/70 overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${agent.confidence}%` }}
+                        className={`h-full rounded-full ${stanceBarClass[agent.stance] ?? "bg-slate-500"}`}
+                      />
+                    </div>
+                    <div className="mt-4 flex justify-end">
+                      <span className={`inline-flex items-center rounded-full px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] shadow-sm ${stanceToneClass[agent.stance] ?? "bg-slate-100 text-slate-600 border border-slate-200"}`}>
+                        {agent.stance}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <AnimatePresence>
+                  {expandedAgent === agent.name && (
+                    <AgentDeepAnalysis 
+                      agent={agent} 
+                      stanceColor={stanceBarClass[agent.stance] || "bg-slate-500"} 
                     />
-                  </div>
-                  <div className="mt-3 flex justify-end">
-                    <span className={`inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] ${stanceToneClass[agent.stance] ?? "bg-slate-100 text-slate-600 border border-slate-200"}`}>
-                      {agent.stance}
-                    </span>
-                  </div>
-                </div>
+                  )}
+                </AnimatePresence>
               </div>
             </Card>
           ))}

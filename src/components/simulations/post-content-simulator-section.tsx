@@ -1,12 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown, ChevronUp, User, Target, Brain, ArrowRight, Star, Info } from "lucide-react";
 import { BrainViewerLazy } from "@/components/brain/BrainViewerLazy";
 import { SimulationPromptChat } from "@/components/simulations/simulation-prompt-chat";
 import { Card, Pill, ProgressBar, SectionHeading, Surface } from "@/components/ui";
-
-
 
 const vitals = [
   {
@@ -109,6 +110,17 @@ const multiAgentResponses = [
       "Lead with the strongest product frame in the first slide and cut caption length by 20%. That should improve opening retention and save intent.",
     confidence: 89,
     stance: "Positive",
+    deepAnalysis: {
+      user: { name: "Flare", age: 28, status: "Active Lead", summary: "Flare represents the trend-focused segment. Speed and high-contrast visual cues drove immediate engagement." },
+      metrics: { repeatExposure: 2, daysToEngage: 4, conversionProb: "85%", retentionRate: "92%" },
+      cognitiveLoad: [88, 94, 38],
+      journey: [
+        { day: 1, status: "Reminded of brand", emotion: "Curious", text: "Saw the high-contrast product shot while scrolling. It felt premium and instantly recognizable.", action: "Liked post" },
+        { day: 2, status: "Subconscious recall", emotion: "Neutral", text: "Noticed the same aesthetic in a story. Didn't click but the brand memory is strengthening.", action: "No action" },
+        { day: 4, status: "Growing interest", emotion: "Interested", text: "Third exposure. The minimalist hook finally landed. Clicked through to check the profile.", action: "Visited profile" },
+        { day: 5, status: "High intent", emotion: "Excited", text: "The benefit statement in the caption resonates with my current needs. Saving for later.", action: "Saved post" }
+      ]
+    }
   },
   {
     name: "Quill",
@@ -118,6 +130,17 @@ const multiAgentResponses = [
       "The concept is attractive, but conversion risk remains high without proof anchors. Add a concrete metric or customer quote near the CTA.",
     confidence: 52,
     stance: "Critical",
+    deepAnalysis: {
+      user: { name: "Quill", age: 35, status: "Skeptic", summary: "Quill represents the analytical, proof-seeking segment. The visual is appreciated but the lack of social proof caused friction." },
+      metrics: { skepticism: 78, dwellTime: "12s", bounceRisk: "High", trustPotential: "44%" },
+      cognitiveLoad: [62, 45, 89],
+      journey: [
+        { day: 1, status: "Initial exposure", emotion: "Interested", text: "The visual is clean, but the claims feel a bit too good to be true without seeing real results.", action: "Read comments" },
+        { day: 3, status: "Proof seeking", emotion: "Analytical", text: "Looked for customer reviews in the comments. Finding mostly generic praise, which isn't convincing.", action: "Scrolled past" },
+        { day: 5, status: "Comparative check", emotion: "Neutral", text: "Comparing this offer with a competitor. Their data looks more robust, though their design is weaker.", action: "Opened external tab" },
+        { day: 7, status: "Hesitation", emotion: "Uncertain", text: "Saw the ad again. I want to trust it, but I need one solid case study or data point to tip me over.", action: "No action" }
+      ]
+    }
   },
   {
     name: "Tide",
@@ -127,6 +150,17 @@ const multiAgentResponses = [
       "Visual language is trend-aligned for premium lifestyle feeds. A comment-bait question in line 2 can lift meaningful discussion.",
     confidence: 77,
     stance: "Mixed",
+    deepAnalysis: {
+      user: { name: "Tide", age: 24, status: "Platform Native", summary: "Tide evaluates based on current TikTok/Instagram aesthetic standards. The content fits the 'clean girl' or 'minimalist' aesthetic perfectly." },
+      metrics: { trendAlignment: "94%", viralityPotential: "Medium", aestheticFit: "High", shareability: "81%" },
+      cognitiveLoad: [92, 88, 30],
+      journey: [
+        { day: 1, status: "First view", emotion: "Inspired", text: "The color palette matches my feed perfectly. Saved it for aesthetic inspiration.", action: "Saved to collection" },
+        { day: 2, status: "Re-engagement", emotion: "Excited", text: "Shared it to my story because the layout is so clean. My followers usually like this stuff.", action: "Shared to Story" },
+        { day: 4, status: "Community buzz", emotion: "Neutral", text: "Noticed a few friends commented on it. The brand is starting to feel 'everywhere' in my niche.", action: "Liked comments" },
+        { day: 6, status: "Trend peak", emotion: "Satisfied", text: "The aesthetic has fully permeated my explore page. This asset is the clear leader in visual quality.", action: "Followed account" }
+      ]
+    }
   },
   {
     name: "Crest",
@@ -136,6 +170,17 @@ const multiAgentResponses = [
       "Design language matches brand DNA, but the CTA reads generic. Replace with your brand phrase pattern to improve recall.",
     confidence: 82,
     stance: "Mixed",
+    deepAnalysis: {
+      user: { name: "Crest", age: 42, status: "Brand Guardian", summary: "Crest prioritizes long-term brand equity over short-term engagement spikes. He checks if the 'vibe' matches the established DNA." },
+      metrics: { brandConsistency: "88%", toneAlignment: "High", recallProbability: "72%", equityLift: "15%" },
+      cognitiveLoad: [75, 82, 55],
+      journey: [
+        { day: 1, status: "System check", emotion: "Analytical", text: "Comparing the font usage and color palette against the 2024 style guide. It's 90% there, but the CTA font is slightly off-weight.", action: "Flagged style" },
+        { day: 3, status: "Review", emotion: "Satisfied", text: "The core visual signature is strong. Users will definitely recognize this as our brand even without the logo visible.", action: "Approved" },
+        { day: 5, status: "Tone test", emotion: "Neutral", text: "Tested the caption tone against past high-performers. It feels a bit too formal; needs more 'human' texture.", action: "Edited caption" },
+        { day: 8, status: "Final audit", emotion: "Confident", text: "The final version perfectly bridges our heritage with a modern digital-first approach.", action: "Locked asset" }
+      ]
+    }
   },
   {
     name: "Prism",
@@ -145,6 +190,17 @@ const multiAgentResponses = [
       "Current tone lands on curiosity and aspiration. Add one certainty cue such as guarantee wording to reduce last-step hesitation.",
     confidence: 71,
     stance: "Mixed",
+    deepAnalysis: {
+      user: { name: "Prism", age: 31, status: "Psychology Expert", summary: "Prism maps the emotional response curve. She notices that curiosity peaks early but trust dips slightly at the point of action." },
+      metrics: { emotionalDepth: "74%", frictionScore: "Medium", trustIndex: "68%", empathyRatio: "62%" },
+      cognitiveLoad: [81, 95, 68],
+      journey: [
+        { day: 1, status: "Initial Spark", emotion: "Curious", text: "The hook works. It triggers a dopamine response related to novelty and lifestyle aspiration.", action: "Extended dwell time" },
+        { day: 3, status: "Friction Point", emotion: "Anxious", text: "The lack of price transparency in the first slide is causing a minor anxiety spike. Users fear 'too expensive'.", action: "Check pricing" },
+        { day: 5, status: "Cognitive Load", emotion: "Uncertain", text: "The user is thinking too hard about the 'how'. We need to simplify the transition from inspiration to purchase.", action: "Bounced" },
+        { day: 7, status: "Resolution", emotion: "Relieved", text: "Seeing the '30-day money back' badge finally lowered the cortisol levels. Intent is now stable.", action: "Added to cart" }
+      ]
+    }
   },
   {
     name: "Bolt",
@@ -154,6 +210,17 @@ const multiAgentResponses = [
       "Top-funnel performance should be strong, but purchase intent is underpowered. Add a quantified benefit and deadline phrase to boost action.",
     confidence: 64,
     stance: "Mixed",
+    deepAnalysis: {
+      user: { name: "Bolt", age: 29, status: "Performance Marketer", summary: "Bolt is only interested in ROI. He sees high 'vanity' potential but worries about the conversion 'leak' in the middle of the funnel." },
+      metrics: { conversionLift: "12%", roiEstimate: "2.4x", clickThrough: "3.8%", ltvProjection: "$420" },
+      cognitiveLoad: [45, 55, 92],
+      journey: [
+        { day: 1, status: "Traffic surge", emotion: "Neutral", text: "CPC looks good, but the landing page bounce rate is projected to be high because the post is too broad.", action: "Adjusted bidding" },
+        { day: 3, status: "Funnel leak", emotion: "Frustrated", text: "Users are clicking but not completing the form. There's a mismatch between the 'premium' post and the 'functional' landing page.", action: "Redesigned LP" },
+        { day: 5, status: "A/B Testing", emotion: "Excited", text: "The new variation with 'Free Shipping' prominently displayed is outperforming the control by 18%.", action: "Scaled spend" },
+        { day: 7, status: "Optimization", emotion: "Determined", text: "Adding a 'Save 15%' overlay in the second frame increased simulated conversion intent by 22%.", action: "Updated Creative" }
+      ]
+    }
   },
   {
     name: "Sable",
@@ -163,6 +230,17 @@ const multiAgentResponses = [
       "Primary attention lands correctly on the product, but corner clutter slows scan speed. Increase local contrast in the lower-left zone.",
     confidence: 86,
     stance: "Positive",
+    deepAnalysis: {
+      user: { name: "Sable", age: 33, status: "UX Researcher", summary: "Sable analyzes the visual hierarchy and perceptual load. She ensures that the user's eye is directed to the value proposition without distraction." },
+      metrics: { attentionScore: "92%", clarityIndex: "High", visualFriction: "Low", scanability: "89%" },
+      cognitiveLoad: [96, 42, 28],
+      journey: [
+        { day: 1, status: "First Glance", emotion: "Focused", text: "The foveal vision lands perfectly on the product. The secondary scan picks up the headline within 400ms.", action: "Verified saliency" },
+        { day: 2, status: "Perceptual Check", emotion: "Satisfied", text: "Even with low screen brightness, the core message remains legible. The contrast ratio is well-balanced.", action: "Approved layout" },
+        { day: 3, status: "Flow analysis", emotion: "Neutral", text: "The user's eye gets 'stuck' on the logo for too long. Shifting it 20px right improved flow to the CTA.", action: "Repositioned logo" },
+        { day: 5, status: "Final heat-map", emotion: "Confident", text: "The gaze path is now a perfect 'Z' pattern. Minimum effort required for maximum information absorption.", action: "Exported heatmap" }
+      ]
+    }
   },
   {
     name: "Mint",
@@ -172,6 +250,17 @@ const multiAgentResponses = [
       "You likely beat category average reach, but save-to-reach may lag category leaders. Sharpen the core promise into one memorable line.",
     confidence: 68,
     stance: "Mixed",
+    deepAnalysis: {
+      user: { name: "Mint", age: 38, status: "Market Analyst", summary: "Mint looks at the competitive landscape. She benchmarks this simulation against the top 5% of digital agencies in the lifestyle sector." },
+      metrics: { categoryRank: "Top 12%", benchmarkGap: "-4%", growthPotential: "High", competitiveEdge: "Design" },
+      cognitiveLoad: [68, 74, 62],
+      journey: [
+        { day: 1, status: "Benchmarking", emotion: "Analytical", text: "Current performance is 15% better than the brand average, but we are still trailing behind the industry leader by a small margin.", action: "Identified gap" },
+        { day: 3, status: "Strategy Pivot", emotion: "Neutral", text: "Competitor X just launched a similar campaign. We need to emphasize our 'Eco-friendly' angle more to differentiate.", action: "Revised hook" },
+        { day: 4, status: "Validation", emotion: "Confident", text: "The creative approach is unique enough to break the 'scroll-blindness' that usually plagues this category.", action: "Strategic approval" },
+        { day: 6, status: "Market fit", emotion: "Excited", text: "Simulated market response indicates a high probability of capturing 3% additional market share from the current leader.", action: "Confirmed launch" }
+      ]
+    }
   },
   {
     name: "Orbit",
@@ -181,6 +270,17 @@ const multiAgentResponses = [
       "Audience will react, but discussion depth may stay shallow. Add a polarizing but safe question to increase comment quality.",
     confidence: 74,
     stance: "Positive",
+    deepAnalysis: {
+      user: { name: "Orbit", age: 26, status: "Community Manager", summary: "Orbit focuses on the social aspect. He wants to turn passive viewers into active commenters who drive the algorithm." },
+      metrics: { discussionDepth: "Medium", sentimentBalance: "82/18", replyVelocity: "High", communityLoyalty: "74%" },
+      cognitiveLoad: [72, 89, 45],
+      journey: [
+        { day: 1, status: "Seeding", emotion: "Curious", text: "The post is getting likes, but the comment section is just emojis. We need a specific prompt to trigger actual sentences.", action: "Drafted question" },
+        { day: 2, status: "Micro-interact", emotion: "Neutral", text: "Replying to the first 5 comments within 10 minutes increased follow-up comments by 400%.", action: "Replied to users" },
+        { day: 3, status: "Explosion", emotion: "Excited", text: "A user started a debate about the product's finish. This thread alone is driving 30% of the engagement.", action: "Moderated thread" },
+        { day: 5, status: "Loyalty loop", emotion: "Proud", text: "The high-quality discussion is attracting 'super-fans' who are now doing the selling for us in the threads.", action: "Pinned top comment" }
+      ]
+    }
   },
   {
     name: "Nudge",
@@ -190,6 +290,17 @@ const multiAgentResponses = [
       "Publishable for awareness campaigns today. If conversion is the priority, revise copy and proof blocks first, then launch tomorrow.",
     confidence: 79,
     stance: "Mixed",
+    deepAnalysis: {
+      user: { name: "Nudge", age: 45, status: "Operations Director", summary: "Nudge is the final gatekeeper. He synthesizes all agent feedback into a binary 'Go/No-Go' decision based on risk vs. reward." },
+      metrics: { readiness: "95%", riskMitigation: "High", launchTiming: "Optimal", finalVerdict: "GO" },
+      cognitiveLoad: [55, 62, 78],
+      journey: [
+        { day: 1, status: "Final Review", emotion: "Decisive", text: "All systems are green for awareness. The minor copy risks are outweighed by the current trend window.", action: "Authorized publish" },
+        { day: 2, status: "Post-launch", emotion: "Proud", text: "The 24-hour performance data confirms our simulation. The ROI is tracking exactly as predicted.", action: "Archived case" },
+        { day: 4, status: "Performance review", emotion: "Satisfied", text: "No major blowback or negative sentiment detected. The 'Mixed' agents were right about the proof blocks, but the trend carried us.", action: "Generated report" },
+        { day: 7, status: "Next cycle", emotion: "Neutral", text: "Lessons learned from this launch have been fed back into the training data for the next simulation.", action: "Updated database" }
+      ]
+    }
   },
 ];
 
@@ -205,7 +316,125 @@ function buildPolygon(points: number[][]) {
   return points.map(([x, y]) => `${x},${y}`).join(" ");
 }
 
+function AgentDeepAnalysis({ agent, stanceColor }: { agent: any; stanceColor: string }) { // eslint-disable-line @typescript-eslint/no-explicit-any
+  const analysis = agent.deepAnalysis;
+  if (!analysis) return <div className="p-8 text-center text-muted italic">Deep analysis data is currently being synthesized for this agent...</div>;
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      className="mt-6 border-t border-line/40 pt-8"
+    >
+      <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
+        {/* Left Column: User Profile & Metrics */}
+        <div className="space-y-6">
+          <div className="flex items-center gap-4 p-5 rounded-3xl bg-white/40 border border-white/60">
+            <div className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-white shadow-sm border border-line`}>
+              <User className="h-8 w-8 text-ink" />
+            </div>
+            <div>
+              <div className="flex flex-col">
+                <p className="kicker flex items-center gap-2">
+                  <Info className="h-3 w-3" />
+                  {agent.role}
+                </p>
+                <h5 className="headline mt-1 text-2xl text-ink leading-tight">{agent.name}</h5>
+              </div>
+              <div className="flex items-center gap-2 mt-2">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-muted/60">{analysis.user.age} YRS</span>
+                <span className="h-1 w-1 rounded-full bg-muted/30" />
+                <span className="text-[10px] font-bold uppercase tracking-widest text-accent">{analysis.user.status}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-5 rounded-3xl bg-panelSoft/50 border border-line/30">
+             <p className="text-xs font-bold uppercase tracking-[0.15em] text-ink/40 mb-2">Operational Perspective</p>
+             <p className="text-sm text-ink/80 leading-relaxed font-medium mb-4">{agent.perspective}</p>
+             <div className="h-px w-full bg-line/20 mb-4" />
+             <p className="text-[11px] text-muted leading-relaxed font-medium italic">&quot;{analysis.user.summary}&quot;</p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            {Object.entries(analysis.metrics).map(([key, value]) => (
+              <div key={key} className="rounded-2xl bg-white/60 p-4 border border-line/40 shadow-sm transition-colors hover:bg-white/80">
+                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-muted mb-2">{key.replace(/([A-Z])/g, ' $1')}</p>
+                <p className="headline text-2xl text-ink">{value as string}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="rounded-[2rem] bg-white/80 p-6 border border-line/50 shadow-sm">
+            <div className="flex items-center gap-2 mb-5">
+              <div className="p-1.5 rounded-lg bg-accent/10">
+                <Brain className="h-4 w-4 text-accent" />
+              </div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-ink">Cognitive Load Analysis</p>
+            </div>
+            <div className="space-y-5">
+              {["Visual Processing", "Emotional Resonance", "Decision Friction"].map((label, i) => (
+                <div key={label}>
+                  <div className="flex justify-between text-xs mb-2">
+                    <span className="font-medium text-muted">{label}</span>
+                    <span className="font-bold text-ink">{(analysis.cognitiveLoad ? analysis.cognitiveLoad[i] : [85, 92, 45][i])}%</span>
+                  </div>
+                  <div className="h-2 w-full rounded-full bg-line/30 overflow-hidden">
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      animate={{ width: `${(analysis.cognitiveLoad ? analysis.cognitiveLoad[i] : [85, 92, 45][i])}%` }}
+                      transition={{ duration: 1, delay: 0.2 + i * 0.1 }}
+                      className={`h-full rounded-full ${i === 2 ? 'bg-rose-400' : 'bg-accent'}`} 
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column: Timeline Journey */}
+        <div className="relative pl-8 sm:pl-12 py-2">
+          {/* Vertical Line */}
+          <div className="absolute left-[11px] sm:left-[15px] top-4 bottom-4 w-[2px] bg-gradient-to-b from-line via-line/60 to-transparent" />
+
+          <div className="space-y-12">
+            {analysis.journey.map((step: any, idx: number) => ( // eslint-disable-line @typescript-eslint/no-explicit-any
+              <div key={idx} className="relative group/step">
+                <div className={`absolute -left-[30px] sm:-left-[34px] top-1.5 h-6 w-6 rounded-full border-[5px] border-white ${stanceColor} shadow-sm z-10 transition-transform group-hover/step:scale-110 ${idx === analysis.journey.length - 1 ? 'animate-pulse ring-4 ring-ink/10' : ''}`} />
+                
+                <div className="flex flex-col gap-2">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                    <span className="text-sm font-black text-ink uppercase tracking-wider">Day {step.day}</span>
+                    <span className="h-1 w-1 rounded-full bg-muted/40" />
+                    <span className="text-[13px] font-bold text-ink/80">{step.status}</span>
+                    <span className="text-[11px] font-bold text-muted/50 uppercase tracking-widest italic">{step.emotion}</span>
+                  </div>
+                  
+                  <p className="text-[14px] text-muted leading-relaxed max-w-2xl font-medium">
+                    {step.text}
+                  </p>
+
+                  <div className="mt-2">
+                    <span className="inline-flex items-center gap-2 rounded-xl bg-white/70 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-ink border border-line/60 shadow-sm transition-colors hover:bg-white">
+                      <Target className="h-3.5 w-3.5 text-accent" />
+                      {step.action}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 export function PostContentSimulatorSection() {
+  const [expandedAgent, setExpandedAgent] = useState<string | null>(null);
+
   const radarPolygon = buildPolygon(radarPoints);
   const simulatedPath = "M8 84 C16 80, 24 74, 32 66 C40 58, 50 51, 60 44 C70 37, 79 30, 92 22";
   const standardPath = "M8 88 C16 85, 24 80, 32 74 C41 68, 50 63, 60 57 C70 52, 80 48, 92 42";
@@ -216,6 +445,7 @@ export function PostContentSimulatorSection() {
     { label: "12H", x: 62, y: 42 },
     { label: "24H", x: 92, y: 22 },
   ];
+
   const stanceToneClass: Record<string, string> = {
     Positive: "bg-emerald-100 text-emerald-700 border border-emerald-200",
     Mixed: "bg-amber-100 text-amber-700 border border-amber-200",
@@ -807,7 +1037,7 @@ export function PostContentSimulatorSection() {
       </section>
 
       <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-3xl">
             <p className="kicker">Multi-agent response simulation</p>
             <h3 className="headline mt-2 text-3xl sm:text-4xl">10 agents respond to the initial prompt</h3>
@@ -815,45 +1045,86 @@ export function PostContentSimulatorSection() {
               Each agent simulates a distinct evaluation role for the same starting prompt, so you can compare aligned and conflicting viewpoints before deciding.
             </p>
           </div>
-          <Pill tone="accent">Consensus check</Pill>
+          <div className="flex flex-col items-end gap-3">
+            <Pill tone="accent">Consensus check</Pill>
+            <button className="flex items-center gap-2.5 rounded-full bg-ink px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] text-white shadow-xl transition-all hover:scale-[1.02] hover:shadow-2xl active:scale-95">
+              Export Simulation Report
+              <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
         </div>
 
-        <div className="mt-8 space-y-4">
+        <div className="mt-8 space-y-6">
           {multiAgentResponses.map((agent) => (
-            <Card key={agent.name} className={`soft-border border p-4 sm:p-5 ${stanceCardClass[agent.stance] ?? "border-slate-200 bg-slate-50/80"}`}>
-              <div className="grid gap-4 lg:grid-cols-[280px_minmax(0,1fr)_120px] lg:items-start">
-                <div>
-                  <p className="kicker">{agent.role}</p>
-                  <h4 className="headline mt-1 text-xl">{agent.name}</h4>
-                  <p className="mt-2 text-sm leading-relaxed text-muted">{agent.perspective}</p>
-                </div>
-
-                <div className={`rounded-[0.9rem] border p-3 ${stanceReplyClass[agent.stance] ?? "border-slate-200 bg-white/90"}`}>
-                  <p className="text-xs uppercase tracking-[0.16em] text-muted">Simulated reply</p>
-                  <p className="mt-1.5 text-sm leading-relaxed text-ink/90">{agent.response}</p>
-                </div>
-
-                <div>
-                  <div className="mb-2 flex items-center justify-between text-xs uppercase tracking-[0.16em] text-muted">
-                    <span>Confidence</span>
-                    <span>{agent.confidence}%</span>
+            <Card 
+              key={agent.name} 
+              className={`soft-border border transition-all duration-300 cursor-pointer hover:shadow-md ${stanceCardClass[agent.stance] ?? "border-slate-200 bg-slate-50/80"} ${expandedAgent === agent.name ? 'ring-2 ring-ink/5' : ''}`}
+            >
+              <div 
+                className="p-4 sm:p-6"
+                onClick={() => setExpandedAgent(expandedAgent === agent.name ? null : agent.name)}
+              >
+                <div className="grid gap-6 lg:grid-cols-[280px_minmax(0,1fr)_120px] lg:items-start">
+                  <div className="flex flex-col h-full justify-between">
+                    <div>
+                      <p className="kicker flex items-center gap-2">
+                        <Info className="h-3 w-3" />
+                        {agent.role}
+                      </p>
+                      <h4 className="headline mt-1 text-2xl">{agent.name}</h4>
+                      <p className="mt-2 text-sm leading-relaxed text-muted">{agent.perspective}</p>
+                    </div>
+                    
+                    <div className="mt-4 flex items-center gap-2 text-xs font-semibold text-ink/60 group">
+                      {expandedAgent === agent.name ? (
+                        <>Collapse analysis <ChevronUp className="h-4 w-4" /></>
+                      ) : (
+                        <>View deep analysis <ChevronDown className="h-4 w-4 group-hover:translate-y-0.5 transition-transform" /></>
+                      )}
+                    </div>
                   </div>
-                  <div className="h-2 rounded-full bg-line/70 overflow-hidden">
-                    <div
-                      className={`h-full rounded-full ${stanceBarClass[agent.stance] ?? "bg-slate-500"}`}
-                      style={{ width: `${agent.confidence}%` }}
+
+                  <div className={`rounded-2xl border p-4 shadow-sm h-full flex flex-col justify-center ${stanceReplyClass[agent.stance] ?? "border-slate-200 bg-white/90"}`}>
+                    <div className="flex items-center justify-between mb-3">
+                      <p className="text-[10px] uppercase tracking-[0.2em] text-muted font-bold">Simulated response</p>
+                      <Star className="h-3 w-3 text-amber-400 fill-amber-400" />
+                    </div>
+                    <p className="text-[15px] leading-relaxed text-ink/90 italic font-medium">&quot;{agent.response}&quot;</p>
+                  </div>
+
+                  <div className="flex flex-col justify-center lg:pt-2">
+                    <div className="mb-2 flex items-center justify-between text-xs uppercase tracking-[0.16em] text-muted font-bold">
+                      <span>Confidence</span>
+                      <span>{agent.confidence}%</span>
+                    </div>
+                    <div className="h-2 rounded-full bg-line/70 overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${agent.confidence}%` }}
+                        className={`h-full rounded-full ${stanceBarClass[agent.stance] ?? "bg-slate-500"}`}
+                      />
+                    </div>
+                    <div className="mt-4 flex justify-end">
+                      <span className={`inline-flex items-center rounded-full px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] shadow-sm ${stanceToneClass[agent.stance] ?? "bg-slate-100 text-slate-600 border border-slate-200"}`}>
+                        {agent.stance}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <AnimatePresence>
+                  {expandedAgent === agent.name && (
+                    <AgentDeepAnalysis 
+                      agent={agent} 
+                      stanceColor={stanceBarClass[agent.stance] || "bg-slate-500"} 
                     />
-                  </div>
-                  <div className="mt-3 flex justify-end">
-                    <span className={`inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] ${stanceToneClass[agent.stance] ?? "bg-slate-100 text-slate-600 border border-slate-200"}`}>
-                      {agent.stance}
-                    </span>
-                  </div>
-                </div>
+                  )}
+                </AnimatePresence>
               </div>
             </Card>
           ))}
         </div>
+
       </section>
 
       <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">

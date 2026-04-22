@@ -1,11 +1,106 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import { Download, ChevronDown, Activity, Zap, Target, TrendingUp, TrendingDown, BrainCircuit, Star, ArrowRight, Info, Brain } from "lucide-react";
 
 import { BrainViewerLazy } from "@/components/brain/BrainViewerLazy";
 import { SimulationPromptChat } from "@/components/simulations/simulation-prompt-chat";
 import { Card, Pill, ProgressBar, SectionHeading, Surface } from "@/components/ui";
+
+function AgentDeepAnalysis({ agent }: { agent: any }) { // eslint-disable-line @typescript-eslint/no-explicit-any
+  const analysis = agent.deepAnalysis;
+  if (!analysis) return <div className="p-8 text-center text-muted italic">Deep analysis data is currently being synthesized for this agent...</div>;
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      className="mt-6 border-t border-line/40 pt-8 space-y-6"
+    >
+      {/* Agent Profile & Summary */}
+      <div className="flex items-start gap-4 p-5 rounded-2xl bg-white/60 border border-line/40">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white shadow-sm border border-line">
+          <Brain className="h-6 w-6 text-ink" />
+        </div>
+        <div className="flex-1">
+          <p className="kicker flex items-center gap-2">
+            <Info className="h-3 w-3" />
+            {agent.role}
+          </p>
+          <h5 className="headline mt-1 text-xl text-ink leading-tight">{agent.name}</h5>
+          <p className="text-sm text-muted leading-relaxed mt-2">{analysis.summary}</p>
+        </div>
+      </div>
+
+      {/* Metrics Grid */}
+      <div className="grid gap-3 sm:grid-cols-2">
+        {analysis.metrics.map((metric: any, idx: number) => ( // eslint-disable-line @typescript-eslint/no-explicit-any
+          <motion.div
+            key={metric.label}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: idx * 0.05 }}
+            className="rounded-xl bg-white/60 p-4 border border-line/40"
+          >
+            <div className="flex items-start justify-between gap-2">
+              <div>
+                <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-muted mb-2">{metric.label}</p>
+                <p className="headline text-lg text-ink">{metric.value}</p>
+              </div>
+              <div className="text-[11px] font-bold text-accent uppercase">
+                {metric.trend === 'up' ? '↑' : '↓'}
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Neural Signals with Bars */}
+      <div className="rounded-2xl bg-white/60 border border-line/40 p-5 space-y-4">
+        <div className="flex items-center gap-2">
+          <div className="p-1.5 rounded-lg bg-accent/10">
+            <Brain className="h-4 w-4 text-accent" />
+          </div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-ink">Neural Signals</p>
+        </div>
+        <div className="space-y-4">
+          {analysis.neuralSignals.map((signal: any, idx: number) => ( // eslint-disable-line @typescript-eslint/no-explicit-any
+            <div key={signal.label}>
+              <div className="flex justify-between text-xs mb-2">
+                <span className="font-medium text-muted">{signal.label}</span>
+                <span className="font-bold text-ink">{signal.value}%</span>
+              </div>
+              <div className="h-2 w-full rounded-full bg-line/30 overflow-hidden">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  animate={{ width: `${signal.value}%` }}
+                  transition={{ duration: 0.8, delay: 0.2 + idx * 0.1 }}
+                  className={`h-full rounded-full ${signal.color}`}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Recommendation */}
+      <div className="rounded-2xl bg-panelSoft/60 border border-line/30 p-5">
+        <div className="flex gap-3">
+          <div className="mt-1 h-5 w-5 shrink-0 rounded-full bg-accent/20 flex items-center justify-center">
+            <Target className="h-3 w-3 text-accent" />
+          </div>
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-ink/60 mb-2">Recommendation</p>
+            <p className="text-sm text-ink/80 leading-relaxed font-medium">{analysis.recommendation}</p>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
 const creativeInputs = [
   { label: "NEURAL COHORT", value: "Modern Homeowners / Tech Enthusiasts" },
@@ -186,6 +281,18 @@ const multiAgentResponses = [
       "Primary saliency is strong and should capture fixation in under 250ms. Keep the hero object isolated from competing high-contrast edges.",
     confidence: 90,
     stance: "Positive",
+    deepAnalysis: {
+      summary: "Fixation capture is efficient, but saliency distribution could be more focused.",
+      metrics: [
+        { label: "Fixation Speed", value: "240ms", trend: "up" },
+        { label: "Attention Lock", value: "High", trend: "up" },
+      ],
+      neuralSignals: [
+        { label: "V1/V2 Response", value: 88, color: "bg-emerald-500" },
+        { label: "Saccadic Stability", value: 72, color: "bg-sky-500" },
+      ],
+      recommendation: "Maintain hero isolation; remove competing edges in the periphery.",
+    },
   },
   {
     name: "Synap",
@@ -195,6 +302,18 @@ const multiAgentResponses = [
       "Peripheral zones introduce minor attentional competition. Simplify one background cluster to reduce cognitive friction.",
     confidence: 55,
     stance: "Critical",
+    deepAnalysis: {
+      summary: "High cognitive load detected in peripheral zones, causing attention leaks.",
+      metrics: [
+        { label: "Neural Load", value: "High", trend: "down" },
+        { label: "Parsing Flow", value: "Strained", trend: "down" },
+      ],
+      neuralSignals: [
+        { label: "DLPFC Load", value: 78, color: "bg-rose-500" },
+        { label: "Semantic Conflict", value: 64, color: "bg-amber-500" },
+      ],
+      recommendation: "Mute background saturation; simplify geometric clusters in non-hero zones.",
+    },
   },
   {
     name: "Cortex",
@@ -204,6 +323,18 @@ const multiAgentResponses = [
       "Arousal should remain moderate-positive through the first scan. A clearer CTA anchor can convert attention into action.",
     confidence: 73,
     stance: "Mixed",
+    deepAnalysis: {
+      summary: "Arousal plateau detected after 800ms. Interaction momentum needs boosting.",
+      metrics: [
+        { label: "Dopamine Spike", value: "0.42", trend: "up" },
+        { label: "Intent Drift", value: "Medium", trend: "down" },
+      ],
+      neuralSignals: [
+        { label: "Nucleus Accumbens", value: 65, color: "bg-sky-500" },
+        { label: "Arousal Baseline", value: 58, color: "bg-emerald-500" },
+      ],
+      recommendation: "Enhance CTA visual weight; add subtle motion cues to maintain interest.",
+    },
   },
   {
     name: "Voxel",
@@ -213,6 +344,18 @@ const multiAgentResponses = [
       "Hierarchy is mostly coherent from object to context to CTA. Increase text-background separation to avoid delayed parsing.",
     confidence: 79,
     stance: "Positive",
+    deepAnalysis: {
+      summary: "Visual flow is logical but lacks sharp transitions between semantic layers.",
+      metrics: [
+        { label: "Scanpath Efficiency", value: "High", trend: "up" },
+        { label: "Depth Perception", value: "Rich", trend: "up" },
+      ],
+      neuralSignals: [
+        { label: "V4 Processing", value: 82, color: "bg-emerald-500" },
+        { label: "Spatial Mapping", value: 75, color: "bg-sky-500" },
+      ],
+      recommendation: "Sharpen text-to-background contrast; use Z-pattern layout for text groups.",
+    },
   },
   {
     name: "Lambda",
@@ -222,6 +365,18 @@ const multiAgentResponses = [
       "Valence trends positive, but confidence softens in longer views. Add an explicit trust cue in-frame to stabilize intent.",
     confidence: 67,
     stance: "Mixed",
+    deepAnalysis: {
+      summary: "Initial emotional hit is positive, followed by slight cognitive skepticism.",
+      metrics: [
+        { label: "Valence Index", value: "+0.38", trend: "up" },
+        { label: "Trust Reliability", value: "Neutral", trend: "down" },
+      ],
+      neuralSignals: [
+        { label: "Amygdala Calm", value: 71, color: "bg-emerald-500" },
+        { label: "Medial PFC", value: 52, color: "bg-amber-500" },
+      ],
+      recommendation: "Insert subtle trust indicators or social proof near the primary product.",
+    },
   },
   {
     name: "Nerve",
@@ -231,6 +386,18 @@ const multiAgentResponses = [
       "Object shape and contrast support high recall potential. Repeating one distinct visual motif will improve delayed memory retrieval.",
     confidence: 88,
     stance: "Positive",
+    deepAnalysis: {
+      summary: "Strong structural memory potential; brand-color association is optimal.",
+      metrics: [
+        { label: "Memory Anchor", value: "Strong", trend: "up" },
+        { label: "Color Recall", value: "92%", trend: "up" },
+      ],
+      neuralSignals: [
+        { label: "Hippocampus Lead", value: 85, color: "bg-emerald-500" },
+        { label: "Temporal Binding", value: 78, color: "bg-sky-500" },
+      ],
+      recommendation: "Establish a recurring pattern or silhouette to solidify long-term recall.",
+    },
   },
   {
     name: "Kappa",
@@ -240,6 +407,18 @@ const multiAgentResponses = [
       "Saccade path is efficient but not equally stable across audience segments. Tone down one bright secondary element to reduce drift.",
     confidence: 62,
     stance: "Mixed",
+    deepAnalysis: {
+      summary: "Unnecessary saccadic jumps detected toward irrelevant decorative elements.",
+      metrics: [
+        { label: "Gaze Smoothness", value: "Med", trend: "down" },
+        { label: "Fixation Count", value: "12/sec", trend: "up" },
+      ],
+      neuralSignals: [
+        { label: "Superior Colliculus", value: 68, color: "bg-amber-500" },
+        { label: "Frontal Eye Fields", value: 55, color: "bg-rose-500" },
+      ],
+      recommendation: "Reduce luminance of non-interactive corners to stabilize gaze path.",
+    },
   },
   {
     name: "Theta",
@@ -249,6 +428,18 @@ const multiAgentResponses = [
       "Compared with similar high-performing stimuli, saliency is above baseline. Improvement headroom remains in CTA dwell-time optimization.",
     confidence: 76,
     stance: "Positive",
+    deepAnalysis: {
+      summary: "Performance is in the top 15% of the benchmarked category database.",
+      metrics: [
+        { label: "Benchmark Rank", value: "Elite", trend: "up" },
+        { label: "Category Match", value: "94%", trend: "up" },
+      ],
+      neuralSignals: [
+        { label: "Comparative Parity", value: 89, color: "bg-emerald-500" },
+        { label: "Signal Robustness", value: 74, color: "bg-sky-500" },
+      ],
+      recommendation: "Refine CTA micro-interactions to reach the top 5% performance bracket.",
+    },
   },
   {
     name: "Delta",
@@ -258,6 +449,18 @@ const multiAgentResponses = [
       "Processing load is acceptable at first exposure but rises with repetition. Reduce visual density near text for better resilience.",
     confidence: 49,
     stance: "Critical",
+    deepAnalysis: {
+      summary: "Information density is too high for rapid social-feed environments.",
+      metrics: [
+        { label: "Metabolic Cost", value: "High", trend: "down" },
+        { label: "Abandonment Risk", value: "Significant", trend: "down" },
+      ],
+      neuralSignals: [
+        { label: "Alpha Suppression", value: 76, color: "bg-rose-500" },
+        { label: "Fatigue Threshold", value: 62, color: "bg-amber-500" },
+      ],
+      recommendation: "Increase whitespace; utilize progressive disclosure for detailed info.",
+    },
   },
   {
     name: "Sigma",
@@ -267,6 +470,18 @@ const multiAgentResponses = [
       "The stimulus is deployable for awareness testing now. Run one quick variant with reduced background complexity for higher confidence.",
     confidence: 83,
     stance: "Mixed",
+    deepAnalysis: {
+      summary: "Synthesis indicates high potential, pending final aesthetic refinement.",
+      metrics: [
+        { label: "Overall Score", value: "83/100", trend: "up" },
+        { label: "Risk Mitigation", value: "Ready", trend: "up" },
+      ],
+      neuralSignals: [
+        { label: "Integrated Valence", value: 77, color: "bg-emerald-500" },
+        { label: "Processing Flow", value: 81, color: "bg-sky-500" },
+      ],
+      recommendation: "Deploy A/B test with background simplification as the primary variable.",
+    },
   },
 ];
 
@@ -368,6 +583,8 @@ function BenchmarkGauge({
 }
 
 export function NeuroFocusSimulatorSection() {
+  const [expandedAgent, setExpandedAgent] = useState<string | null>(null);
+
   const benchmarkGauges = [
     {
       label: "Dopamine Level",
@@ -820,7 +1037,7 @@ export function NeuroFocusSimulatorSection() {
       </section>
 
       <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-3xl">
             <p className="kicker">Multi-agent response simulation</p>
             <h3 className="headline mt-2 text-3xl sm:text-4xl">10 agents respond to the initial prompt</h3>
@@ -828,41 +1045,81 @@ export function NeuroFocusSimulatorSection() {
               Each agent simulates a distinct evaluation role for the same starting prompt, so you can compare aligned and conflicting viewpoints before deciding.
             </p>
           </div>
-          <Pill tone="accent">Consensus check</Pill>
+          <div className="flex flex-col items-end gap-3">
+            <Pill tone="accent">Consensus check</Pill>
+            <button className="flex items-center gap-2.5 rounded-full bg-ink px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] text-white shadow-xl transition-all hover:scale-[1.02] hover:shadow-2xl active:scale-95">
+              Export Simulation Report
+              <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
         </div>
 
-        <div className="mt-8 space-y-4">
+        <div className="mt-8 space-y-6">
           {multiAgentResponses.map((agent) => (
-            <Card key={agent.name} className={`soft-border border p-4 sm:p-5 ${stanceCardClass[agent.stance] ?? "border-slate-200 bg-slate-50/80"}`}>
-              <div className="grid gap-4 lg:grid-cols-[280px_minmax(0,1fr)_120px] lg:items-start">
-                <div>
-                  <p className="kicker">{agent.role}</p>
-                  <h4 className="headline mt-1 text-xl">{agent.name}</h4>
-                  <p className="mt-2 text-sm leading-relaxed text-muted">{agent.perspective}</p>
-                </div>
-
-                <div className={`rounded-[0.9rem] border p-3 ${stanceReplyClass[agent.stance] ?? "border-slate-200 bg-white/90"}`}>
-                  <p className="text-xs uppercase tracking-[0.16em] text-muted">Simulated reply</p>
-                  <p className="mt-1.5 text-sm leading-relaxed text-ink/90">{agent.response}</p>
-                </div>
-
-                <div>
-                  <div className="mb-2 flex items-center justify-between text-xs uppercase tracking-[0.16em] text-muted">
-                    <span>Confidence</span>
-                    <span>{agent.confidence}%</span>
+            <Card 
+              key={agent.name} 
+              className={`soft-border border transition-all duration-300 cursor-pointer hover:shadow-md ${stanceCardClass[agent.stance] ?? "border-slate-200 bg-slate-50/80"} ${expandedAgent === agent.name ? 'ring-2 ring-ink/5' : ''}`}
+            >
+              <div 
+                className="p-4 sm:p-6"
+                onClick={() => setExpandedAgent(expandedAgent === agent.name ? null : agent.name)}
+              >
+                <div className="grid gap-6 lg:grid-cols-[280px_minmax(0,1fr)_120px] lg:items-start">
+                  <div className="flex flex-col h-full justify-between">
+                    <div>
+                      <p className="kicker flex items-center gap-2">
+                        <Info className="h-3 w-3" />
+                        {agent.role}
+                      </p>
+                      <h4 className="headline mt-1 text-2xl">{agent.name}</h4>
+                      <p className="mt-2 text-sm leading-relaxed text-muted">{agent.perspective}</p>
+                    </div>
+                    
+                    <div className="mt-4 flex items-center gap-2 text-xs font-semibold text-ink/60 group">
+                      {expandedAgent === agent.name ? (
+                        <>Collapse analysis <ChevronDown className="h-4 w-4 rotate-180" /></>
+                      ) : (
+                        <>View deep analysis <ChevronDown className="h-4 w-4 group-hover:translate-y-0.5 transition-transform" /></>
+                      )}
+                    </div>
                   </div>
-                  <div className="h-2 rounded-full bg-line/70 overflow-hidden">
-                    <div
-                      className={`h-full rounded-full ${stanceBarClass[agent.stance] ?? "bg-slate-500"}`}
-                      style={{ width: `${agent.confidence}%` }}
+
+                  <div className={`rounded-2xl border p-4 shadow-sm h-full flex flex-col justify-center ${stanceReplyClass[agent.stance] ?? "border-slate-200 bg-white/90"}`}>
+                    <div className="flex items-center justify-between mb-3">
+                      <p className="text-[10px] uppercase tracking-[0.2em] text-muted font-bold">Simulated response</p>
+                      <Star className="h-3 w-3 text-amber-400 fill-amber-400" />
+                    </div>
+                    <p className="text-[15px] leading-relaxed text-ink/90 italic font-medium">&quot;{agent.response}&quot;</p>
+                  </div>
+
+                  <div className="flex flex-col justify-center lg:pt-2">
+                    <div className="mb-2 flex items-center justify-between text-xs uppercase tracking-[0.16em] text-muted font-bold">
+                      <span>Confidence</span>
+                      <span>{agent.confidence}%</span>
+                    </div>
+                    <div className="h-2 rounded-full bg-line/70 overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${agent.confidence}%` }}
+                        className={`h-full rounded-full ${stanceBarClass[agent.stance] ?? "bg-slate-500"}`}
+                      />
+                    </div>
+                    <div className="mt-4 flex justify-end">
+                      <span className={`inline-flex items-center rounded-full px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] shadow-sm ${stanceToneClass[agent.stance] ?? "bg-slate-100 text-slate-600 border border-slate-200"}`}>
+                        {agent.stance}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <AnimatePresence>
+                  {expandedAgent === agent.name && (
+                    <AgentDeepAnalysis 
+                      agent={agent} 
+                      stanceColor={stanceBarClass[agent.stance] || "bg-slate-500"} 
                     />
-                  </div>
-                  <div className="mt-3 flex justify-end">
-                    <span className={`inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] ${stanceToneClass[agent.stance] ?? "bg-slate-100 text-slate-600 border border-slate-200"}`}>
-                      {agent.stance}
-                    </span>
-                  </div>
-                </div>
+                  )}
+                </AnimatePresence>
               </div>
             </Card>
           ))}

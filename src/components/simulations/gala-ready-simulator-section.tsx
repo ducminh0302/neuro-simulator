@@ -1,5 +1,9 @@
-import Image from "next/image";
+"use client";
 
+import Image from "next/image";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown, ChevronUp, User, Target, Brain, Info, Download, Star, ArrowRight } from "lucide-react";
 import { BrainViewerLazy } from "@/components/brain/BrainViewerLazy";
 import { SimulationPromptChat } from "@/components/simulations/simulation-prompt-chat";
 import { Card, Pill, ProgressBar, SectionHeading, Surface } from "@/components/ui";
@@ -71,6 +75,17 @@ const multiAgentResponses = [
       "Silhouette reads powerfully under flash and distance. A cleaner clutch line will sharpen full-body symmetry in press photos.",
     confidence: 91,
     stance: "Positive",
+    deepAnalysis: {
+      user: { name: "Vesper", age: 34, status: "Vogue Contributor", summary: "Vesper focuses on the visual drama of a walk. She analyzes how fabric reacts to motion and flash photography." },
+      metrics: { cameraImpact: "94%", movementGrace: "88%", flashResponse: "High", symmetryScore: "91%" },
+      cognitiveLoad: [92, 85, 32],
+      journey: [
+        { day: 1, status: "Arrival gate", emotion: "Excited", text: "The first exit from the vehicle. The Midnight Blue creates a dramatic contrast against the red carpet.", action: "First flash captured" },
+        { day: 1, status: "Step-and-repeat", emotion: "Focused", text: "Material shimmer is perfectly balanced. It catches the overhead light without washing out the silhouette.", action: "Pose validated" },
+        { day: 1, status: "Grand entrance", emotion: "Proud", text: "The drape of the tulle creates a majestic trail. Perception of status is at a peak.", action: "Saliency peak" },
+        { day: 2, status: "Press review", emotion: "Satisfied", text: "Photos are circulating. The 'commanding presence' is being cited as a highlight of the evening.", action: "Media approval" }
+      ]
+    }
   },
   {
     name: "Elan",
@@ -80,6 +95,17 @@ const multiAgentResponses = [
       "Neckline and shimmer balance are strong, but jewelry hierarchy is slightly noisy for black-tie purists. Simplify one accessory layer.",
     confidence: 57,
     stance: "Critical",
+    deepAnalysis: {
+      user: { name: "Elan", age: 48, status: "Protocol Expert", summary: "Elan is the guardian of traditional elegance. He views dress codes as a language of respect and heritage." },
+      metrics: { protocolMatch: "98%", noiseRatio: "High", heritageFit: "92%", eleganceindex: "84%" },
+      cognitiveLoad: [64, 58, 89],
+      journey: [
+        { day: 1, status: "Dress check", emotion: "Analytical", text: "Scanning the neckline for appropriate depth. It's safe but pushes the limit of 'avant-garde'.", action: "Compliance check" },
+        { day: 1, status: "Accessory audit", emotion: "Uncertain", text: "The silver clutch vs gold chain creates a minor conflict in the 'Metals Hierarchy' of black tie.", action: "Noted conflict" },
+        { day: 1, status: "Ballroom seating", emotion: "Critical", text: "The shimmer is a bit too loud for intimate social settings. Better suited for the stage than the table.", action: "Social friction" },
+        { day: 3, status: "Legacy impact", emotion: "Neutral", text: "While daring, the look will be remembered for its color choice, not necessarily its traditionalism.", action: "Verdict filed" }
+      ]
+    }
   },
   {
     name: "Marlowe",
@@ -89,6 +115,17 @@ const multiAgentResponses = [
       "This styling is aligned with current couture signals and should score high in fashion communities. Keep hair volume controlled to preserve neckline authority.",
     confidence: 83,
     stance: "Positive",
+    deepAnalysis: {
+      user: { name: "Marlowe", age: 29, status: "Trend Analyst", summary: "Marlowe maps the look against the current 2026 luxury landscape. She looks for 'Future Classic' signals." },
+      metrics: { trendSync: "91%", signalStrength: "High", luxuryReach: "87%", longevityScore: "76%" },
+      cognitiveLoad: [88, 92, 45],
+      journey: [
+        { day: 1, status: "Scan 01", emotion: "Intrigued", text: "Midnight Blue is the emerging 'Power Neutral' for 2026. This is a very safe but high-alpha choice.", action: "Trend identified" },
+        { day: 1, status: "Detail zoom", emotion: "Satisfied", text: "The sequin density matches the 'Digital Glamour' micro-trend we've been tracking in Paris.", action: "Texture match" },
+        { day: 2, status: "Digital echo", emotion: "Excited", text: "The look is trending on fashion forums. The sheer sleeves are the specific catalyst for engagement.", action: "Viral check" },
+        { day: 5, status: "Synthesis", emotion: "Confident", text: "This look successfully transitions from 'Event Wear' to 'Style Inspiration'. A definite win.", action: "Signal confirmed" }
+      ]
+    }
   },
   {
     name: "Opal",
@@ -98,6 +135,17 @@ const multiAgentResponses = [
       "Material choice and tailoring signal premium consistency. Replace silver heel option with a subtler metallic to keep the palette disciplined.",
     confidence: 69,
     stance: "Mixed",
+    deepAnalysis: {
+      user: { name: "Opal", age: 52, status: "Archive Curator", summary: "Opal believes true luxury is quiet. She looks for the invisible threads of quality that separate couture from fast-fashion." },
+      metrics: { materialQuality: "96%", tailoringPrecision: "91%", paletteDiscipline: "74%", prestigeRecall: "82%" },
+      cognitiveLoad: [72, 81, 62],
+      journey: [
+        { day: 1, status: "Tactile check", emotion: "Interested", text: "The silk lining indicates a commitment to comfort as much as appearance. This is a hallmark of luxury.", action: "Quality audit" },
+        { day: 1, status: "Silhouette scan", emotion: "Neutral", text: "The waist chain is a modern addition that slightly interrupts the classical flow of the tulle.", action: "Noted interruption" },
+        { day: 2, status: "Reflection", emotion: "Mixed", text: "The outfit is undeniably beautiful, but the mix of metals (Gold/Silver) suggests a slight lack of discipline.", action: "Design critique" },
+        { day: 4, status: "Final review", emotion: "Satisfied", text: "Overall, a very high-quality ensemble that respects the heritage of the house while nodding to today.", action: "Heritage pass" }
+      ]
+    }
   },
   {
     name: "Celine",
@@ -107,6 +155,17 @@ const multiAgentResponses = [
       "The look communicates authority first, then elegance. Add a softer facial expression in portrait shots to improve approachability.",
     confidence: 78,
     stance: "Mixed",
+    deepAnalysis: {
+      user: { name: "Celine", age: 31, status: "Psychology Lead", summary: "Celine analyzes the 'Social Gravity' of the look. She predicts how observers will infer personality from attire." },
+      metrics: { authorityProjection: "95%", warmthRating: "58%", approachability: "62%", poiseScore: "92%" },
+      cognitiveLoad: [85, 94, 68],
+      journey: [
+        { day: 1, status: "First contact", emotion: "Focused", text: "Observers will feel a sense of 'Distance'—this is a look that demands respect and implies power.", action: "Authority check" },
+        { day: 1, status: "Interaction", emotion: "Neutral", text: "The stiffness of the bodice might make you seem unapproachable in small talk scenarios.", action: "Social friction" },
+        { day: 1, status: "Peak impact", emotion: "Excited", text: "In high-stakes moments (walking the carpet), the lack of 'warmth' is actually a strategic advantage.", action: "Status locked" },
+        { day: 3, status: "Recall test", emotion: "Confident", text: "People will remember you as 'Elegant and Commanding'. A very successful persona projection.", action: "Persona map" }
+      ]
+    }
   },
   {
     name: "Drape",
@@ -116,6 +175,17 @@ const multiAgentResponses = [
       "The gown has strong drape behavior in motion. A 30-45 degree stance with one shoulder forward will maximize line length.",
     confidence: 87,
     stance: "Positive",
+    deepAnalysis: {
+      user: { name: "Drape", age: 27, status: "Motion Specialist", summary: "Drape understands geometry. He treats the body and the fabric as a single interactive sculpture." },
+      metrics: { lensAlignment: "92%", lineLength: "High", fabricDynamic: "89%", poseDiversity: "78%" },
+      cognitiveLoad: [94, 38, 22],
+      journey: [
+        { day: 1, status: "Static check", emotion: "Analytical", text: "Standing straight on hides the intricate layering of the tulle. You lose 40% of the dress's value.", action: "Pose adjustment" },
+        { day: 1, status: "The 45-degree", emotion: "Satisfied", text: "There it is. The light now travels across the sequins in a way that creates a 'Galaxy' effect.", action: "Angle approved" },
+        { day: 1, status: "Walking test", emotion: "Excited", text: "The silk lining allows for a natural stride without the fabric catching between the legs.", action: "Motion validated" },
+        { day: 2, status: "Frame review", emotion: "Proud", text: "The 'Golden Triangle' pose worked perfectly. You look 5 inches taller in the published photos.", action: "Result confirmed" }
+      ]
+    }
   },
   {
     name: "Noir",
@@ -125,6 +195,17 @@ const multiAgentResponses = [
       "Sequin density performs well in strobe bursts, but sleeve transparency can flatten in side light. Raise key light by one stop.",
     confidence: 62,
     stance: "Mixed",
+    deepAnalysis: {
+      user: { name: "Noir", age: 41, status: "Cinematographer", summary: "Noir sees in photons. He analyzes the refractive index of your sequins and the opacity of your tulle." },
+      metrics: { strobeResponse: "96%", depthMapping: "82%", refractiveIndex: "High", lightingVersatility: "68%" },
+      cognitiveLoad: [98, 45, 52],
+      journey: [
+        { day: 1, status: "Ambient check", emotion: "Neutral", text: "In the dim ballroom, the dress looks like a solid dark mass. We're losing the sequin detail.", action: "Light search" },
+        { day: 1, status: "Strobe impact", emotion: "Shocked", text: "The flash hit. The sequins are behaving like mirrors—this could cause white clipping in some cameras.", action: "Exposure check" },
+        { day: 1, status: "Side-light test", emotion: "Uncertain", text: "The sheer sleeves are almost invisible under side-lighting, making the torso look strangely floating.", action: "Noted anomaly" },
+        { day: 2, status: "Grade review", emotion: "Satisfied", text: "With the right color grading, the Midnight Blue has incredible depth. It looks like the deep ocean.", action: "Diagnostic closed" }
+      ]
+    }
   },
   {
     name: "Poise",
@@ -134,6 +215,17 @@ const multiAgentResponses = [
       "This look ranks near best-dressed tier on silhouette and compliance. It trails slightly on distinctiveness due to conservative accessory choices.",
     confidence: 73,
     stance: "Mixed",
+    deepAnalysis: {
+      user: { name: "Poise", age: 39, status: "Award Judge", summary: "Poise looks at the 'Average' and the 'Elite'. She wants to see if you're just 'Gala Ready' or 'Gala Leading'." },
+      metrics: { benchmarkRank: "Top 8%", uniqueness: "62%", compliance: "100%", prestigeImpact: "89%" },
+      cognitiveLoad: [76, 82, 45],
+      journey: [
+        { day: 1, status: "Filter 01", emotion: "Neutral", text: "Scanning against the last 5 years of IFF carpet photos. You are clearly in the upper quartile.", action: "Ranking initial" },
+        { day: 1, status: "Elite check", emotion: "Critical", text: "Compared to the 'Avant-Garde' category, you are a bit too safe. There is no 'Conversation Piece' here.", action: "Uniqueness check" },
+        { day: 1, status: "Crowd response", emotion: "Satisfied", text: "You are comfortably 'Best Dressed' for 90% of the room. You blend in with the VIPs perfectly.", action: "Social match" },
+        { day: 5, status: "Legacy check", emotion: "Neutral", text: "A solid, professional performance. Not a legendary 'Look', but a high-scoring one for any portfolio.", action: "Final score" }
+      ]
+    }
   },
   {
     name: "Lattice",
@@ -143,6 +235,17 @@ const multiAgentResponses = [
       "Visual excellence is clear, but emotional warmth is moderate. A softer color accent can increase perceived openness in social coverage.",
     confidence: 54,
     stance: "Critical",
+    deepAnalysis: {
+      user: { name: "Lattice", age: 33, status: "Social Strategist", summary: "Lattice focuses on the 'Likability' factor. She wants to ensure you don't look 'too perfect' to the point of being cold." },
+      metrics: { likability: "52%", emotionalOpenness: "Low", prestigeBalance: "High", viralEmpathy: "44%" },
+      cognitiveLoad: [68, 91, 74],
+      journey: [
+        { day: 1, status: "Visual barrier", emotion: "Anxious", text: "The sheer volume of tulle and the dark color create a 'High Status' barrier. People might hesitate to talk to you.", action: "Empathy check" },
+        { day: 1, status: "Smiling test", emotion: "Neutral", text: "Even with a smile, the attire pulls you back into a 'Queenly' persona. It's very formal, very guarded.", action: "Noted friction" },
+        { day: 2, status: "Fan feedback", emotion: "Critical", text: "Comments on social media are using words like 'Stunning' and 'Ice Queen'. Admired, but not loved.", action: "Sentiment audit" },
+        { day: 4, status: "Pivot", emotion: "Determined", text: "Adding a softer, warm-toned lipstick in the later evening improved perceived warmth by 15%.", action: "Edit approved" }
+      ]
+    }
   },
   {
     name: "Regent",
@@ -152,6 +255,17 @@ const multiAgentResponses = [
       "Event-ready with high formal compliance and strong visual authority. Apply minor accessory edits and proceed with confidence.",
     confidence: 95,
     stance: "Positive",
+    deepAnalysis: {
+      user: { name: "Regent", age: 46, status: "Chief of Staff", summary: "Regent is the voice of reason. He synthesizes all the fashion 'noise' into a simple, actionable decision for the principal." },
+      metrics: { decisionConfidence: "95%", riskLevel: "Low", launchReadiness: "High", impactProjection: "91%" },
+      cognitiveLoad: [52, 64, 82],
+      journey: [
+        { day: 1, status: "Synthesis", emotion: "Decisive", text: "The critics are split on the metals, but the fMRI data shows a massive aesthetic reward in the observers.", action: "Verdict: GO" },
+        { day: 1, status: "Action plan", emotion: "Confident", text: "We will proceed with the Gold chain. It provides the necessary 'Alpha' signal for this specific event.", action: "Authorized" },
+        { day: 2, status: "Post-event", emotion: "Satisfied", text: "The Presence Impact Score of 91 was accurate. We dominated the 'Elegance' category in the morning papers.", action: "Case closed" },
+        { day: 7, status: "Optimization", emotion: "Neutral", text: "Lessons learned: Midnight Blue is our winning color. We will double down on this palette for the winter season.", action: "Database updated" }
+      ]
+    }
   },
 ];
 
@@ -163,6 +277,123 @@ type BenchmarkGaugeProps = {
   percentage: number;
   highlighted?: boolean;
 };
+
+function AgentDeepAnalysis({ agent, stanceColor }: { agent: any; stanceColor: string }) { // eslint-disable-line @typescript-eslint/no-explicit-any
+  const analysis = agent.deepAnalysis;
+  if (!analysis) return <div className="p-8 text-center text-muted italic">Deep analysis data is currently being synthesized for this agent...</div>;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      className="mt-6 border-t border-line/40 pt-8"
+    >
+      <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
+        {/* Left Column: User Profile & Metrics */}
+        <div className="space-y-6">
+          <div className="flex items-center gap-4 p-5 rounded-3xl bg-white/40 border border-white/60">
+            <div className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-white shadow-sm border border-line`}>
+              <User className="h-8 w-8 text-ink" />
+            </div>
+            <div>
+              <div className="flex flex-col">
+                <p className="kicker flex items-center gap-2">
+                  <Info className="h-3 w-3" />
+                  {agent.role}
+                </p>
+                <h5 className="headline mt-1 text-2xl text-ink leading-tight">{agent.name}</h5>
+              </div>
+              <div className="flex items-center gap-2 mt-2">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-muted/60">{analysis.user.age} YRS</span>
+                <span className="h-1 w-1 rounded-full bg-muted/30" />
+                <span className="text-[10px] font-bold uppercase tracking-widest text-accent">{analysis.user.status}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-5 rounded-3xl bg-panelSoft/50 border border-line/30">
+            <p className="text-xs font-bold uppercase tracking-[0.15em] text-ink/40 mb-2">Operational Perspective</p>
+            <p className="text-sm text-ink/80 leading-relaxed font-medium mb-4">{agent.perspective}</p>
+            <div className="h-px w-full bg-line/20 mb-4" />
+            <p className="text-[11px] text-muted leading-relaxed font-medium italic">&quot;{analysis.user.summary}&quot;</p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            {Object.entries(analysis.metrics).map(([key, value]) => (
+              <div key={key} className="rounded-2xl bg-white/60 p-4 border border-line/40 shadow-sm transition-colors hover:bg-white/80">
+                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-muted mb-2">{key.replace(/([A-Z])/g, ' $1')}</p>
+                <p className="headline text-2xl text-ink">{value as string}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="rounded-[2rem] bg-white/80 p-6 border border-line/50 shadow-sm">
+            <div className="flex items-center gap-2 mb-5">
+              <div className="p-1.5 rounded-lg bg-accent/10">
+                <Brain className="h-4 w-4 text-accent" />
+              </div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-ink">Cognitive Load Analysis</p>
+            </div>
+            <div className="space-y-5">
+              {["Visual Processing", "Emotional Resonance", "Decision Friction"].map((label, i) => (
+                <div key={label}>
+                  <div className="flex justify-between text-xs mb-2">
+                    <span className="font-medium text-muted">{label}</span>
+                    <span className="font-bold text-ink">{(analysis.cognitiveLoad ? analysis.cognitiveLoad[i] : [85, 92, 45][i])}%</span>
+                  </div>
+                  <div className="h-2 w-full rounded-full bg-line/30 overflow-hidden">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${(analysis.cognitiveLoad ? analysis.cognitiveLoad[i] : [85, 92, 45][i])}%` }}
+                      transition={{ duration: 1, delay: 0.2 + i * 0.1 }}
+                      className={`h-full rounded-full ${i === 2 ? 'bg-rose-400' : 'bg-accent'}`}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column: Timeline Journey */}
+        <div className="relative pl-8 sm:pl-12 py-2">
+          {/* Vertical Line */}
+          <div className="absolute left-[11px] sm:left-[15px] top-4 bottom-4 w-[2px] bg-gradient-to-b from-line via-line/60 to-transparent" />
+
+          <div className="space-y-12">
+            {analysis.journey.map((step: any, idx: number) => ( // eslint-disable-line @typescript-eslint/no-explicit-any
+              <div key={idx} className="relative group/step">
+                {/* Dot */}
+                <div className={`absolute -left-[30px] sm:-left-[34px] top-1.5 h-6 w-6 rounded-full border-[5px] border-white ${stanceColor} shadow-sm z-10 transition-transform group-hover/step:scale-110 ${idx === analysis.journey.length - 1 ? 'animate-pulse ring-4 ring-ink/10' : ''}`} />
+
+                <div className="flex flex-col gap-2">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                    <span className="text-sm font-black text-ink uppercase tracking-wider">Day {step.day}</span>
+                    <span className="h-1 w-1 rounded-full bg-muted/40" />
+                    <span className="text-[13px] font-bold text-ink/80">{step.status}</span>
+                    <span className="text-[11px] font-bold text-muted/50 uppercase tracking-widest italic">{step.emotion}</span>
+                  </div>
+
+                  <p className="text-[14px] text-muted leading-relaxed max-w-2xl font-medium">
+                    {step.text}
+                  </p>
+
+                  <div className="mt-2">
+                    <span className="inline-flex items-center gap-2 rounded-xl bg-white/70 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-ink border border-line/60 shadow-sm transition-colors hover:bg-white">
+                      <Target className="h-3.5 w-3.5 text-accent" />
+                      {step.action}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
 function BenchmarkGauge({
   label,
@@ -210,6 +441,8 @@ function BenchmarkGauge({
 }
 
 export function GalaReadySimulatorSection() {
+  const [expandedAgent, setExpandedAgent] = useState<string | null>(null);
+
   const stanceToneClass: Record<string, string> = {
     Positive: "bg-emerald-100 text-emerald-700 border border-emerald-200",
     Mixed: "bg-amber-100 text-amber-700 border border-amber-200",
@@ -640,53 +873,94 @@ export function GalaReadySimulatorSection() {
       </section>
 
       <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-3xl">
             <p className="kicker">Multi-agent response simulation</p>
             <h3 className="headline mt-2 text-3xl sm:text-4xl">10 agents respond to the initial prompt</h3>
             <p className="mt-3 text-sm leading-relaxed text-muted">
-              Each agent simulates a distinct evaluation role for the same starting prompt, so you can compare aligned and conflicting viewpoints before deciding.
+              Each agent simulates a distinct fashion persona for the same starting prompt, so you can compare aligned and conflicting viewpoints on your ensemble.
             </p>
           </div>
-          <Pill tone="accent">Consensus check</Pill>
+          <div className="flex flex-col items-end gap-3">
+            <Pill tone="accent">Formal Style Consensus</Pill>
+            <button className="flex items-center gap-2.5 rounded-full bg-ink px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] text-white shadow-xl transition-all hover:scale-[1.02] hover:shadow-2xl active:scale-95">
+              Export Presence Report
+              <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
         </div>
 
-        <div className="mt-8 space-y-4">
+        <div className="mt-8 space-y-6">
           {multiAgentResponses.map((agent) => (
-            <Card key={agent.name} className={`soft-border border p-4 sm:p-5 ${stanceCardClass[agent.stance] ?? "border-slate-200 bg-slate-50/80"}`}>
-              <div className="grid gap-4 lg:grid-cols-[280px_minmax(0,1fr)_120px] lg:items-start">
-                <div>
-                  <p className="kicker">{agent.role}</p>
-                  <h4 className="headline mt-1 text-xl">{agent.name}</h4>
-                  <p className="mt-2 text-sm leading-relaxed text-muted">{agent.perspective}</p>
-                </div>
-
-                <div className={`rounded-[0.9rem] border p-3 ${stanceReplyClass[agent.stance] ?? "border-slate-200 bg-white/90"}`}>
-                  <p className="text-xs uppercase tracking-[0.16em] text-muted">Simulated reply</p>
-                  <p className="mt-1.5 text-sm leading-relaxed text-ink/90">{agent.response}</p>
-                </div>
-
-                <div>
-                  <div className="mb-2 flex items-center justify-between text-xs uppercase tracking-[0.16em] text-muted">
-                    <span>Confidence</span>
-                    <span>{agent.confidence}%</span>
+            <Card 
+              key={agent.name} 
+              className={`soft-border border transition-all duration-300 cursor-pointer hover:shadow-md ${stanceCardClass[agent.stance] ?? "border-slate-200 bg-slate-50/80"} ${expandedAgent === agent.name ? 'ring-2 ring-ink/5' : ''}`}
+            >
+              <div 
+                className="p-4 sm:p-6"
+                onClick={() => setExpandedAgent(expandedAgent === agent.name ? null : agent.name)}
+              >
+                <div className="grid gap-6 lg:grid-cols-[280px_minmax(0,1fr)_120px] lg:items-start">
+                  <div className="flex flex-col h-full justify-between">
+                    <div>
+                      <p className="kicker flex items-center gap-2">
+                        <Info className="h-3 w-3" />
+                        {agent.role}
+                      </p>
+                      <h4 className="headline mt-1 text-2xl">{agent.name}</h4>
+                      <p className="mt-2 text-sm leading-relaxed text-muted">{agent.perspective}</p>
+                    </div>
+                    
+                    <div className="mt-4 flex items-center gap-2 text-xs font-semibold text-ink/60 group">
+                      {expandedAgent === agent.name ? (
+                        <>Collapse analysis <ChevronUp className="h-4 w-4" /></>
+                      ) : (
+                        <>View deep analysis <ChevronDown className="h-4 w-4 group-hover:translate-y-0.5 transition-transform" /></>
+                      )}
+                    </div>
                   </div>
-                  <div className="h-2 rounded-full bg-line/70 overflow-hidden">
-                    <div
-                      className={`h-full rounded-full ${stanceBarClass[agent.stance] ?? "bg-slate-500"}`}
-                      style={{ width: `${agent.confidence}%` }}
+
+                  <div className={`rounded-2xl border p-4 shadow-sm h-full flex flex-col justify-center ${stanceReplyClass[agent.stance] ?? "border-slate-200 bg-white/90"}`}>
+                    <div className="flex items-center justify-between mb-3">
+                      <p className="text-[10px] uppercase tracking-[0.2em] text-muted font-bold">Simulated response</p>
+                      <Star className="h-3 w-3 text-amber-400 fill-amber-400" />
+                    </div>
+                    <p className="text-[15px] leading-relaxed text-ink/90 italic font-medium">&quot;{agent.response}&quot;</p>
+                  </div>
+
+                  <div className="flex flex-col justify-center lg:pt-2">
+                    <div className="mb-2 flex items-center justify-between text-xs uppercase tracking-[0.16em] text-muted font-bold">
+                      <span>Confidence</span>
+                      <span>{agent.confidence}%</span>
+                    </div>
+                    <div className="h-2 rounded-full bg-line/70 overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${agent.confidence}%` }}
+                        className={`h-full rounded-full ${stanceBarClass[agent.stance] ?? "bg-slate-500"}`}
+                      />
+                    </div>
+                    <div className="mt-4 flex justify-end">
+                      <span className={`inline-flex items-center rounded-full px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] shadow-sm ${stanceToneClass[agent.stance] ?? "bg-slate-100 text-slate-600 border border-slate-200"}`}>
+                        {agent.stance}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <AnimatePresence>
+                  {expandedAgent === agent.name && (
+                    <AgentDeepAnalysis 
+                      agent={agent} 
+                      stanceColor={stanceBarClass[agent.stance] || "bg-slate-500"} 
                     />
-                  </div>
-                  <div className="mt-3 flex justify-end">
-                    <span className={`inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] ${stanceToneClass[agent.stance] ?? "bg-slate-100 text-slate-600 border border-slate-200"}`}>
-                      {agent.stance}
-                    </span>
-                  </div>
-                </div>
+                  )}
+                </AnimatePresence>
               </div>
             </Card>
           ))}
         </div>
+
       </section>
 
       <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
