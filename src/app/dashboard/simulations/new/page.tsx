@@ -1,5 +1,5 @@
-import { notFound } from "next/navigation";
+import { SimulationNewLanding } from "@/components/simulations/simulation-new-landing";
 
 export default function NewSimulationPage() {
-  notFound();
+  return <SimulationNewLanding ctaLabel="New Simulation" />;
 }

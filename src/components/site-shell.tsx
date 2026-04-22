@@ -5,7 +5,7 @@ import { type ReactNode, useState, useEffect } from "react";
 
 import { Settings, HelpCircle, PanelLeftOpen, PanelLeftClose } from "lucide-react";
 
-import { appName, navItems, simulationNewPath } from "@/lib/site";
+import { appName, navItems, simulationNewPath, abCompareNewPath } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 export type ShellProps = {
@@ -166,7 +166,7 @@ export function SiteShell({
               </div>
               <div className="flex items-center gap-3">
                 <Link
-                  href={simulationNewPath}
+                  href={abCompareNewPath}
                   className="rounded-full bg-panel px-5 py-2.5 text-sm font-semibold text-ink soft-border transition-all hover:bg-panelSoft hover:-translate-y-0.5 active:scale-95"
                 >
                   A/B Compare
