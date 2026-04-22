@@ -1,4 +1,4 @@
-import { RefreshCw, Search, Upload, Scan } from "lucide-react";
+import { RefreshCw, Search, Upload, Scan, ChevronDown } from "lucide-react";
 
 import { SiteShell } from "@/components/site-shell";
 import { Card, Pill, SectionHeading, Surface } from "@/components/ui";
@@ -11,16 +11,101 @@ export const metadata = {
 const trackedCompetitors: Array<{
   name: string;
   relevance: string;
-  socials: string;
+  website: { label: string; url: string };
+  socials: Array<{ label: string; url: string }>;
 }> = [
-  { name: "Glossier", relevance: "95% relevant", socials: "glossier.com · TikTok · Twitter · Facebook · @glossier" },
-  { name: "The Ordinary", relevance: "95% relevant", socials: "deciem.com · Instagram · Facebook · @theordinary" },
-  { name: "Drunk Elephant", relevance: "90% relevant", socials: "drunkelephant.com · Instagram · @drunkelephant" },
-  { name: "CeraVe", relevance: "90% relevant", socials: "cerave.com · Instagram · Facebook · @cerave" },
-  { name: "Glow Recipe", relevance: "90% relevant", socials: "glowrecipe.com · TikTok · Instagram · @glowrecipe" },
-  { name: "Youth to the People", relevance: "90% relevant", socials: "youthtothepeople.com · Instagram · @yttp" },
-  { name: "Curology", relevance: "90% relevant", socials: "curology.com · Instagram · TikTok · @curology" },
-  { name: "Versed", relevance: "90% relevant", socials: "versedskin.com · Instagram · @versed" },
+  {
+    name: "We Are Social",
+    relevance: "Top relevant",
+    website: { label: "wearesocial.com", url: "https://wearesocial.com" },
+    socials: [
+      { label: "Instagram", url: "https://www.instagram.com/wearesocial/" },
+      { label: "TikTok", url: "https://www.tiktok.com/@wearesociallondon" },
+      { label: "Facebook", url: "https://www.facebook.com/wearesocial/" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/company/we-are-social" },
+    ],
+  },
+  {
+    name: "Viral Nation",
+    relevance: "Top relevant",
+    website: { label: "viralnation.com", url: "https://viralnation.com" },
+    socials: [
+      { label: "Instagram", url: "https://www.instagram.com/viralnation/" },
+      { label: "TikTok", url: "https://www.tiktok.com/@viralnationinc" },
+      { label: "Facebook", url: "https://www.facebook.com/theviralnation/" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/company/viralnationinc" },
+      { label: "YouTube", url: "https://www.youtube.com/@viralnationinc" },
+    ],
+  },
+  {
+    name: "NoGood",
+    relevance: "95% relevant",
+    website: { label: "nogood.io", url: "https://nogood.io" },
+    socials: [
+      { label: "Instagram", url: "https://www.instagram.com/nogood.io/" },
+      { label: "TikTok", url: "https://www.tiktok.com/@nogood.io" },
+      { label: "Facebook", url: "https://www.facebook.com/nogood.io/" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/company/nogood" },
+      { label: "YouTube", url: "https://www.youtube.com/@nogoodhq" },
+    ],
+  },
+  {
+    name: "The Social Shepherd",
+    relevance: "95% relevant",
+    website: { label: "thesocialshepherd.com", url: "https://thesocialshepherd.com" },
+    socials: [
+      { label: "Instagram", url: "https://www.instagram.com/thesocialshepherd/" },
+      { label: "TikTok", url: "https://www.tiktok.com/@thesocialshepherdagency" },
+      { label: "Facebook", url: "https://www.facebook.com/thesocialshepherdagency/" },
+    ],
+  },
+  {
+    name: "Disruptive Advertising",
+    relevance: "90% relevant",
+    website: { label: "disruptiveadvertising.com", url: "https://disruptiveadvertising.com" },
+    socials: [
+      { label: "Instagram", url: "https://www.instagram.com/disruptiveads/" },
+      { label: "TikTok", url: "https://www.tiktok.com/@disruptiveads" },
+      { label: "Facebook", url: "https://www.facebook.com/disruptiveads/" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/company/disruptive-advertising" },
+    ],
+  },
+  {
+    name: "Sociallyin",
+    relevance: "90% relevant",
+    website: { label: "sociallyin.com", url: "https://sociallyin.com" },
+    socials: [
+      { label: "Instagram", url: "https://www.instagram.com/sociallyin__/" },
+      { label: "TikTok", url: "https://www.tiktok.com/@sociallyin" },
+      { label: "Facebook", url: "https://www.facebook.com/sociallyin/" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/company/sociallyin" },
+      { label: "YouTube", url: "https://www.youtube.com/@sociallyintheagency" },
+    ],
+  },
+  {
+    name: "Moburst",
+    relevance: "90% relevant",
+    website: { label: "moburst.com", url: "https://moburst.com" },
+    socials: [
+      { label: "Instagram", url: "https://www.instagram.com/moburst.agency/" },
+      { label: "TikTok", url: "https://www.tiktok.com/@moburst" },
+      { label: "Facebook", url: "https://www.facebook.com/moburstmobilemarketing/" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/company/moburst" },
+      { label: "YouTube", url: "https://www.youtube.com/channel/UC7U9_olLMlDdyHmrtXIQCcg" },
+    ],
+  },
+  {
+    name: "Power Digital Marketing",
+    relevance: "90% relevant",
+    website: { label: "powerdigitalmarketing.com", url: "https://powerdigitalmarketing.com" },
+    socials: [
+      { label: "Instagram", url: "https://www.instagram.com/power_digital/" },
+      { label: "TikTok", url: "https://www.tiktok.com/@powerdigital" },
+      { label: "Facebook", url: "https://www.facebook.com/PowerDigitalMarketing/" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/company/powerdigitalmarketing" },
+      { label: "YouTube", url: "https://www.youtube.com/@PowerDigitalMarketing" },
+    ],
+  },
 ];
 
 const ordinaryPosts: Array<{
@@ -41,58 +126,97 @@ const ordinaryPosts: Array<{
   { likes: "270", comments: "15", views: "10800", score: "37.5" },
 ];
 
-function CompetitorCard({ name, relevance, socials }: (typeof trackedCompetitors)[number]) {
+const getSocialStyles = (platform: string) => {
+  switch (platform.toLowerCase()) {
+    case "instagram":
+      return "bg-[#E4405F]/15 border-[#E4405F]/30 text-[#E4405F] hover:bg-[#E4405F] hover:text-white hover:border-[#E4405F]";
+    case "tiktok":
+      return "bg-ink/10 border-ink/20 text-ink hover:bg-ink hover:text-white hover:border-ink";
+    case "facebook":
+      return "bg-[#1877F2]/15 border-[#1877F2]/30 text-[#1877F2] hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2]";
+    case "linkedin":
+      return "bg-[#0A66C2]/15 border-[#0A66C2]/30 text-[#0A66C2] hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2]";
+    case "youtube":
+      return "bg-[#FF0000]/15 border-[#FF0000]/30 text-[#FF0000] hover:bg-[#FF0000] hover:text-white hover:border-[#FF0000]";
+    default:
+      return "bg-panelSoft border-line text-muted hover:bg-panel hover:text-ink";
+  }
+};
+
+function CompetitorCard({ name, relevance, website, socials }: (typeof trackedCompetitors)[number]) {
   return (
-    <Card className="p-5 sm:p-6">
-      <div className="flex items-start justify-between gap-2">
-        <h3 className="headline text-lg text-ink">{name}</h3>
-        <Pill tone="soft">{relevance.replace(" relevant", "")}</Pill>
+    <Card className="group/card overflow-hidden p-5 sm:p-6 transition-all hover:shadow-xl hover:shadow-accent/5 border-transparent hover:border-accent/10 bg-white/50 backdrop-blur-sm">
+      <div className="flex items-start justify-between gap-3">
+        <a
+          href={website.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group min-w-0 flex-1"
+        >
+          <h3 className="headline truncate text-xl sm:text-2xl font-bold text-accent group-hover:text-accent-hover transition-all group-hover:translate-x-1 decoration-accent/30 decoration-1 underline-offset-4 group-hover:underline">
+            {name}
+          </h3>
+        </a>
+        <Pill tone="accent" className="shrink-0 font-bold tracking-tight text-[10px]">
+          {relevance.replace(" relevant", "")}
+        </Pill>
       </div>
-      <p className="mt-3 text-sm leading-relaxed text-muted">{socials}</p>
+      <div className="mt-6 flex flex-wrap gap-2">
+        {socials.map((s) => (
+          <a
+            key={s.label}
+            href={s.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`inline-flex items-center rounded-xl border px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-widest transition-all hover:scale-105 hover:shadow-sm active:scale-95 ${getSocialStyles(
+              s.label
+            )}`}
+          >
+            {s.label}
+          </a>
+        ))}
+      </div>
     </Card>
   );
 }
 
 export default function CompetitiveIntelligencePage() {
   return (
-    <SiteShell active="competitors" title="Competitive Intelligence" subtitle="Discover competitors, analyze their content, and find opportunities.">
+    <SiteShell active="competitors" subtitle="Discover competitors, analyze their content, and find opportunities.">
       <div className="space-y-8 pb-10">
         <SectionHeading
           eyebrow="Market intelligence"
           title={<>Competitive intelligence</>}
-          description="Discover competitors, analyze their content, and find opportunities."
-          action={
-            <div className="flex flex-wrap items-center gap-3">
-              <button
-                type="button"
-                className="inline-flex items-center gap-2 rounded-full bg-panel px-6 py-3 text-sm font-medium soft-border transition-colors hover:bg-panelSoft"
-              >
-                <RefreshCw className="h-4 w-4" aria-hidden />
-                Update
-              </button>
-              <button
-                type="button"
-                className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
-              >
-                <Scan className="h-4 w-4" aria-hidden />
-                Full Analysis
-              </button>
-            </div>
-          }
         />
 
         <section>
-          <div className="mb-4 flex items-end justify-between gap-4">
+          <div className="mb-6 flex flex-wrap items-end justify-between gap-4 border-b border-line pb-4">
             <div>
               <p className="kicker">Watchlist</p>
-              <h2 className="headline mt-2 text-2xl sm:text-3xl">Tracked competitors (8)</h2>
+              <h2 className="headline mt-2 text-2xl sm:text-3xl">Tracked competitors</h2>
             </div>
-            <Pill tone="accent">8 brands</Pill>
+            <button
+              type="button"
+              className="inline-flex items-center gap-2 rounded-full bg-panel px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-ink soft-border transition-all hover:bg-panelSoft hover:shadow-sm active:scale-95"
+            >
+              <RefreshCw className="h-3.5 w-3.5" aria-hidden />
+              Update
+            </button>
           </div>
           <div className="grid gap-5 sm:grid-cols-2">
             {trackedCompetitors.map((c) => (
               <CompetitorCard key={c.name} {...c} />
             ))}
+          </div>
+          <div className="mt-8 flex justify-center">
+            <button
+              type="button"
+              className="group relative flex items-center gap-2 rounded-full border border-line bg-white/50 px-6 py-2.5 text-[10px] font-black uppercase tracking-[0.15em] text-muted transition-all hover:border-accent/30 hover:bg-white hover:text-accent hover:shadow-lg hover:shadow-accent/5 active:scale-95"
+            >
+              See more competitors
+              <ChevronDown className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-y-0.5" aria-hidden />
+              <div className="absolute inset-0 -z-10 rounded-full bg-accent/5 opacity-0 blur-lg transition-opacity group-hover:opacity-100" />
+            </button>
           </div>
         </section>
 
@@ -103,7 +227,7 @@ export default function CompetitiveIntelligencePage() {
             <div className="min-w-0 flex-1">
               <input
                 type="search"
-                placeholder="e.g. Scrape Glossier's last 20 Instagram posts, or just type a brand name..."
+                placeholder="e.g. Scrape Viral Nation's last 20 Instagram posts, or just type an agency name..."
                 className="h-12 w-full rounded-full border border-line bg-white px-6 text-sm text-ink outline-none transition-all placeholder:text-muted focus:border-accent/40 focus:shadow-soft"
                 aria-label="Scrape or search competitor content"
               />
@@ -131,7 +255,7 @@ export default function CompetitiveIntelligencePage() {
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div>
               <p className="kicker">Scraped feed</p>
-              <h2 className="headline mt-2 text-2xl sm:text-3xl">The Ordinary (10)</h2>
+              <h2 className="headline mt-2 text-2xl sm:text-3xl">We Are Social (10)</h2>
             </div>
             <button
               type="button"
@@ -149,7 +273,7 @@ export default function CompetitiveIntelligencePage() {
                 />
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-baseline gap-2">
-                    <span className="headline text-base text-ink">The Ordinary</span>
+                    <span className="headline text-base text-ink">We Are Social</span>
                     <Pill tone="neutral">instagram</Pill>
                   </div>
                   <p className="mt-1.5 text-sm text-muted">
