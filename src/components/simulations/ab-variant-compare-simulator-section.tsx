@@ -604,7 +604,7 @@ export function AbVariantCompareSimulatorSection() {
               Recommended action
             </p>
             <p className="mt-1 text-sm font-semibold">
-              Ship Variant A as the primary creative to maximize conversion volume, while testing Variant B's narrative style on high-intent retargeting audiences.
+              Ship Variant A as the primary creative to maximize conversion volume, while testing Variant B&apos;s narrative style on high-intent retargeting audiences.
             </p>
           </div>
           <button
