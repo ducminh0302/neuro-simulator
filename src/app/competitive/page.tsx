@@ -1,4 +1,4 @@
-import { RefreshCw, Search, Upload, Scan, ChevronDown } from "lucide-react";
+import { RefreshCw, Search, Upload, ChevronDown } from "lucide-react";
 
 import { SiteShell } from "@/components/site-shell";
 import { Card, Pill, SectionHeading, Surface } from "@/components/ui";

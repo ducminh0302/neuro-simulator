@@ -6,7 +6,7 @@ import { Search } from "lucide-react";
 
 import { SiteShell } from "@/components/site-shell";
 import { Card, Pill, SectionHeading, Surface } from "@/components/ui";
-import { simulationNewPath, simulationSections } from "@/lib/site";
+import { simulationSections } from "@/lib/site";
 
 export default function SimulateIndexPage() {
   const [searchQuery, setSearchQuery] = useState("");

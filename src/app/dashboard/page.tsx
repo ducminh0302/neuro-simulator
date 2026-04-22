@@ -3,7 +3,7 @@ import { TrendingUp } from "lucide-react";
 
 import { SiteShell } from "@/components/site-shell";
 import { Card, Pill, SectionHeading, StatCard } from "@/components/ui";
-import { simulationIndexPath, simulationNewPath } from "@/lib/site";
+import { simulationIndexPath } from "@/lib/site";
 
 export const metadata = { title: "Dashboard · Nexus Digital Agency" };
 
