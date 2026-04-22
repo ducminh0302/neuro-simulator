@@ -448,13 +448,22 @@ export function PublicLanding() {
         <div className="relative mx-auto flex h-full max-w-[1240px] items-center justify-between px-6 sm:px-10">
           <Link href="/" className="text-[13.5px] font-semibold tracking-[0.01em]">{appName}</Link>
           <ul className="hidden items-center gap-7 md:flex">
-            {[["#features", "Features"], ["#pricing", "Pricing"], ["/library", "Library"], [simulationNewPath, "Book Demo"]].map(([href, label]) => (
-              <li key={label}><Link href={href} className="text-[13px] text-[#6b6b6b] transition-colors hover:text-black">{label}</Link></li>
+            {["Features", "Pricing", "Library", "Book Demo"].map((label) => (
+              <li key={label}>
+                <button
+                  type="button"
+                  disabled
+                  aria-disabled="true"
+                  className="cursor-not-allowed text-[13px] text-[#6b6b6b]/45"
+                >
+                  {label}
+                </button>
+              </li>
             ))}
           </ul>
           <div className="flex items-center gap-2">
             <Link href="/auth" className="rounded-full border border-black/20 px-[18px] py-[7px] text-[12.5px] font-medium transition-all hover:bg-[#f4f4f4]">Sign up</Link>
-            <Link href="/dashboard" className="rounded-full bg-black border border-black px-[18px] py-[7px] text-[12.5px] font-medium text-white transition-all hover:bg-[#2a2a2a]">Log in</Link>
+            <Link href="/sign-in" className="rounded-full bg-black border border-black px-[18px] py-[7px] text-[12.5px] font-medium text-white transition-all hover:bg-[#2a2a2a]">Log in</Link>
           </div>
         </div>
       </nav>

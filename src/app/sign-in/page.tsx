@@ -3,10 +3,10 @@ import { redirect } from "next/navigation";
 
 import { Pill } from "@/components/ui";
 
-export const metadata = { title: "Sign up" };
+export const metadata = { title: "Sign in" };
 
-export default function AuthPage() {
-  async function mockSignUp() {
+export default function SignInPage() {
+  async function mockSignIn() {
     "use server";
     redirect("/dashboard");
   }
@@ -18,32 +18,41 @@ export default function AuthPage() {
           <section className="flex items-center justify-center px-6 py-10 sm:px-10 lg:px-16">
             <div className="w-full max-w-lg space-y-10">
               <div className="space-y-4">
-                <Pill tone="soft">Secure workspace</Pill>
-                <h1 className="headline text-5xl leading-[0.95] tracking-[-0.04em] sm:text-6xl">Create an account</h1>
-                <p className="text-lg text-muted">Initialize the neural workspace with a simple, static sign-up screen.</p>
+                <Pill tone="soft">Welcome back</Pill>
+                <h1 className="headline text-5xl leading-[0.95] tracking-[-0.04em] sm:text-6xl">Sign in</h1>
+                <p className="text-lg text-muted">Access your neural workspace with the same clean authentication flow.</p>
               </div>
 
-              <form className="space-y-6" action={mockSignUp}>
+              <form className="space-y-6" action={mockSignIn}>
                 {[
-                  ["Full name", "John Doe"],
-                  ["Email address", "john@example.com"],
-                  ["Password", "••••••••"],
-                ].map(([label, placeholder]) => (
+                  ["Email address", "john@example.com", "email"],
+                  ["Password", "••••••••", "password"],
+                ].map(([label, placeholder, type]) => (
                   <label key={label as string} className="block space-y-3">
                     <span className="kicker">{label as string}</span>
                     <div className="flex items-center gap-3 rounded-[1.5rem] border border-line bg-white px-6 py-4 shadow-[0_10px_30px_rgba(32,36,39,0.04)]">
-                      <input type="text" placeholder={placeholder as string} className="w-full bg-transparent text-base outline-none placeholder:text-muted/70" />
+                      <input
+                        type={type as string}
+                        placeholder={placeholder as string}
+                        className="w-full bg-transparent text-base outline-none placeholder:text-muted/70"
+                      />
                     </div>
                   </label>
                 ))}
 
-                <button className="inline-flex w-full items-center justify-center gap-3 rounded-full bg-accent px-6 py-4 text-base font-semibold text-white transition-transform hover:-translate-y-0.5" type="submit">
-                  Initialize account
+                <button
+                  className="inline-flex w-full items-center justify-center gap-3 rounded-full bg-accent px-6 py-4 text-base font-semibold text-white transition-transform hover:-translate-y-0.5"
+                  type="submit"
+                >
+                  Sign in
                 </button>
               </form>
 
               <p className="text-center text-sm text-muted">
-                Already have an account? <Link href="/sign-in" className="font-semibold text-accent hover:underline">Sign in</Link>
+                Do not have an account yet?{" "}
+                <Link href="/auth" className="font-semibold text-accent hover:underline">
+                  Sign up
+                </Link>
               </p>
             </div>
           </section>
@@ -53,11 +62,11 @@ export default function AuthPage() {
               <div className="absolute left-8 top-8 rounded-full bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-ink">Authentication</div>
               <div className="absolute bottom-8 right-8 max-w-sm rounded-[1.5rem] bg-white/80 p-6">
                 <div className="flex items-center gap-3">
-                  <p className="headline text-lg">Clean and focused</p>
+                  <p className="headline text-lg">Fast and familiar</p>
                 </div>
-                <p className="mt-3 text-sm text-muted leading-relaxed">A simple sign-in surface that matches the rest of the site without introducing visual conflict.</p>
+                <p className="mt-3 text-sm text-muted leading-relaxed">A focused sign-in surface that matches your current sign-up page and visual language.</p>
                 <div className="mt-5 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-accent">
-                  Secure by design
+                  Secure access
                 </div>
               </div>
             </div>
