@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { type ReactNode, useState, useEffect } from "react";
 
-import { appName, footerLinks, navItems, simulationNewPath } from "@/lib/site";
+import { Settings, HelpCircle, PanelLeftOpen, PanelLeftClose } from "lucide-react";
+
+import { appName, navItems, simulationNewPath } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 export type ShellProps = {
@@ -50,10 +52,10 @@ export function SiteShell({
         {mounted && isCollapsed && (
           <button
             onClick={() => handleToggle(false)}
-            className="fixed left-6 top-6 z-50 hidden h-[66px] w-[66px] items-center justify-center rounded-full bg-white/80 text-ink shadow-soft soft-border backdrop-blur-md transition-all duration-300 hover:scale-110 lg:flex text-[10px] font-bold tracking-widest uppercase"
+            className="fixed left-6 top-6 z-50 hidden h-[66px] w-[66px] items-center justify-center rounded-full bg-white/80 text-ink shadow-soft soft-border backdrop-blur-md transition-all duration-300 hover:scale-110 lg:flex"
             aria-label="Expand sidebar"
           >
-            Open
+            <PanelLeftOpen className="h-6 w-6" />
           </button>
         )}
 
@@ -67,19 +69,16 @@ export function SiteShell({
             <div className="relative mb-8 space-y-4 rounded-[2rem] bg-panel p-6 shadow-soft soft-border">
               <button
                 onClick={() => handleToggle(true)}
-                className="absolute -right-5 -top-5 flex h-[54px] w-[54px] items-center justify-center rounded-full bg-white text-ink shadow-soft border border-line transition-transform duration-300 hover:scale-110 active:scale-95 text-[10px] font-bold tracking-widest uppercase"
+                className="absolute -right-5 -top-5 flex h-[54px] w-[54px] items-center justify-center rounded-full bg-white text-ink shadow-soft border border-line transition-transform duration-300 hover:scale-110 active:scale-95"
                 title="Collapse sidebar"
               >
-                Close
+                <PanelLeftClose className="h-5 w-5" />
               </button>
               <div className="flex items-center justify-between">
                 <div>
                   <p className="headline text-xl">{appName}</p>
                   <p className="kicker mt-1">Neural workspace</p>
                 </div>
-                <span className="rounded-full bg-accentSoft px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-accent">
-                  Live
-                </span>
               </div>
               <Link
                 href={ctaHref}
@@ -114,16 +113,32 @@ export function SiteShell({
               })}
             </nav>
 
-            <div className="mt-6 space-y-3 border-t border-line pt-6">
-              {footerLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  className="block rounded-full px-5 py-2 text-sm text-muted transition-colors hover:text-ink"
-                >
-                  {link.label}
-                </Link>
-              ))}
+            <div className="mt-auto border-t border-line pt-6 space-y-1">
+              <button
+                className="flex items-center gap-4 w-full rounded-full px-5 py-3 text-sm font-medium text-muted transition-all duration-300 hover:bg-panelSoft hover:text-ink group"
+              >
+                <Settings className="h-5 w-5 transition-transform duration-500 group-hover:rotate-90" />
+                <span className="uppercase tracking-wide">Settings</span>
+              </button>
+              
+              <button
+                className="flex items-center gap-4 w-full rounded-full px-5 py-3 text-sm font-medium text-muted transition-all duration-300 hover:bg-panelSoft hover:text-ink"
+              >
+                <HelpCircle className="h-5 w-5" />
+                <span className="uppercase tracking-wide">Help Center</span>
+              </button>
+              
+              <div className="px-5 py-4 mt-2">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 shrink-0 rounded-xl bg-gradient-to-tr from-accent to-purple-500 flex items-center justify-center text-white font-bold text-lg shadow-sm">
+                    N
+                  </div>
+                  <div className="min-w-0">
+                    <p className="headline text-sm truncate">Nexus Digital Agency</p>
+                    <p className="text-[11px] text-muted truncate">hello@nexus-digital.agency</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </aside>
@@ -150,9 +165,12 @@ export function SiteShell({
                 {subtitle ? <p className="text-sm text-muted">{subtitle}</p> : null}
               </div>
               <div className="flex items-center gap-3">
-                <button className="rounded-full bg-panel px-4 py-2 text-sm font-medium text-ink soft-border transition-transform hover:-translate-y-0.5">
-                  Preview
-                </button>
+                <Link
+                  href={simulationNewPath}
+                  className="rounded-full bg-panel px-5 py-2.5 text-sm font-semibold text-ink soft-border transition-all hover:bg-panelSoft hover:-translate-y-0.5 active:scale-95"
+                >
+                  A/B Compare
+                </Link>
                 <Link
                   href={ctaHref}
                   className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"

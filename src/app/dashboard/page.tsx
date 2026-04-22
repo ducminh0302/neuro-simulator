@@ -5,9 +5,9 @@ import { SiteShell } from "@/components/site-shell";
 import { Card, Pill, SectionHeading, StatCard } from "@/components/ui";
 import { simulationIndexPath, simulationNewPath } from "@/lib/site";
 
-export const metadata = { title: "Dashboard · GlowUp Skincare" };
+export const metadata = { title: "Dashboard · Nexus Digital Agency" };
 
-const learningProgressPct = 70;
+const learningProgressPct = 85;
 
 const metrics: Array<{
   label: string;
@@ -15,70 +15,55 @@ const metrics: Array<{
   sub: string;
   accent?: boolean;
 }> = [
-  { label: "Content", value: "21", sub: "39 scored" },
-  { label: "Campaigns", value: "0", sub: "44 observations" },
-  { label: "Simulations", value: "10", sub: "completed" },
-  { label: "Prediction Accuracy", value: "—", sub: "No predictions yet" },
+  { label: "Active Clients", value: "18", sub: "Premium portfolio" },
+  { label: "Campaigns Optimized", value: "142", sub: "Across 4 platforms" },
+  { label: "Monthly Ad Spend", value: "$2.4M", sub: "Managed budget" },
+  { label: "Avg. ROI Lift", value: "+34.2%", sub: "AI Enhanced", accent: true },
 ];
 
 const engagementDrivers = [
   {
     rank: 1,
-    title: "Memory",
-    body: "Strong memory increases engagement significantly for your brand.",
-    score: "+0.582",
+    title: "Visual Stop-Rate",
+    body: "First 3 frames with high-contrast motion increase thumb-stop rates by 52%.",
+    score: "+0.912",
   },
   {
     rank: 2,
-    title: "Attention",
-    body: "Strong attention decreases engagement significantly for your brand.",
-    score: "-0.418",
+    title: "Platform Native Feel",
+    body: "Using lo-fi, organic aesthetics on TikTok drives 2.4× higher comment engagement.",
+    score: "+0.784",
   },
   {
     rank: 3,
-    title: "Emotional Arousal",
-    body: "Emotional Arousal has a moderate effect on engagement.",
-    score: "+0.393",
+    title: "Sound Syncing",
+    body: "Beats-per-minute alignment with visual cuts increases completion rates significantly.",
+    score: "+0.642",
   },
 ] as const;
 
 const recentFindings = [
-  "Social Resonance is a key strength (top 10%, score 72). Lean into this.",
-  "Instagram Feed is 2.0× more effective than baseline — consider increasing allocation here.",
-  "Sustained Attention is in the bottom 25% for this cohort — test clearer hooks in the first 2s.",
-  "In Story placements, Instagram Feed is underperforming (0.3× baseline) — reallocate or refresh creative.",
+  "Meta Video Ads for 'Luxe Client' saw 42% higher retention with neural lighting adjustment.",
+  "TikTok Spark Ads reach 89% presence score using the 'Organic-UGC' aesthetic model.",
+  "Cross-platform campaign resonance peaked among 18-24 cohorts using the Vibe-Shift strategy.",
+  "Ad fatigue predicted 14 days earlier than industry benchmarks using neural decay analysis.",
 ] as const;
 
 const recentSimulations = [
-  { name: "IG Feed Post Test", meta: "single · 50.0K agents" },
-  { name: "Compare: Variant A vs Variant B", meta: "comparison · 10.0K agents" },
-  { name: "Niacinamide Launch - Acne Solutions", meta: "single · 10.0K agents" },
+  { name: "Neuro-Focus Simulator", meta: "Ad Creative Attention Map" },
+  { name: "Gala Ready Simulator", meta: "Luxury Brand Aesthetic Testing" },
+  { name: "Post Content Simulator", meta: "Social Feed Resonance Analysis" },
+  { name: "Workspace Productivity", meta: "Team Creative Workflow Flow" },
 ] as const;
 
 export default function DashboardPage() {
   return (
-    <SiteShell active="dashboard" title="Dashboard Overview" subtitle="A compact control center for campaigns, simulations, and model health.">
+    <SiteShell active="dashboard" title="Agency Control Center" subtitle="Managing multi-platform campaigns and neural creative optimization.">
       <div className="space-y-8 pb-10">
         <SectionHeading
-          eyebrow="Brand workspace"
-          title={<>GlowUp Skincare</>}
-          description="D2C skincare"
-          action={
-            <div className="flex flex-wrap items-center gap-3">
-              <Link
-                href={simulationNewPath}
-                className="inline-flex items-center gap-2 rounded-full bg-panel px-6 py-3 text-sm font-medium soft-border transition-colors hover:bg-panelSoft"
-              >
-                A/B Compare
-              </Link>
-              <Link
-                href={simulationNewPath}
-                className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
-              >
-                + New Simulation
-              </Link>
-            </div>
-          }
+          eyebrow="Agency workspace"
+          title={<>Nexus Digital Agency</>}
+          description="Social Media Advertising"
         />
 
         <Card className="p-6 sm:p-8">
@@ -90,11 +75,11 @@ export default function DashboardPage() {
               <p className="kicker">Learning status</p>
               <h2 className="headline mt-2 text-2xl sm:text-3xl">Calibrated from live observations</h2>
               <p className="mt-2 text-sm leading-relaxed text-muted sm:text-base">
-                Calibrated from 30 observations across 1 platform — strong predictions
+                Calibrated from 142 neural observations across all channels — high confidence
               </p>
-              <p className="mt-4 text-xs uppercase tracking-[0.18em] text-muted">30 observations — calibrated</p>
+              <p className="mt-4 text-xs uppercase tracking-[0.18em] text-muted">142 assets · fully calibrated</p>
               <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-line/70">
-                <div className="h-full rounded-full bg-ink" style={{ width: `${learningProgressPct}%` }} />
+                <div className="h-full rounded-full bg-accent" style={{ width: `${learningProgressPct}%` }} />
               </div>
             </div>
           </div>
@@ -134,13 +119,23 @@ export default function DashboardPage() {
 
         <div className="grid gap-6 lg:grid-cols-5">
           <Card className="p-6 sm:p-8 lg:col-span-3">
-            <p className="kicker">Insights</p>
-            <h2 className="headline mt-2 text-2xl sm:text-3xl">Recent findings</h2>
+            <div className="flex items-start justify-between gap-2">
+              <div>
+                <p className="kicker">Insights</p>
+                <h2 className="headline mt-2 text-2xl sm:text-3xl">Recent findings</h2>
+              </div>
+              <Link
+                href="#"
+                className="shrink-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted transition-colors hover:text-ink"
+              >
+                View all →
+              </Link>
+            </div>
             <ul className="mt-6 space-y-4">
               {recentFindings.map((line) => (
                 <li
                   key={line}
-                  className="border-l-2 border-accent/40 bg-panelSoft/50 py-1 pl-4 text-sm leading-relaxed text-ink/90"
+                  className="border-l-2 border-accent/40 bg-panelSoft/50 py-2 pl-4 text-base leading-relaxed text-ink/90"
                 >
                   {line}
                 </li>

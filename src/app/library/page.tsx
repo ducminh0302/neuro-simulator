@@ -15,11 +15,27 @@ const FILTERS = [
 ];
 
 export default function LibraryPage() {
+  const [items, setItems] = useState(libraryItems);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState("all");
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleFileUpload = (files: FileList | null) => {
+    if (!files) return;
+    
+    const newItems = Array.from(files).map((file) => ({
+      name: file.name,
+      kind: "file" as const,
+      type: file.type.includes("image") ? "Image" : file.type.includes("video") ? "Video" : "Text",
+      meta: `${(file.size / 1024).toFixed(1)} KB · uploaded just now`,
+      accent: "bg-accentSoft text-accent",
+    }));
+
+    setItems((prev) => [...newItems, ...prev]);
+  };
 
   const filteredItems = useMemo(() => {
-    return libraryItems.filter((item) => {
+    return items.filter((item) => {
       const matchesSearch = item.name
         .toLowerCase()
         .includes(searchQuery.toLowerCase());
@@ -32,7 +48,7 @@ export default function LibraryPage() {
 
       return matchesSearch && matchesFilter;
     });
-  }, [searchQuery, activeFilter]);
+  }, [items, searchQuery, activeFilter]);
 
   return (
     <SiteShell
@@ -44,7 +60,7 @@ export default function LibraryPage() {
         <SectionHeading
           eyebrow="Asset vault"
           title="Library"
-          description="A realistic upload library for videos, images, text files, and folders in a clean full-width list view."
+          description="Manage your social media assets. Drag and drop new creative content or upload performance data directly to the vault."
           action={
             <div className="flex items-center gap-3">
               <button className="inline-flex items-center gap-2 rounded-full bg-panel px-6 py-3 text-sm font-medium soft-border hover:bg-panelSoft transition-colors">
@@ -56,6 +72,43 @@ export default function LibraryPage() {
             </div>
           }
         />
+
+        <div 
+          onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+          onDragLeave={() => setIsDragging(false)}
+          onDrop={(e) => {
+            e.preventDefault();
+            setIsDragging(false);
+            handleFileUpload(e.dataTransfer.files);
+          }}
+          className={`group relative flex flex-col items-center justify-center rounded-[2.5rem] border-2 border-dashed p-16 text-center transition-all duration-500 ${
+            isDragging 
+              ? "border-accent bg-accent/5 scale-[1.01] shadow-soft" 
+              : "border-accent/20 bg-gradient-to-b from-white to-accentSoft/20 hover:border-accent/40 hover:bg-accentSoft/30"
+          }`}
+        >
+          <input 
+            type="file" 
+            multiple 
+            className="absolute inset-0 cursor-pointer opacity-0" 
+            onChange={(e) => handleFileUpload(e.target.files)}
+          />
+          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white shadow-soft group-hover:scale-110 transition-transform duration-500">
+            <svg className="h-8 w-8 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+          </div>
+          <p className="headline mt-6 text-2xl text-ink">Drop more content here</p>
+          <p className="mt-2 text-base text-muted max-w-sm">
+            Or click to browse your agency creatives and campaign data
+          </p>
+          <div className="mt-8 flex items-center gap-2 rounded-full bg-accent px-8 py-3 text-sm font-bold text-white shadow-lift transition-all group-hover:px-10">
+            <span>Upload files</span>
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+        </div>
 
         <Surface className="p-5 sm:p-6 shadow-soft">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
