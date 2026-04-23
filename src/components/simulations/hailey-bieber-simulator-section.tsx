@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowLeft,
   ChevronDown,
@@ -643,11 +644,12 @@ export function HaileyBieberSimulatorSection() {
 
           {/* Product image + metrics */}
           <div className="space-y-5">
-            <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-neutral-100">
-              <img
+            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-neutral-100">
+              <Image
                 src="/hailey-bieber.jpg"
                 alt="Hailey Bieber Campaign"
-                className="h-full w-full object-cover"
+                fill
+                className="object-cover"
               />
             </div>
 

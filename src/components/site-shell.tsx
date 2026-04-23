@@ -13,6 +13,7 @@ import {
   Swords,
   FlaskConical,
   Plus,
+  type LucideIcon,
 } from "lucide-react";
 
 import {
@@ -34,7 +35,7 @@ export type ShellProps = {
 };
 
 /** Icon map for nav items, keyed by href. */
-const navIcons: Record<string, React.ComponentType<{ className?: string }>> = {
+const navIcons: Record<string, LucideIcon> = {
   "/dashboard": LayoutDashboard,
   "/library": FolderClosed,
   "/competitive": Swords,

@@ -440,7 +440,6 @@ type FunnelSegment = {
   bar: string;
 };
 
-const funnelTotal = 10000;
 const funnelSegments: FunnelSegment[] = [
   { label: "Aware", count: 4460, percent: 44.6, dot: "bg-[#2f7bff]", bar: "bg-[#2f7bff]" },
   { label: "Loyal", count: 0, percent: 0, dot: "bg-[#14b8a6]", bar: "bg-[#14b8a6]" },
