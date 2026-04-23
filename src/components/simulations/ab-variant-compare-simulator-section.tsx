@@ -16,7 +16,6 @@ import {
   FileText,
   Globe,
   History,
-  LayoutGrid,
   Lightbulb,
   MessageSquare,
   MousePointerClick,
@@ -473,7 +472,14 @@ function AnalysisTab({
   ctrLift: number;
   activeVariant: VariantResult;
   setActiveVariantName: (name: string) => void;
-  detailCards: any[];
+  detailCards: Array<{
+    icon: React.ReactNode;
+    label: string;
+    value: string;
+    tint: string;
+    stroke: string;
+    path: string;
+  }>;
 }) {
   return (
     <div className="animate-in fade-in slide-in-from-bottom-2 duration-500 space-y-8">
@@ -546,7 +552,11 @@ function AnalysisTab({
               </div>
             </div>
             <div className="h-[480px] w-full overflow-hidden rounded-[2.2rem]">
-              <BrainViewerLazy predictionKey="text.predictions" syncCamera={true} />
+              <BrainViewerLazy 
+                predictionKey="text.predictions" 
+                syncCamera={true} 
+                autoRotateSpeed={0.02} 
+              />
             </div>
             <div className="p-6">
               <div className="flex items-center justify-between">
@@ -556,7 +566,7 @@ function AnalysisTab({
               <p className="mt-3 text-[13px] leading-relaxed text-muted">
                 {variants[0].name} triggers targeted activation in the dorsolateral prefrontal cortex. 
                 Data suggests high cognitive processing and logical validation of the value proposition, 
-                leading to a "considered" conversion profile.
+                leading to a &quot;considered&quot; conversion profile.
               </p>
             </div>
           </div>
@@ -572,7 +582,11 @@ function AnalysisTab({
               </div>
             </div>
             <div className="h-[480px] w-full overflow-hidden rounded-[2.2rem]">
-              <BrainViewerLazy predictionKey="stim.predictions" syncCamera={true} />
+              <BrainViewerLazy 
+                predictionKey="stim.predictions" 
+                syncCamera={true} 
+                autoRotateSpeed={0.02} 
+              />
             </div>
             <div className="p-6">
               <div className="flex items-center justify-between">
@@ -1270,16 +1284,16 @@ function IntegrationsTab() {
 
 function VerifiedBadge() {
   return (
-    <div 
+    <span 
       className="group relative inline-flex ml-1.5"
       title="Verified Data: Pulled via Direct API Integration"
     >
-      <div className="flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600 p-[1px] shadow-[0_0_8px_rgba(37,99,235,0.3)] cursor-help">
-        <div className="flex h-full w-full items-center justify-center rounded-full bg-white">
+      <span className="flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600 p-[1px] shadow-[0_0_8px_rgba(37,99,235,0.3)] cursor-help">
+        <span className="flex h-full w-full items-center justify-center rounded-full bg-white">
           <CheckCircle2 className="h-2.5 w-2.5 text-blue-600" />
-        </div>
-      </div>
-    </div>
+        </span>
+      </span>
+    </span>
   );
 }
 

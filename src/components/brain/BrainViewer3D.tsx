@@ -37,8 +37,8 @@ interface PredictionData {
 
 // Global synchronization for multiple brain viewers
 const sharedListeners = new Set<(pos: THREE.Vector3, target: THREE.Vector3, senderId: string) => void>();
-let lastPos = new THREE.Vector3();
-let lastTarget = new THREE.Vector3();
+const lastPos = new THREE.Vector3();
+const lastTarget = new THREE.Vector3();
 
 const DEFAULT_PREDICTION_KEY = "text.predictions";
 
@@ -176,6 +176,7 @@ interface SceneProps {
 
 function Scene({ surface, autoRotate, prediction, autoRotateSpeed, syncCamera }: SceneProps) {
   const { camera } = useThree();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const controlsRef = useRef<any>(null);
   const instanceId = useMemo(() => Math.random().toString(36).substr(2, 9), []);
   const isInternalUpdate = useRef(false);
@@ -322,6 +323,7 @@ export function BrainViewer3D({
   predictionKey = DEFAULT_PREDICTION_KEY,
   segmentIndex,
   autoRotateSpeed = 0.25,
+  syncCamera = false,
 }: BrainViewer3DProps = {}) {
   const [surface, setSurface] = useState<SurfaceData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -375,7 +377,7 @@ export function BrainViewer3D({
             autoRotate={autoRotate}
             prediction={prediction}
             autoRotateSpeed={autoRotateSpeed}
-            syncCamera={props.syncCamera}
+            syncCamera={syncCamera}
           />
         </Canvas>
       )}

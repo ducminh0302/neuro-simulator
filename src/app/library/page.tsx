@@ -13,7 +13,6 @@ import {
   Image as ImageIcon, 
   FileText, 
   Table, 
-  FileCode,
   X
 } from "lucide-react";
 
