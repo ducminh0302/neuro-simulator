@@ -3,15 +3,26 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
+  Activity,
   ArrowLeft,
   ArrowUpRight,
   CheckCircle2,
+  Database,
+  Clipboard,
+  Code,
   Download,
   Eye,
+  FileText,
+  Globe,
+  History,
+  LayoutGrid,
   Lightbulb,
+  MessageSquare,
   MousePointerClick,
+  Settings,
   ShoppingCart,
   Sparkles,
+  Table,
   Target,
   TrendingUp,
   Users,
@@ -144,8 +155,121 @@ const insights: InsightItem[] = [
   },
 ];
 
+type TabId = "analysis" | "integrations" | "history" | "settings";
+
+interface Tab {
+  id: TabId;
+  label: string;
+  icon: LucideIcon;
+}
+
+const TABS: Tab[] = [
+  { id: "analysis", label: "Analysis", icon: Activity },
+  { id: "integrations", label: "Integrations", icon: Globe },
+  { id: "history", label: "Data History", icon: History },
+  { id: "settings", label: "Settings", icon: Settings },
+];
+
+interface Service {
+  id: string;
+  name: string;
+  description: string;
+  status: "live" | "disconnected";
+  lastSynced?: string;
+  icon: LucideIcon;
+  color: string;
+}
+
+interface IntegrationCategory {
+  id: string;
+  name: string;
+  services: Service[];
+}
+
+const INTEGRATION_CATEGORIES: IntegrationCategory[] = [
+  {
+    id: "advertising",
+    name: "Advertising Platforms",
+    services: [
+      {
+        id: "meta",
+        name: "Meta Ads",
+        description: "Sync conversion data automatically",
+        status: "live",
+        lastSynced: "2m ago",
+        icon: MessageSquare,
+        color: "bg-blue-600",
+      },
+      {
+        id: "google",
+        name: "Google Ads",
+        description: "Import campaign performance metrics",
+        status: "disconnected",
+        icon: Target,
+        color: "bg-red-500",
+      },
+      {
+        id: "tiktok",
+        name: "TikTok Ads",
+        description: "Track video engagement and ROI",
+        status: "disconnected",
+        icon: Zap,
+        color: "bg-black",
+      },
+    ],
+  },
+  {
+    id: "analytics",
+    name: "Analytics",
+    services: [
+      {
+        id: "ga4",
+        name: "GA4",
+        description: "Deep dive into user behavior and paths",
+        status: "live",
+        lastSynced: "10m ago",
+        icon: Activity,
+        color: "bg-orange-500",
+      },
+      {
+        id: "mixpanel",
+        name: "Mixpanel",
+        description: "Advanced event tracking and retention",
+        status: "disconnected",
+        icon: Database,
+        color: "bg-purple-600",
+      },
+    ],
+  },
+  {
+    id: "communication",
+    name: "Communication",
+    services: [
+      {
+        id: "slack",
+        name: "Slack",
+        description: "Real-time alerts for significant shifts",
+        status: "live",
+        lastSynced: "1m ago",
+        icon: MessageSquare,
+        color: "bg-emerald-500",
+      },
+      {
+        id: "zapier",
+        name: "Zapier",
+        description: "Connect to 5000+ other applications",
+        status: "disconnected",
+        icon: Zap,
+        color: "bg-orange-600",
+      },
+    ],
+  },
+];
+
 export function AbVariantCompareSimulatorSection() {
-  const [activeVariantName, setActiveVariantName] = useState<string>("Variant A");
+  const [activeTab, setActiveTab] = useState<TabId>("analysis");
+  const [activeVariantName, setActiveVariantName] = useState(variants[0].name);
+  const [showMainExportMenu, setShowMainExportMenu] = useState(false);
 
   const winner = useMemo(
     () => variants.reduce((best, current) => (current.conversions > best.conversions ? current : best)),
@@ -217,15 +341,140 @@ export function AbVariantCompareSimulatorSection() {
           </h1>
 
         </div>
-        <button
-          type="button"
-          className="inline-flex items-center gap-2 rounded-full bg-panel px-5 py-2.5 text-sm font-semibold text-ink soft-border transition-all hover:bg-panelSoft hover:-translate-y-0.5"
-        >
-          <Download className="h-4 w-4" />
-          Export
-        </button>
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => setShowMainExportMenu(!showMainExportMenu)}
+            className={cn(
+              "inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all soft-border shadow-sm",
+              showMainExportMenu ? "bg-ink text-white" : "bg-panel text-ink hover:bg-panelSoft hover:-translate-y-0.5"
+            )}
+          >
+            <Download className="h-4 w-4" />
+            Export to
+          </button>
+          
+          {showMainExportMenu && (
+            <>
+              <div className="fixed inset-0 z-30" onClick={() => setShowMainExportMenu(false)} />
+              <div className="absolute right-0 mt-2 w-64 rounded-2xl bg-white p-2 shadow-2xl soft-border z-40 animate-in fade-in zoom-in-95 duration-200">
+                <p className="px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-muted">Simulation Export</p>
+                <button className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink hover:bg-panelSoft transition-colors text-left">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-rose-50 text-rose-600">
+                    <FileText className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold">Executive Report</p>
+                    <p className="text-[10px] text-muted">Generate PDF summary</p>
+                  </div>
+                </button>
+                <button className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink hover:bg-panelSoft transition-colors text-left">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+                    <Globe className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold">Presentation Slides</p>
+                    <p className="text-[10px] text-muted">Direct to Google Slides</p>
+                  </div>
+                </button>
+                <button className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink hover:bg-panelSoft transition-colors text-left">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
+                    <Database className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold">CRM Sync</p>
+                    <p className="text-[10px] text-muted">Push to Salesforce/HubSpot</p>
+                  </div>
+                </button>
+                <div className="my-1 border-t border-line" />
+                <button className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-ink hover:bg-panelSoft transition-colors text-left">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-panelSoft text-muted">
+                    <Sparkles className="h-4 w-4" />
+                  </div>
+                  <p className="text-xs font-semibold">Share internal link</p>
+                </button>
+              </div>
+            </>
+          )}
+        </div>
       </div>
 
+      {/* Sub-Navigation Tabs */}
+      <div className="flex items-center gap-1 border-b border-line pb-px">
+        {TABS.map((tab) => {
+          const isActive = activeTab === tab.id;
+          const Icon = tab.icon;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={cn(
+                "relative flex items-center gap-2 px-4 py-3 text-sm font-medium transition-all",
+                isActive ? "text-ink" : "text-muted hover:text-ink",
+              )}
+            >
+              <Icon className={cn("h-4 w-4", isActive ? "text-ink" : "text-muted")} />
+              {tab.label}
+              {isActive && (
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full bg-gradient-to-r from-blue-500 to-purple-600" />
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      {activeTab === "analysis" ? (
+        <AnalysisTab
+          winner={winner}
+          loser={loser}
+          conversionLead={conversionLead}
+          revenueLead={revenueLead}
+          conversionLift={conversionLift}
+          revenueLift={revenueLift}
+          cpaLift={cpaLift}
+          ctrLift={ctrLift}
+          activeVariant={activeVariant}
+          setActiveVariantName={setActiveVariantName}
+          detailCards={detailCards}
+        />
+      ) : activeTab === "integrations" ? (
+        <IntegrationsTab />
+      ) : activeTab === "history" ? (
+        <DataHistoryTab />
+      ) : (
+        <SettingsTab />
+      )}
+    </div>
+  );
+}
+
+function AnalysisTab({
+  winner,
+  loser,
+  conversionLead,
+  revenueLead,
+  conversionLift,
+  revenueLift,
+  cpaLift,
+  ctrLift,
+  activeVariant,
+  setActiveVariantName,
+  detailCards,
+}: {
+  winner: VariantResult;
+  loser: VariantResult;
+  conversionLead: number;
+  revenueLead: number;
+  conversionLift: number;
+  revenueLift: number;
+  cpaLift: number;
+  ctrLift: number;
+  activeVariant: VariantResult;
+  setActiveVariantName: (name: string) => void;
+  detailCards: any[];
+}) {
+  return (
+    <div className="animate-in fade-in slide-in-from-bottom-2 duration-500 space-y-8">
       <Card className="p-6 sm:p-8">
         <div className="flex items-center justify-between gap-4">
           <p className="kicker">A/B Comparison</p>
@@ -248,6 +497,7 @@ export function AbVariantCompareSimulatorSection() {
                 <div className="flex items-center gap-2">
                   <p className="text-base font-semibold text-ink">{v.name}</p>
                   {isWinner ? <Pill tone="neutral">Winner</Pill> : null}
+                  <VerifiedBadge />
                 </div>
                 <dl className="mt-4 space-y-2.5 text-sm">
                   <Row label="Conversions" value={v.conversions.toString()} />
@@ -264,7 +514,9 @@ export function AbVariantCompareSimulatorSection() {
           {winner.name} leads by{" "}
           <span className="font-semibold text-ink">{conversionLead} conversions</span>
           <span className="mx-2">·</span>
-          <span className="font-semibold text-ink">${revenueLead.toLocaleString("en-US")} more revenue</span>
+          <span className="font-semibold text-ink">
+            ${revenueLead.toLocaleString("en-US")} more revenue
+          </span>
         </p>
       </Card>
 
@@ -290,12 +542,16 @@ export function AbVariantCompareSimulatorSection() {
             value={`+${conversionLift.toFixed(1)}%`}
             sub={`${loser.conversions} → ${winner.conversions}`}
             positive
+            verified
           />
           <LiftCard
             label="Revenue lift"
             value={`+${revenueLift.toFixed(1)}%`}
-            sub={`$${loser.revenue.toLocaleString("en-US")} → $${winner.revenue.toLocaleString("en-US")}`}
+            sub={`$${loser.revenue.toLocaleString("en-US")} → $${winner.revenue.toLocaleString(
+              "en-US",
+            )}`}
             positive
+            verified
           />
           <LiftCard
             label="CPA reduction"
@@ -308,6 +564,7 @@ export function AbVariantCompareSimulatorSection() {
             value={`+${ctrLift.toFixed(1)}%`}
             sub={`${loser.ctr.toFixed(2)}% → ${winner.ctr.toFixed(2)}%`}
             positive
+            verified
           />
         </div>
       </Card>
@@ -341,6 +598,7 @@ export function AbVariantCompareSimulatorSection() {
               <div className="flex items-center gap-2 text-xs font-medium text-muted">
                 {c.icon}
                 {c.label}
+                <VerifiedBadge />
               </div>
               <p className="headline mt-3 text-3xl text-ink">{c.value}</p>
               <div className={cn("mt-4 h-12 rounded-lg bg-gradient-to-b", c.tint)}>
@@ -382,7 +640,6 @@ export function AbVariantCompareSimulatorSection() {
             const aConv = prev ? (stage.a / prev.a) * 100 : null;
             const bConv = prev ? (stage.b / prev.b) * 100 : null;
 
-
             const stageTints = [
               "bg-cyan-50/30",
               "bg-indigo-50/30",
@@ -392,14 +649,20 @@ export function AbVariantCompareSimulatorSection() {
             const stageTint = stageTints[idx % stageTints.length];
 
             return (
-              <div key={stage.key} className={cn("rounded-2xl p-4 soft-border transition-all", stageTint)}>
+              <div
+                key={stage.key}
+                className={cn("rounded-2xl p-4 soft-border transition-all", stageTint)}
+              >
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div className="flex items-center gap-3">
                     <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white soft-border">
                       <Icon className="h-4 w-4 text-ink" />
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-ink">{stage.label}</p>
+                      <p className="text-sm font-semibold text-ink">
+                        {stage.label}
+                        {idx === 0 && <span className="ml-2 inline-block"><VerifiedBadge /></span>}
+                      </p>
                       {aConv !== null && bConv !== null ? (
                         <p className="text-[11px] text-muted">
                           Step conversion · A {aConv.toFixed(1)}% · B {bConv.toFixed(1)}%
@@ -488,7 +751,12 @@ export function AbVariantCompareSimulatorSection() {
                   const positive = delta >= 0;
                   return (
                     <tr key={row.channel}>
-                      <td className="px-4 py-3 font-medium text-ink">{row.channel}</td>
+                      <td className="px-4 py-3 font-medium text-ink">
+                        <div className="flex items-center gap-2">
+                          {row.channel}
+                          {row.channel.includes("Instagram") && <VerifiedBadge />}
+                        </div>
+                      </td>
                       <td className="px-4 py-3 text-muted">
                         {row.aConv} · ${row.aRev.toLocaleString("en-US")}
                       </td>
@@ -531,10 +799,16 @@ export function AbVariantCompareSimulatorSection() {
                   </div>
                   <div className="mt-2 space-y-1.5">
                     <div className="h-2 w-full rounded-full bg-line/60 overflow-hidden">
-                      <div className="h-full rounded-full bg-cyan-500" style={{ width: `${aPct}%` }} />
+                      <div
+                        className="h-full rounded-full bg-cyan-500"
+                        style={{ width: `${aPct}%` }}
+                      />
                     </div>
                     <div className="h-2 w-full rounded-full bg-line/60 overflow-hidden">
-                      <div className="h-full rounded-full bg-indigo-600" style={{ width: `${bPct}%` }} />
+                      <div
+                        className="h-full rounded-full bg-indigo-600"
+                        style={{ width: `${bPct}%` }}
+                      />
                     </div>
                   </div>
                 </div>
@@ -619,7 +893,8 @@ export function AbVariantCompareSimulatorSection() {
               Recommended action
             </p>
             <p className="mt-1 text-sm font-semibold">
-              Ship Variant A as the primary creative to maximize conversion volume, while testing Variant B&apos;s narrative style on high-intent retargeting audiences.
+              Ship Variant A as the primary creative to maximize conversion volume, while testing
+              Variant B&apos;s narrative style on high-intent retargeting audiences.
             </p>
           </div>
           <button
@@ -631,6 +906,309 @@ export function AbVariantCompareSimulatorSection() {
           </button>
         </div>
       </Card>
+    </div>
+  );
+}
+
+function DataHistoryTab() {
+  const [showExportMenu, setShowExportMenu] = useState(false);
+  const history = [
+    { id: "SIM-8429", name: "Q4 Holiday Narrative Test", date: "Oct 22, 2024", a: "4.2%", b: "5.1%", lift: "+21.4%", status: "Significant" },
+    { id: "SIM-8311", name: "Social Proof vs. Benefit Lead", date: "Oct 15, 2024", a: "3.8%", b: "3.9%", lift: "+2.6%", status: "Inconclusive" },
+    { id: "SIM-8104", name: "Vercel Style Clean Sweep", date: "Sep 28, 2024", a: "4.5%", b: "4.1%", lift: "-8.8%", status: "Significant" },
+    { id: "SIM-7922", name: "Price Sensitivity Simulation", date: "Sep 12, 2024", a: "2.1%", b: "2.4%", lift: "+14.2%", status: "Completed" },
+  ];
+
+  return (
+    <div className="animate-in fade-in slide-in-from-bottom-2 duration-500 space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-xl font-semibold text-ink">Simulation History</h2>
+          <p className="text-sm text-muted">A complete log of all past A/B simulations for this campaign.</p>
+        </div>
+        <div className="relative">
+          <button 
+            onClick={() => setShowExportMenu(!showExportMenu)}
+            className={cn(
+              "flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition-all soft-border shadow-sm",
+              showExportMenu ? "bg-ink text-white" : "bg-white text-ink hover:bg-panelSoft"
+            )}
+          >
+            <Download className="h-3.5 w-3.5" />
+            Export All
+          </button>
+
+          {showExportMenu && (
+            <>
+              <div 
+                className="fixed inset-0 z-10" 
+                onClick={() => setShowExportMenu(false)}
+              />
+              <div className="absolute right-0 mt-2 w-48 rounded-2xl bg-white p-2 shadow-xl soft-border z-20 animate-in fade-in zoom-in-95 duration-200">
+                <p className="px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-muted">Format</p>
+                <button className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-ink hover:bg-panelSoft transition-colors">
+                  <Table className="h-3.5 w-3.5 text-emerald-500" />
+                  Export as CSV (.csv)
+                </button>
+                <button className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-ink hover:bg-panelSoft transition-colors">
+                  <FileText className="h-3.5 w-3.5 text-rose-500" />
+                  Export as PDF (.pdf)
+                </button>
+                <button className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-ink hover:bg-panelSoft transition-colors">
+                  <Code className="h-3.5 w-3.5 text-blue-500" />
+                  Export as JSON (.json)
+                </button>
+                <div className="my-1 border-t border-line" />
+                <button className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-ink hover:bg-panelSoft transition-colors">
+                  <Clipboard className="h-3.5 w-3.5 text-muted" />
+                  Copy to Clipboard
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+
+      <Card className="overflow-hidden soft-border">
+        <table className="w-full text-sm">
+          <thead className="bg-panelSoft/60 border-b border-line">
+            <tr className="text-left text-[10px] uppercase tracking-[0.16em] text-muted">
+              <th className="px-6 py-4 font-semibold">Simulation ID</th>
+              <th className="px-6 py-4 font-semibold">Test Name</th>
+              <th className="px-6 py-4 font-semibold">Variant A / B</th>
+              <th className="px-6 py-4 font-semibold text-center">Relative Lift</th>
+              <th className="px-6 py-4 font-semibold">Status</th>
+              <th className="px-6 py-4 text-right font-semibold">Actions</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-line bg-white">
+            {history.map((row) => (
+              <tr key={row.id} className="group hover:bg-panelSoft/30 transition-colors">
+                <td className="px-6 py-4 font-mono text-[11px] text-muted">{row.id}</td>
+                <td className="px-6 py-4 font-medium text-ink">{row.name}</td>
+                <td className="px-6 py-4 text-muted">
+                  {row.a} / <span className="font-semibold text-ink">{row.b}</span>
+                </td>
+                <td className="px-6 py-4 text-center">
+                  <span className={cn(
+                    "inline-flex rounded-full px-2 py-0.5 text-[11px] font-bold",
+                    row.lift.startsWith("+") ? "bg-emerald-50 text-emerald-600" : "bg-rose-50 text-rose-600"
+                  )}>
+                    {row.lift}
+                  </span>
+                </td>
+                <td className="px-6 py-4">
+                  <span className={cn(
+                    "inline-flex items-center gap-1.5 text-[11px] font-medium",
+                    row.status === "Significant" ? "text-indigo-600" : "text-muted"
+                  )}>
+                    {row.status === "Significant" && <Sparkles className="h-3 w-3" />}
+                    {row.status}
+                  </span>
+                </td>
+                <td className="px-6 py-4 text-right">
+                  <button className="text-blue-600 hover:text-blue-700 font-semibold text-xs">View Report</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </Card>
+    </div>
+  );
+}
+
+function SettingsTab() {
+  return (
+    <div className="animate-in fade-in slide-in-from-bottom-2 duration-500 max-w-4xl space-y-8">
+      <section className="space-y-4">
+        <div>
+          <h2 className="text-xl font-semibold text-ink">Simulation Parameters</h2>
+          <p className="text-sm text-muted">Fine-tune how the neural engine calculates outcomes.</p>
+        </div>
+        
+        <Card className="p-6 space-y-6">
+          <div className="grid gap-8 sm:grid-cols-2">
+            <div className="space-y-3">
+              <label className="text-xs font-bold uppercase tracking-wider text-muted">Confidence Threshold</label>
+              <div className="grid grid-cols-3 gap-2">
+                {["90%", "95%", "99%"].map((val) => (
+                  <button
+                    key={val}
+                    className={cn(
+                      "rounded-lg py-2 text-xs font-semibold transition-all soft-border",
+                      val === "95%" ? "bg-ink text-white shadow-lg" : "bg-white text-ink hover:bg-panelSoft"
+                    )}
+                  >
+                    {val}
+                  </button>
+                ))}
+              </div>
+              <p className="text-[11px] text-muted">Lower thresholds yield results faster but with higher risk of false positives.</p>
+            </div>
+
+            <div className="space-y-3">
+              <label className="text-xs font-bold uppercase tracking-wider text-muted">Statistical Engine</label>
+              <div className="flex p-1 bg-panelSoft rounded-xl soft-border">
+                <button className="flex-1 rounded-lg py-1.5 text-xs font-semibold bg-white shadow-sm text-ink">Bayesian</button>
+                <button className="flex-1 rounded-lg py-1.5 text-xs font-semibold text-muted hover:text-ink transition-colors">Frequentist</button>
+              </div>
+              <p className="text-[11px] text-muted">Bayesian analysis allows for early stopping and probability-to-be-best calculations.</p>
+            </div>
+          </div>
+
+          <div className="border-t border-line pt-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-semibold text-ink">Auto-Deploy Winner</p>
+                <p className="text-xs text-muted">Automatically push the winning variant to production if significance hits 99%.</p>
+              </div>
+              <button className="relative h-6 w-11 rounded-full bg-line transition-colors focus:outline-none">
+                <div className="absolute left-1 top-1 h-4 w-4 rounded-full bg-white shadow-sm" />
+              </button>
+            </div>
+          </div>
+        </Card>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold text-ink">Notifications & Alerts</h2>
+        <Card className="p-6 space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
+                <TrendingUp className="h-5 w-5" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-ink">Significance Alert</p>
+                <p className="text-xs text-muted">Notify team when a variant reaches statistical significance.</p>
+              </div>
+            </div>
+            <button className="relative h-6 w-11 rounded-full bg-indigo-600 transition-colors focus:outline-none">
+              <div className="absolute right-1 top-1 h-4 w-4 rounded-full bg-white shadow-sm" />
+            </button>
+          </div>
+
+          <div className="flex items-center justify-between border-t border-line pt-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-rose-50 text-rose-600">
+                <Activity className="h-5 w-5" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-ink">Underperformance Warning</p>
+                <p className="text-xs text-muted">Alert if ROAS drops below $0.05 during the simulation period.</p>
+              </div>
+            </div>
+            <button className="relative h-6 w-11 rounded-full bg-rose-600 transition-colors focus:outline-none">
+              <div className="absolute right-1 top-1 h-4 w-4 rounded-full bg-white shadow-sm" />
+            </button>
+          </div>
+        </Card>
+      </section>
+
+      <div className="flex justify-end gap-3 pt-4 border-t border-line">
+        <button className="rounded-full px-6 py-2.5 text-sm font-semibold text-ink hover:bg-panelSoft transition-colors">Discard changes</button>
+        <button className="rounded-full bg-ink px-8 py-2.5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5 shadow-lg">Save Settings</button>
+      </div>
+    </div>
+  );
+}
+
+function IntegrationsTab() {
+  return (
+    <div className="animate-in fade-in slide-in-from-bottom-2 duration-500 space-y-8">
+      {INTEGRATION_CATEGORIES.map((category) => (
+        <div key={category.id} className="space-y-4">
+          <h2 className="kicker px-2">{category.name}</h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {category.services.map((service) => {
+              const Icon = service.icon;
+              const isLive = service.status === "live";
+              return (
+                <Card key={service.id} className="flex flex-col p-6 shadow-sm hover:shadow-soft transition-all">
+                  <div className="flex items-start justify-between">
+                    <div className={cn("flex h-12 w-12 items-center justify-center rounded-xl text-white shadow-lg", service.color)}>
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {isLive && (
+                        <span className="flex items-center gap-1.5 rounded-full bg-emerald-50 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-600">
+                          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+                          Live
+                        </span>
+                      )}
+                      <button 
+                        type="button"
+                        className={cn(
+                          "relative h-5 w-9 rounded-full transition-colors focus:outline-none",
+                          isLive ? "bg-ink" : "bg-line"
+                        )}
+                      >
+                        <div className={cn(
+                          "absolute top-1 h-3 w-3 rounded-full bg-white transition-all",
+                          isLive ? "left-5" : "left-1"
+                        )} />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="mt-5 flex-1">
+                    <h3 className="text-base font-semibold text-ink">{service.name}</h3>
+                    <p className="mt-1 text-xs text-muted leading-relaxed">
+                      {service.description}
+                    </p>
+                  </div>
+
+                  <div className="mt-5 flex items-center justify-between border-t border-line pt-4">
+                    {isLive ? (
+                      <p className="text-[10px] text-muted">
+                        Last synced: <span className="font-medium text-ink">{service.lastSynced}</span>
+                      </p>
+                    ) : (
+                      <p className="text-[10px] text-muted italic">Not connected</p>
+                    )}
+                    <button className={cn(
+                      "text-xs font-semibold transition-colors",
+                      isLive ? "text-muted hover:text-rose-500" : "text-blue-600 hover:text-blue-700"
+                    )}>
+                      {isLive ? "Disconnect" : "Connect"}
+                    </button>
+                  </div>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+
+      {/* Empty State Illustration Concept */}
+      {INTEGRATION_CATEGORIES.length === 0 && (
+        <div className="py-20 text-center">
+          <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-panelSoft opacity-50">
+            <Globe className="h-12 w-12 text-muted" />
+          </div>
+          <h3 className="headline mt-6 text-2xl">No integrations found</h3>
+          <p className="mt-2 text-muted">Connect your first service to start syncing live performance data.</p>
+          <button className="mt-8 rounded-full bg-ink px-8 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-1">
+            Get Started
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function VerifiedBadge() {
+  return (
+    <div 
+      className="group relative inline-flex ml-1.5"
+      title="Verified Data: Pulled via Direct API Integration"
+    >
+      <div className="flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600 p-[1px] shadow-[0_0_8px_rgba(37,99,235,0.3)] cursor-help">
+        <div className="flex h-full w-full items-center justify-center rounded-full bg-white">
+          <CheckCircle2 className="h-2.5 w-2.5 text-blue-600" />
+        </div>
+      </div>
     </div>
   );
 }
@@ -649,15 +1227,20 @@ function LiftCard({
   value,
   sub,
   positive,
+  verified,
 }: {
   label: string;
   value: string;
   sub: string;
   positive: boolean;
+  verified?: boolean;
 }) {
   return (
     <div className="rounded-2xl bg-panelSoft/50 p-4 soft-border">
-      <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-muted">{label}</p>
+      <div className="flex items-center justify-between">
+        <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-muted">{label}</p>
+        {verified && <VerifiedBadge />}
+      </div>
       <p
         className={cn(
           "mt-2 text-2xl font-semibold tracking-tight",
