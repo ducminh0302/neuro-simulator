@@ -227,7 +227,7 @@ function WaveformOscilloscope() {
   );
 }
 
-function NeuroMathFormula() {
+function SimulacrumMathFormula() {
   return (
     <div className="inline-flex items-center bg-white/60 backdrop-blur-md px-7 py-6 rounded-[1.5rem] border border-line/40 shadow-md overflow-visible">
       <svg width="280" height="70" viewBox="0 0 280 70" className="overflow-visible">
@@ -582,7 +582,7 @@ function BenchmarkGauge({
   );
 }
 
-export function NeuroFocusSimulatorSection() {
+export function SimulacrumFocusSimulatorSection() {
   const [expandedAgent, setExpandedAgent] = useState<string | null>(null);
 
   const benchmarkGauges = [
@@ -638,8 +638,8 @@ export function NeuroFocusSimulatorSection() {
       <SimulationPromptChat prompt="Simulate EEG-style attention and emotional response for this visual, then return eye-tracking saliency, trigger analysis, and optimization actions." />
 
       <SectionHeading
-        eyebrow="Neuro-Focus"
-        title={<>Neuro-Creative Evaluator</>}
+        eyebrow="Simulacrum-Focus"
+        title={<>Simulacrum-Creative Evaluator</>}
         description="Predictive neural analytics to decode how the human brain processes your visual stimuli. Upload a visual asset to simulate EEG-based emotional valence and visual saliency."
         action={<Pill tone="accent">Cognitive Response Simulator</Pill>}
       />
@@ -920,7 +920,7 @@ export function NeuroFocusSimulatorSection() {
       <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <p className="kicker">The Neurotransmitter Gauge System</p>
+            <p className="kicker">The Simulacrum Gauge System</p>
             <h2 className="headline mt-2 text-3xl sm:text-4xl text-ink">NEURAL BIO-SIGNAL CONSOLE</h2>
           </div>
         </div>
@@ -960,7 +960,7 @@ export function NeuroFocusSimulatorSection() {
 
               <div className="mt-8 flex flex-col lg:flex-row items-center gap-8 bg-panelSoft/50 p-6 rounded-[1.5rem] border border-line/30">
                 <div className="flex-shrink-0">
-                  <NeuroMathFormula />
+                  <SimulacrumMathFormula />
                 </div>
                 <div className="flex-grow">
                   <div className="flex items-center gap-2 mb-2">
@@ -1126,8 +1126,8 @@ export function NeuroFocusSimulatorSection() {
       <section className="rounded-[2.5rem] bg-white/70 p-6 sm:p-8 soft-border shadow-soft backdrop-blur-xl">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <p className="kicker">Neuro-Optimization Recommendations</p>
-            <h2 className="headline mt-2 text-3xl sm:text-4xl">AI Neuro-Design Optimization</h2>
+            <p className="kicker">Simulacrum-Optimization Recommendations</p>
+            <h2 className="headline mt-2 text-3xl sm:text-4xl">AI Simulacrum-Design Optimization</h2>
           </div>
         </div>
 
@@ -1151,10 +1151,10 @@ export function NeuroFocusSimulatorSection() {
             <p className="kicker">Final Verdict</p>
             <div className="mt-4 rounded-[1.3rem] border border-line bg-white p-5">
               <p className="text-xs uppercase tracking-[0.22em] text-muted">Status</p>
-              <p className="mt-3 text-3xl font-semibold text-[#0f172a]">NEURO-OPTIMIZED</p>
+              <p className="mt-3 text-3xl font-semibold text-[#0f172a]">SIMULACRUM-OPTIMIZED</p>
               <p className="mt-2 text-sm text-muted">READY FOR DEPLOYMENT</p>
               <p className="mt-4 text-sm leading-relaxed text-ink/85">
-                Visual hierarchy is neurologically legible and attention flow is mostly efficient. Fine-tuning contrast and CTA salience will further improve conversion memory.
+                Visual hierarchy is perceptually legible and attention flow is mostly efficient. Fine-tuning contrast and CTA salience will further improve conversion memory.
               </p>
             </div>
             <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#e8f7ef] px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-[#15803d]">

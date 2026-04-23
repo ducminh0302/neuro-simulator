@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { AbVariantCompareSimulatorSection } from "@/components/simulations/ab-variant-compare-simulator-section";
 import { GalaReadySimulatorSection } from "@/components/simulations/gala-ready-simulator-section";
 import { HaileyBieberSimulatorSection } from "@/components/simulations/hailey-bieber-simulator-section";
-import { NeuroFocusSimulatorSection } from "@/components/simulations/neuro-focus-simulator-section";
+import { SimulacrumFocusSimulatorSection } from "@/components/simulations/simulacrum-focus-simulator-section";
 import { NiacinamideLaunchSimulatorSection } from "@/components/simulations/niacinamide-launch-simulator-section";
 import { PostContentSimulatorSection } from "@/components/simulations/post-content-simulator-section";
 import { WorkspaceProductivitySimulatorSection } from "@/components/simulations/workspace-productivity-simulator-section";
@@ -38,8 +38,8 @@ export default async function SimulationSectionPage({ params }: Props) {
         <GalaReadySimulatorSection />
       ) : section.slug === "workspace-productivity" ? (
         <WorkspaceProductivitySimulatorSection />
-      ) : section.slug === "neuro-focus-attention-heatmap" ? (
-        <NeuroFocusSimulatorSection />
+      ) : section.slug === "simulacrum-focus-attention-heatmap" ? (
+        <SimulacrumFocusSimulatorSection />
       ) : section.slug === "ab-variant-compare" ? (
         <AbVariantCompareSimulatorSection />
       ) : section.slug === "hailey-bieber-instagram-feed" ? (

@@ -11,10 +11,10 @@ import { appName, simulationNewPath } from "@/lib/site";
 /* Constants                                                   */
 /* ─────────────────────────────────────────────────────────── */
 const TICKER_ITEMS = [
-  "Neuro-Focus Attention Mapping", "◆ Real-time Persona Simulation", "◆ Gala-Ready Event Prep", "◆ Content Optimization",
+  "Simulacrum-Focus Attention Mapping", "◆ Real-time Persona Simulation", "◆ Gala-Ready Event Prep", "◆ Content Optimization",
   "◆ Rapid AI Feedback", "◆ Effortless A/B Comparison", "◆ Instant Behavior Prediction", "◆ Seamless Workflow",
   "◆ Fast & Accurate Decisions", "◆ Convenient Simulation Suite",
-  "Neuro-Focus Attention Mapping", "◆ Real-time Persona Simulation", "◆ Gala-Ready Event Prep", "◆ Content Optimization",
+  "Simulacrum-Focus Attention Mapping", "◆ Real-time Persona Simulation", "◆ Gala-Ready Event Prep", "◆ Content Optimization",
   "◆ Rapid AI Feedback", "◆ Effortless A/B Comparison", "◆ Instant Behavior Prediction", "◆ Seamless Workflow",
   "◆ Fast & Accurate Decisions", "◆ Convenient Simulation Suite",
 ];
@@ -813,7 +813,7 @@ export function PublicLanding() {
             <BrainHeatmapMock />
             <h3 className="text-[20px] font-semibold tracking-[-0.01em] mb-2">See where attention lands.</h3>
             <p className="max-w-[420px] text-[13.5px] leading-[1.7] text-[#6b6b6b]">
-              Neuro-mapped heat overlays reveal which parts of your creative capture focus, trigger emotion, and drive memory encoding — before a single dollar is spent.
+              Simulacrum-mapped heat overlays reveal which parts of your creative capture focus, trigger emotion, and drive memory encoding — before a single dollar is spent.
             </p>
           </Reveal>
 

@@ -18,7 +18,7 @@ export type SimulationSection = {
   status: "Live" | "Draft";
 };
 
-export const appName = "NEURO";
+export const appName = "Simulacrum";
 
 /** Chat-style entry: new simulation prompt (LLM-style composer). */
 export const simulationNewPath = "/dashboard/simulations/new";
@@ -87,8 +87,8 @@ export const simulationSections: SimulationSection[] = [
     status: "Live",
   },
   {
-    slug: "neuro-focus-attention-heatmap",
-    title: "Neuro-Focus: Cognitive Response & Attention Heatmap Simulator",
+    slug: "simulacrum-focus-attention-heatmap",
+    title: "Simulacrum-Focus: Cognitive Response & Attention Heatmap Simulator",
     summary: "Predictive neural analytics to decode how the human brain processes your visual stimuli.",
     status: "Live",
   },

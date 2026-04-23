@@ -50,7 +50,7 @@ const recentFindings = [
 ] as const;
 
 const recentSimulations = [
-  { name: "Neuro-Focus Simulator", meta: "Ad Creative Attention Map" },
+  { name: "Simulacrum-Focus Simulator", meta: "Ad Creative Attention Map" },
   { name: "Gala Ready Simulator", meta: "Luxury Brand Aesthetic Testing" },
   { name: "Post Content Simulator", meta: "Social Feed Resonance Analysis" },
   { name: "Workspace Productivity", meta: "Team Creative Workflow Flow" },
