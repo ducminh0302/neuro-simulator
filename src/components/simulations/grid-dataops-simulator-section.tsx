@@ -31,7 +31,7 @@ function Chip({ children, className = "" }: { children: React.ReactNode; classNa
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full bg-panelSoft px-2.5 py-0.5 text-xs font-medium text-ink",
+        "inline-flex items-center rounded-md bg-panelSoft px-2 py-0.5 text-[10px] font-medium text-inkMuted uppercase tracking-wider",
         className,
       )}
     >
@@ -178,85 +178,215 @@ type Agent = {
 
 const agents: Agent[] = [
   {
-    name: "Ananya",
-    age: 21,
+    name: "Priya",
+    age: 24,
     gender: "female",
     outcome: "high intent",
     description:
-      "Already owns an iPhone and does household chores. The cash reward for 15 minutes of work is immediately compelling — she's ready to sign up without hesitation.",
+      "A software engineer in Bangalore looking for low-effort side income. She's tech-savvy and comfortable with the idea of data collection as long as the payout is transparent.",
     exp: 15,
-    confidence: "85.0%",
-    keyTrigger: "Immediate monetary incentive with low barrier to entry",
+    confidence: "92.0%",
+    keyTrigger: "Transparent ₹10,000 payout for minimal time commitment",
     journey: [
-      { day: 1, note: "Scrolling reels and this ad pops up. ₹10,000? That's my monthly coffee budget.", tags: ["intrigued"] },
-      { day: 2, note: "I already have an iPhone and do chores daily. This is literally free money.", tags: ["high intent"] },
-      { day: 3, note: "Clicked the link. The sign-up form was straightforward. Applied.", actions: ["clicked CTA", "applied"] },
+      { day: 1, note: "Saw the ad on Instagram. ₹10,000 for 15 minutes? Seems too good to be true, but it's Grid, I've heard of them.", tags: ["curious", "skeptical"] },
+      { day: 2, note: "Clicked through to the landing page. UX is smooth. The EEG headset looks professional, not like a toy.", tags: ["impressed"], actions: ["visited website"] },
+      { day: 4, note: "Found a Reddit thread discussing Grid's data ethics. Seems they have a clean record. Privacy concerns decreasing.", tags: ["researching"], actions: ["read reviews"] },
+      { day: 5, note: "Saw a follow-up ad showing the setup process at home. It looks much simpler than I thought.", tags: ["interested"] },
+      { day: 7, note: "Talked to a colleague who did a similar study for a university. They said these EEG bands are very safe.", tags: ["reassured"] },
+      { day: 9, note: "Revisited the site. Checked the 'Humanoid Training' section. The idea of helping build robot dexterity is actually cool.", tags: ["intrigued"], actions: ["visited website"] },
+      { day: 11, note: "Calculation: ₹10k for 15 mins of chores is basically my daily rate for 15 mins of work. No-brainer.", tags: ["calculated"] },
+      { day: 12, note: "Final check on the consent form. It's standard. No hidden clauses about owning my soul.", tags: ["validated"], actions: ["read consent form"] },
+      { day: 14, note: "Applied. Ready for the headset to arrive. Excited to see the humanoid training pipeline.", tags: ["intent to purchase"], actions: ["applied"] },
     ],
   },
   {
-    name: "Arjun",
-    age: 27,
+    name: "Karan",
+    age: 29,
     gender: "male",
     outcome: "rejected",
     description:
-      "The falling cash VFX reads as a scam to a developer's trained eye. Privacy concerns about filming his kitchen are too significant to justify the ₹10,000 offered.",
+      "A privacy-conscious cybersecurity analyst. He finds the requirement to film his home environment a major red flag that no amount of money can override.",
     exp: 12,
-    confidence: "42.0%",
-    keyTrigger: "Visual scam triggers + privacy friction",
+    confidence: "15.0%",
+    keyTrigger: "Home privacy violation and invasive EEG data concerns",
     journey: [
-      { day: 1, note: "The VFX looks AI-generated. Something about this ad screams MLM energy.", tags: ["skeptical"] },
-      { day: 2, note: "Filming my private kitchen space for a startup I've never heard of? Hard no.", tags: ["privacy concern"] },
-      { day: 3, note: "Even ₹10,000 doesn't justify handing over video of my home.", actions: ["dismissed"] },
+      { day: 1, note: "Ad showing a guy cleaning his kitchen with an EEG headset. Why do they need video of my private space?", tags: ["concerned"] },
+      { day: 2, note: "Did some research on 'spatial data harvesting'. This looks like a way to map interior layouts for training LLMs.", tags: ["suspicious"], actions: ["technical research"] },
+      { day: 3, note: "Checked the privacy policy. 'Anonymized data' is a vague term. Re-identification is easy with EEG + Video.", tags: ["critical"], actions: ["read privacy policy"] },
+      { day: 5, note: "Saw a second ad focusing on the money. Still doesn't address the core privacy issue. Ignored.", tags: ["annoyed"] },
+      { day: 7, note: "Participated in a Twitter poll about data-for-pay models. Most people don't realize the risks.", tags: ["vocal"] },
+      { day: 9, note: "Revisited the site to see if they updated their data deletion policy. Still too ambiguous.", tags: ["validated distrust"], actions: ["visited website"] },
+      { day: 11, note: "₹10,000 is decent, but my biometric and spatial data is worth way more to me. Hard pass.", tags: ["rejected"] },
+      { day: 13, note: "Reported the ad for misleading privacy claims. I'm done with this campaign.", tags: ["active rejection"], actions: ["reported ad"] },
     ],
   },
   {
-    name: "Meera",
-    age: 34,
+    name: "Zara",
+    age: 31,
     gender: "female",
     outcome: "considering",
     description:
-      "Interested in the extra income but confused about the head-rig hardware. Unclear whether she needs to purchase it or if Grid sends it — this friction is blocking her from converting.",
+      "A stay-at-home mother in Hyderabad. She needs extra income but is worried about the 'scary' looking headgear and if it's safe for her family environment.",
     exp: 14,
-    confidence: "68.0%",
-    keyTrigger: "Hardware ambiguity blocking conversion",
+    confidence: "58.0%",
+    keyTrigger: "Safety concerns vs. financial need",
     journey: [
-      { day: 1, note: "I'd love ₹10,000 but what exactly is that thing on their head?" },
-      { day: 2, note: "Does Grid send me the headgear or do I have to buy it? The ad doesn't say.", tags: ["confused"] },
-      { day: 4, note: "Looked at their website. Still unclear about the EEG device logistics.", tags: ["researching"] },
-      { day: 7, note: "Sent a DM to ask about the headset. Waiting for a response.", actions: ["reached out"] },
+      { day: 1, note: "The ad popped up during my lunch break. ₹10,000 would really help with the bills this month.", tags: ["hopeful"] },
+      { day: 2, note: "Showed the ad to my husband. He's also unsure if the 'brain scanning' part is safe.", tags: ["hesitant"] },
+      { day: 4, note: "The headset looks a bit weird. Does it emit any radiation? I have a toddler at home.", tags: ["safety concern"] },
+      { day: 5, note: "Checked the Facebook comments. Someone asked about safety but the brand didn't reply yet. Still waiting.", tags: ["waiting"], actions: ["read comments"] },
+      { day: 7, note: "Saw a new video with a user who has a dog. It looks very casual and safe. Feeling a bit better.", tags: ["reassured"] },
+      { day: 9, note: "Looked up 'EEG safety for kids'. If the headset is only on for 15 minutes, it should be fine.", tags: ["researching"], actions: ["searched safety"] },
+      { day: 11, note: "I could really use that money for the school fees next week. Maybe I'll just try it once.", tags: ["considering"] },
+      { day: 13, note: "Bookmarked the application page. Need to make sure my internet is fast enough for the upload.", tags: ["preparing"], actions: ["bookmarked page"] },
+      { day: 14, note: "Still on the fence. I'll see if I get another sign or a clearer answer on the safety.", tags: ["stalled"] },
     ],
   },
   {
-    name: "Rohan",
-    age: 19,
+    name: "Ishaan",
+    age: 22,
     gender: "male",
     outcome: "high intent",
     description:
-      "Sees this as an easy side hustle he can do while cleaning his gaming setup. The dog in the video made it feel authentic and relatable — he's convinced.",
-    exp: 13,
-    confidence: "91.0%",
-    keyTrigger: "Low perceived effort + authenticity signal from dog",
+      "A final-year AI student in Delhi. He's less interested in the money and more in seeing how the data is used to train humanoid robots.",
+    exp: 18,
+    confidence: "95.0%",
+    keyTrigger: "Technical curiosity and desire to contribute to AI research",
     journey: [
-      { day: 1, note: "I clean my setup every Sunday anyway. Getting paid ₹10,000 for it? Easy.", tags: ["excited"] },
-      { day: 2, note: "The dog in the video made it look legit, not like a corporate ad.", tags: ["trust signal"] },
-      { day: 3, note: "Signed up. Waiting for the headset to arrive.", actions: ["applied", "shared with friend"] },
+      { day: 1, note: "Humanoid training data collection? This is exactly what I'm studying. I want to see their sensor fusion.", tags: ["excited"] },
+      { day: 2, note: "Checked their whitepaper linked in the site footer. They're using Graph Neural Networks for posture.", tags: ["impressed"], actions: ["read whitepaper"] },
+      { day: 3, note: "The ₹10,000 is a nice bonus, but I'd do this for free just for the experience.", tags: ["highly motivated"] },
+      { day: 5, note: "Posted about it on my college's AI club group. Everyone is curious about the EEG fidelity.", tags: ["influencing"] },
+      { day: 7, note: "Sent a technical query to their support email about the sampling rate of the EEG headset.", tags: ["inquiring"], actions: ["sent email"] },
+      { day: 8, note: "They replied! 256Hz dry-electrode system. That's high quality for a home-shipped unit.", tags: ["validated tech"] },
+      { day: 10, note: "Signed up immediately. Asked them in the 'notes' section if they use Transformer-based models for the gait analysis.", tags: ["applied"], actions: ["applied"] },
+      { day: 12, note: "Checked the status. Still under review. I hope they pick me, I want to see the calibration app.", tags: ["impatient"] },
+      { day: 14, note: "Confirmed! Headset is shipping. This is going to be the best weekend project ever.", tags: ["high intent"] },
     ],
   },
   {
-    name: "Dr. Kapoor",
-    age: 45,
+    name: "Aman",
+    age: 26,
     gender: "male",
+    outcome: "high intent",
+    description:
+      "An avid gamer in Pune. He's used to wearing headsets and finds the idea of 'training a robot' like a real-life video game quest.",
+    exp: 13,
+    confidence: "88.0%",
+    keyTrigger: "Gamified perception of the task and comfort with hardware",
+    journey: [
+      { day: 1, note: "Saw the 'quest' style ad. Wear a headset, clean your desk, get 10k. Sounds like an easy level-up.", tags: ["amused"] },
+      { day: 2, note: "I already wear a heavy gaming headset for 6 hours a day. This EEG thing will be nothing.", tags: ["confident"] },
+      { day: 3, note: "Checking if I can do the tasks while listening to music. Ad says I need to focus on the movement.", tags: ["clarifying"] },
+      { day: 5, note: "The dog in the ad was cool. Makes the company seem chill. Not too corporate.", tags: ["positive vibe"] },
+      { day: 7, note: "Saw a friend on Discord mention they got paid by Grid last month. Legitimacy confirmed.", tags: ["reassured"] },
+      { day: 9, note: "Checked the task list. Folding clothes and washing dishes? I do this every Sunday anyway.", tags: ["ready"] },
+      { day: 11, note: "Application form is short. No long resume needed. I like this simple UX.", tags: ["satisfied"], actions: ["visited website"] },
+      { day: 13, note: "Clicked the CTA. Applied. Let's see if I can set a high score for 'data quality'.", tags: ["intent to purchase"], actions: ["applied"] },
+    ],
+  },
+  {
+    name: "Sunita",
+    age: 38,
+    gender: "female",
     outcome: "rejected",
     description:
-      "Views this as exploitative data harvesting. The complete absence of anonymization protocols, data retention policy, and IRB oversight in the ad constitutes a compliance failure.",
-    exp: 10,
-    confidence: "15.0%",
-    keyTrigger: "Ethical and compliance red flags",
+      "A school teacher in Chennai. She's skeptical of modern technology and thinks 'Humanoid Training' sounds like something out of a dystopian movie.",
+    exp: 9,
+    confidence: "10.0%",
+    keyTrigger: "Technological fear and lack of relatability",
     journey: [
-      { day: 1, note: "EEG data collection without an explicit IRB framework? This is ethically dubious." },
-      { day: 2, note: "No mention of data anonymization, retention period, or third-party audits.", tags: ["compliance concern"] },
-      { day: 3, note: "The ₹10K incentive suggests they know this data is extremely valuable — to whom and for what?", tags: ["critical", "distrust"] },
-      { day: 5, note: "Filed a note with my university's ethics board about this type of ad.", actions: ["reported concern"] },
+      { day: 1, note: "A machine learning my movements? This is how robots take over. I don't like it.", tags: ["fearful"] },
+      { day: 3, note: "The falling cash in the video looks fake. Reminds me of those scammy loan apps.", tags: ["skeptical"], actions: ["reported ad"] },
+      { day: 5, note: "Talked to a neighbor. They said it's just 'data', but how do I know it's not controlling me?", tags: ["paranoid"] },
+      { day: 7, note: "Saw a news clip about AI replacing jobs. Why should I help them train my replacement?", tags: ["critical"] },
+      { day: 9, note: "Not interested in having my brain scanned for any amount of money. Life is fine without it.", tags: ["rejected"], actions: ["dismissed"] },
+      { day: 12, note: "The ads keep following me. I've blocked the brand on all platforms now.", tags: ["active avoidance"], actions: ["blocked brand"] },
+      { day: 14, note: "Final decision: Technology has gone too far. I'll stick to my books and blackboard.", tags: ["rejected"] },
+    ],
+  },
+  {
+    name: "Rahul",
+    age: 20,
+    gender: "male",
+    outcome: "high intent",
+    description:
+      "A college student in Kolkata. He's saving up for a new laptop and sees this as the fastest way to get his remaining budget.",
+    exp: 11,
+    confidence: "91.0%",
+    keyTrigger: "Urgent financial goal (laptop purchase)",
+    journey: [
+      { day: 1, note: "₹10,000! That's exactly what I need for the SSD upgrade and extra RAM.", tags: ["excited"] },
+      { day: 2, note: "Need to make sure my parents are okay with the headset coming to the house.", tags: ["planning"] },
+      { day: 4, note: "I'll do the chores at my hostel. Might have to explain the headset to my roommates though lol.", tags: ["determined"] },
+      { day: 6, note: "Checked the reviews on YouTube. People say the payout takes about 3 days after data upload.", tags: ["reassured"], actions: ["watched reviews"] },
+      { day: 8, note: "Saw a promo code for students in the newsletter. Might get a bonus?", tags: ["hopeful"] },
+      { day: 10, note: "Form filled. Hope they pick me soon. I need the cash before the sale ends.", tags: ["applied"], actions: ["applied"] },
+      { day: 12, note: "Checked my email three times today. Nothing yet. The wait is killing me.", tags: ["anxious"] },
+      { day: 14, note: "Approved! Getting my slot for the headset delivery tomorrow. Laptop, here I come!", tags: ["high intent"] },
+    ],
+  },
+  {
+    name: "Dr. Iyer",
+    age: 52,
+    gender: "male",
+    outcome: "considering",
+    description:
+      "A senior researcher in Bangalore. He wants to ensure the data is used ethically and that there's proper consent for biometric data usage.",
+    exp: 16,
+    confidence: "45.0%",
+    keyTrigger: "Ethical oversight and data usage transparency",
+    journey: [
+      { day: 1, note: "Interesting approach to data collection. But who owns the IP of the trained model?", tags: ["analytical"] },
+      { day: 3, note: "The ad is a bit too 'flashy'. I'd prefer a more clinical explanation of the EEG fidelity.", tags: ["skeptical"] },
+      { day: 5, note: "Downloaded their technical PDF. The signal-to-noise ratio seems acceptable for non-medical use.", tags: ["researching"], actions: ["downloaded docs"] },
+      { day: 7, note: "Sent an email to their research alias. If they have an IRB approval, I might participate.", tags: ["researching"], actions: ["sent email"] },
+      { day: 9, note: "They responded with their ethical guidelines. It's a start, but I need more details on third-party access.", tags: ["unsatisfied"] },
+      { day: 11, note: "Checking if any of my peers in the academy are involved. Found one on the advisory board.", tags: ["validating"] },
+      { day: 13, note: "Participating as a user might give me better insight into their protocol than just reading docs.", tags: ["considering"] },
+      { day: 14, note: "I'll wait for the next webinar they announced to ask about the long-term data storage.", tags: ["waiting"] },
+    ],
+  },
+  {
+    name: "Anjali",
+    age: 27,
+    gender: "female",
+    outcome: "rejected",
+    description:
+      "A marketing professional in Gurgaon. She thinks the creative is 'cringe' and the UX of the landing page was too slow, leading to abandonment.",
+    exp: 12,
+    confidence: "32.0%",
+    keyTrigger: "Poor UX and lack of high-end brand perception",
+    journey: [
+      { day: 1, note: "The falling cash VFX is so 2010. Doesn't feel like a high-tech AI company.", tags: ["critical"] },
+      { day: 2, note: "Clicked the link but it took 5 seconds to load on my iPhone. I closed it immediately.", tags: ["annoyed"], actions: ["clicked CTA", "bounced"] },
+      { day: 4, note: "Saw the ad again. The guy in the video looks like he's acting too hard. Very fake.", tags: ["disinterested"] },
+      { day: 6, note: "Tried to visit the site from my laptop. The scroll experience is a bit jerky. UX matters!", tags: ["critical"], actions: ["visited website"] },
+      { day: 8, note: "Got a retargeting ad. It's still the same video. Why don't they refresh their creative?", tags: ["annoyed"] },
+      { day: 10, note: "Saw it again. Still not feeling the 'vibe'. Too UGC, not enough premium aesthetic.", tags: ["rejected"] },
+      { day: 12, note: "Discussed it with my team as a case study of 'what not to do' in tech marketing.", tags: ["vocal rejection"] },
+      { day: 14, note: "Final score: 3/10. Won't be applying. Not my level of brand quality.", tags: ["rejected"] },
+    ],
+  },
+  {
+    name: "Vikram",
+    age: 45,
+    gender: "male",
+    outcome: "considering",
+    description:
+      "A retired army officer in Noida. He's looking for structured tasks to stay active and likes the idea of 'training' something, even if it's a robot.",
+    exp: 14,
+    confidence: "72.0%",
+    keyTrigger: "Sense of duty/contribution and structured task nature",
+    journey: [
+      { day: 1, note: "Training a robot to do chores? Sounds like a good way to help society advance.", tags: ["patriotic"] },
+      { day: 3, note: "The payment is a good bonus for the time spent. Is the headset heavy? I have some neck pain.", tags: ["curious"] },
+      { day: 5, note: "Checked the weight specs on the site. Only 150 grams. That's manageable.", tags: ["reassured"], actions: ["checked specs"] },
+      { day: 7, note: "Talked to my son about it. He says Grid is a big name in AI. He's encouraging me to try.", tags: ["considering"], actions: ["asked family"] },
+      { day: 9, note: "Saw a video of an older person doing the study. They looked comfortable. I like the representation.", tags: ["positive"] },
+      { day: 11, note: "Reading the terms. They ask for a clear video of the workspace. I'll need to tidy up the study.", tags: ["preparing"] },
+      { day: 13, note: "I'll think about it for one more day. I want to make sure I can commit to the 15-minute slot.", tags: ["diligent"] },
+      { day: 14, note: "Almost ready to apply. Just need to clear it with my morning routine schedule.", tags: ["considering"] },
     ],
   },
 ];
@@ -360,7 +490,7 @@ export function GridDataopsSimulatorSection() {
             <p className="text-sm text-inkMuted">
               single <span className="text-inkFaint">·</span> 10.0K agents{" "}
               <span className="text-inkFaint">·</span> 841.3s{" "}
-              <span className="text-inkFaint">·</span> 5 archetypes{" "}
+              <span className="text-inkFaint">·</span> 10 archetypes{" "}
               <span className="text-inkFaint">·</span> 84.0% confidence
             </p>
           </div>
@@ -424,7 +554,7 @@ export function GridDataopsSimulatorSection() {
       <Card className="p-5">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-ink">Agent Decision Journeys</h2>
-          <span className="text-xs text-inkMuted">5 archetypes simulated</span>
+          <span className="text-xs text-inkMuted">10 archetypes simulated</span>
         </div>
         <div className="mt-4 space-y-2">
           {agents.map((agent, idx) => (
@@ -621,8 +751,8 @@ function BrainActivationBlock() {
       </div>
 
       <div className="mt-4 grid gap-4 md:grid-cols-2">
-        {/* LEFT: 3D Brain Viewer — uses the test.predictions data */}
-        <div className="aspect-square rounded-2xl bg-black md:aspect-auto md:min-h-[420px] overflow-hidden border border-line/20">
+        {/* TOP LEFT: 3D Brain Viewer — height matched to video */}
+        <div className="aspect-[9/16] rounded-2xl bg-black overflow-hidden border border-line/20">
           <BrainViewerLazy
             predictionKey="test.predictions"
             segmentIndex={Math.min(secondsFloor, 18)}
@@ -630,38 +760,42 @@ function BrainActivationBlock() {
           />
         </div>
 
-        {/* RIGHT: video + second-by-second metrics */}
+        {/* TOP RIGHT: Video container */}
+        <div className="relative overflow-hidden rounded-2xl bg-black group">
+          {VIDEO_SRC ? (
+            <video
+              ref={videoRef}
+              src={VIDEO_SRC}
+              onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)}
+              onLoadedMetadata={(event) => setDuration(event.currentTarget.duration)}
+              onPlay={() => setIsPlaying(true)}
+              onPause={() => setIsPlaying(false)}
+              onEnded={() => setIsPlaying(false)}
+              className="aspect-[9/16] w-full object-contain"
+              playsInline
+              muted={isMuted}
+            />
+          ) : (
+            <div className="aspect-[9/16] w-full" />
+          )}
+
+          {VIDEO_SRC && (
+            <button
+              type="button"
+              onClick={() => setIsMuted(!isMuted)}
+              className="absolute bottom-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md transition hover:bg-black/60"
+              aria-label={isMuted ? "Unmute" : "Mute"}
+            >
+              {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+            </button>
+          )}
+        </div>
+
+        {/* BOTTOM LEFT: Spacer (empty as requested) */}
+        <div className="hidden md:block" />
+
+        {/* BOTTOM RIGHT: Controls & Metrics */}
         <div className="space-y-4">
-          <div className="relative overflow-hidden rounded-2xl bg-black group">
-            {VIDEO_SRC ? (
-              <video
-                ref={videoRef}
-                src={VIDEO_SRC}
-                onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)}
-                onLoadedMetadata={(event) => setDuration(event.currentTarget.duration)}
-                onPlay={() => setIsPlaying(true)}
-                onPause={() => setIsPlaying(false)}
-                onEnded={() => setIsPlaying(false)}
-                className="aspect-video w-full object-cover"
-                playsInline
-                muted={isMuted}
-              />
-            ) : (
-              <div className="aspect-video w-full" />
-            )}
-
-            {VIDEO_SRC && (
-              <button
-                type="button"
-                onClick={() => setIsMuted(!isMuted)}
-                className="absolute bottom-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md transition hover:bg-black/60"
-                aria-label={isMuted ? "Unmute" : "Mute"}
-              >
-                {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-              </button>
-            )}
-          </div>
-
           {/* Custom controls */}
           <div className="flex items-center gap-3">
             <button
@@ -793,29 +927,39 @@ function AgentRow({
       </button>
 
       {expanded && agent.journey && (
-        <div id={`agent-journey-${agent.name}`} className="border-t border-line px-6 py-4">
-          <div className="space-y-3">
+        <div id={`agent-journey-${agent.name}`} className="border-t border-line px-6 py-6">
+          <div className="relative ml-2 space-y-8 before:absolute before:left-[3px] before:top-2 before:bottom-2 before:w-[1.5px] before:bg-[#e4e4e7]">
             {agent.journey.map((exp) => (
-              <div key={exp.day} className="flex gap-3">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#d4d4d8]" />
-                <div className="flex-1 space-y-1">
+              <div key={exp.day} className="relative pl-8">
+                <span className="absolute left-0 top-1.5 h-2 w-2 rounded-full border-2 border-white bg-[#a1a1aa] ring-4 ring-white" />
+                <div className="space-y-1.5">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-sm font-medium text-ink">Day {exp.day}</span>
-                    {exp.tags?.map((tag) => <Chip key={tag}>{tag}</Chip>)}
+                    <span className="text-sm font-semibold text-ink">Day {exp.day}</span>
+                    {exp.tags?.map((tag) => (
+                      <Chip key={tag} className="bg-[#f4f4f5] text-[#71717a]">
+                        {tag}
+                      </Chip>
+                    ))}
                   </div>
-                  <p className="text-sm text-inkMuted">{exp.note}</p>
-                  {exp.actions?.map((action) => (
-                    <div key={action} className="mt-1">
-                      <Chip>{action}</Chip>
+                  <p className="max-w-2xl text-[13px] leading-relaxed text-inkMuted">
+                    {exp.note}
+                  </p>
+                  {exp.actions && exp.actions.length > 0 && (
+                    <div className="flex flex-wrap gap-2 pt-1">
+                      {exp.actions.map((action) => (
+                        <span key={action} className="text-[11px] font-medium text-inkMuted underline decoration-line underline-offset-4">
+                          {action}
+                        </span>
+                      ))}
                     </div>
-                  ))}
+                  )}
                 </div>
               </div>
             ))}
           </div>
           {agent.keyTrigger && (
-            <div className="mt-4 rounded-xl bg-panelSoft px-4 py-2.5 text-sm text-ink">
-              <span className="text-inkMuted">Key trigger:</span> {agent.keyTrigger}
+            <div className="mt-8 rounded-xl border border-line bg-panelSoft/50 px-4 py-3 text-sm text-ink">
+              <span className="font-medium text-inkMuted">Key trigger:</span> {agent.keyTrigger}
             </div>
           )}
         </div>

@@ -18,6 +18,14 @@ type Props = {
   }>;
 };
 
+export async function generateMetadata({ params }: Props) {
+  const { section: sectionSlug } = await params;
+  const section = getSimulationSection(sectionSlug);
+  return {
+    title: section ? section.title : "Simulation",
+  };
+}
+
 export default async function SimulationSectionPage({ params }: Props) {
   const { section: sectionSlug } = await params;
   const section = getSimulationSection(sectionSlug);

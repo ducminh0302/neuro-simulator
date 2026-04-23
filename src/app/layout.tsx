@@ -18,10 +18,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Simulacrum",
+    default: "Simulacrum | Predictive Neural Analytics",
     template: "%s | Simulacrum",
   },
-  description: "A static Next.js experience inspired by the downloaded Simulacrum screens.",
+  description: "Advanced simulation platform for predictive neural analytics and creative optimization.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
