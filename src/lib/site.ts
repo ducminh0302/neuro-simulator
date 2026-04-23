@@ -69,6 +69,12 @@ export const simulationSections: SimulationSection[] = [
     status: "Live",
   },
   {
+    slug: "grid-dataops-india-humanoid-training",
+    title: "Grid DataOps India - Humanoid Training",
+    summary: "Video-driven deep simulation of a UGC data-acquisition ad — 84/100 AI performance, live brain activation from EEG predictions, 5 archetype journeys, AIDA funnel, and creative benchmarks.",
+    status: "Live",
+  },
+  {
     slug: "post-content-simulator",
     title: "Post Content Simulator",
     summary: "Predict launch performance from media, caption, and audience input.",

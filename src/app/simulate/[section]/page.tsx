@@ -7,6 +7,7 @@ import { SimulacrumFocusSimulatorSection } from "@/components/simulations/simula
 import { NiacinamideLaunchSimulatorSection } from "@/components/simulations/niacinamide-launch-simulator-section";
 import { PostContentSimulatorSection } from "@/components/simulations/post-content-simulator-section";
 import { WorkspaceProductivitySimulatorSection } from "@/components/simulations/workspace-productivity-simulator-section";
+import { GridDataopsSimulatorSection } from "@/components/simulations/grid-dataops-simulator-section";
 import { SiteShell } from "@/components/site-shell";
 import { Card, Pill, SectionHeading } from "@/components/ui";
 import { getSimulationSection } from "@/lib/site";
@@ -46,6 +47,8 @@ export default async function SimulationSectionPage({ params }: Props) {
         <HaileyBieberSimulatorSection />
       ) : section.slug === "niacinamide-launch-acne-solutions" ? (
         <NiacinamideLaunchSimulatorSection />
+      ) : section.slug === "grid-dataops-india-humanoid-training" ? (
+        <GridDataopsSimulatorSection />
       ) : (
         <SimulationPlaceholder title={section.title} summary={section.summary} />
       )}
