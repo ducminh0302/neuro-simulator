@@ -6,6 +6,7 @@ import {
   Activity,
   ArrowLeft,
   ArrowUpRight,
+  Brain,
   CheckCircle2,
   Database,
   Clipboard,
@@ -33,6 +34,7 @@ import {
 import { Card, Pill } from "@/components/ui";
 import { simulationIndexPath } from "@/lib/site";
 import { cn } from "@/lib/utils";
+import { BrainViewerLazy } from "@/components/brain/BrainViewerLazy";
 
 type VariantResult = {
   name: string;
@@ -519,6 +521,74 @@ function AnalysisTab({
           </span>
         </p>
       </Card>
+
+      {/* Neural Comparison Section */}
+      <section className="space-y-4">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h2 className="text-xl font-bold text-ink flex items-center gap-2">
+              <Brain className="h-5 w-5 text-indigo-500" />
+              Neural Activation Map
+            </h2>
+            <p className="text-sm text-muted">Comparative visualization of predicted cortical response</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Variant A Brain */}
+          <div className="group relative overflow-hidden rounded-[2.5rem] bg-white p-2 shadow-soft soft-border transition-all hover:shadow-2xl hover:-translate-y-1">
+            <div className="absolute left-6 top-6 z-20">
+              <div className="flex items-center gap-2 rounded-full bg-black/60 px-4 py-2 backdrop-blur-xl border border-white/10 shadow-2xl">
+                <div className="h-2 w-2 rounded-full bg-indigo-400 animate-pulse" />
+                <span className="text-[10px] font-bold uppercase tracking-widest text-white">
+                  {variants[0].name}
+                </span>
+              </div>
+            </div>
+            <div className="h-[480px] w-full overflow-hidden rounded-[2.2rem]">
+              <BrainViewerLazy predictionKey="text.predictions" syncCamera={true} />
+            </div>
+            <div className="p-6">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-bold text-ink">Cognitive Precision</h3>
+                <span className="text-[10px] font-bold text-indigo-500 bg-indigo-50 px-2.5 py-1 rounded-lg uppercase tracking-tight">Focus Engine</span>
+              </div>
+              <p className="mt-3 text-[13px] leading-relaxed text-muted">
+                {variants[0].name} triggers targeted activation in the dorsolateral prefrontal cortex. 
+                Data suggests high cognitive processing and logical validation of the value proposition, 
+                leading to a "considered" conversion profile.
+              </p>
+            </div>
+          </div>
+
+          {/* Variant B Brain */}
+          <div className="group relative overflow-hidden rounded-[2.5rem] bg-white p-2 shadow-soft soft-border transition-all hover:shadow-2xl hover:-translate-y-1">
+            <div className="absolute left-6 top-6 z-20">
+              <div className="flex items-center gap-2 rounded-full bg-black/60 px-4 py-2 backdrop-blur-xl border border-white/10 shadow-2xl">
+                <div className="h-2 w-2 rounded-full bg-rose-400 animate-pulse" />
+                <span className="text-[10px] font-bold uppercase tracking-widest text-white">
+                  {variants[1].name}
+                </span>
+              </div>
+            </div>
+            <div className="h-[480px] w-full overflow-hidden rounded-[2.2rem]">
+              <BrainViewerLazy predictionKey="stim.predictions" syncCamera={true} />
+            </div>
+            <div className="p-6">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-bold text-ink">Emotional Resonance</h3>
+                <span className="text-[10px] font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-lg uppercase tracking-tight">visceral impulse</span>
+              </div>
+              <p className="mt-3 text-[13px] leading-relaxed text-muted">
+                {variants[1].name} stimulates the amygdala and limbic regions more aggressively. 
+                This pattern correlates with higher immediate engagement and impulse-driven 
+                behavior, explaining the increased conversions in short-form channels.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
 
       <Card className="p-6 sm:p-8">
         <div className="flex flex-wrap items-center justify-between gap-4">

@@ -35,6 +35,11 @@ interface PredictionData {
   absScale: number;
 }
 
+// Global synchronization for multiple brain viewers
+const sharedListeners = new Set<(pos: THREE.Vector3, target: THREE.Vector3, senderId: string) => void>();
+let lastPos = new THREE.Vector3();
+let lastTarget = new THREE.Vector3();
+
 const DEFAULT_PREDICTION_KEY = "text.predictions";
 
 function lerp(a: number, b: number, t: number) {
@@ -166,10 +171,54 @@ interface SceneProps {
   autoRotate: boolean;
   prediction: PredictionData | null;
   autoRotateSpeed: number;
+  syncCamera?: boolean;
 }
 
-function Scene({ surface, autoRotate, prediction, autoRotateSpeed }: SceneProps) {
+function Scene({ surface, autoRotate, prediction, autoRotateSpeed, syncCamera }: SceneProps) {
   const { camera } = useThree();
+  const controlsRef = useRef<any>(null);
+  const instanceId = useMemo(() => Math.random().toString(36).substr(2, 9), []);
+  const isInternalUpdate = useRef(false);
+
+  useEffect(() => {
+    if (!syncCamera) return;
+
+    const handler = (pos: THREE.Vector3, target: THREE.Vector3, senderId: string) => {
+      if (senderId === instanceId || isInternalUpdate.current) return;
+
+      isInternalUpdate.current = true;
+      camera.position.copy(pos);
+      if (controlsRef.current) {
+        controlsRef.current.target.copy(target);
+        controlsRef.current.update();
+      }
+      isInternalUpdate.current = false;
+    };
+
+    sharedListeners.add(handler);
+    // Initialize with last known state if available
+    if (sharedListeners.size > 1) {
+       camera.position.copy(lastPos);
+       if (controlsRef.current) {
+         controlsRef.current.target.copy(lastTarget);
+         controlsRef.current.update();
+       }
+    }
+
+    return () => {
+      sharedListeners.delete(handler);
+    };
+  }, [syncCamera, camera, instanceId]);
+
+  const onControlsChange = useCallback(() => {
+    if (syncCamera && !isInternalUpdate.current && controlsRef.current) {
+      isInternalUpdate.current = true;
+      lastPos.copy(camera.position);
+      lastTarget.copy(controlsRef.current.target);
+      sharedListeners.forEach(l => l(camera.position, controlsRef.current.target, instanceId));
+      isInternalUpdate.current = false;
+    }
+  }, [syncCamera, camera, instanceId]);
 
   useEffect(() => {
     camera.position.set(0, 0.2, 3.2);
@@ -186,6 +235,8 @@ function Scene({ surface, autoRotate, prediction, autoRotateSpeed }: SceneProps)
       <HemisphereMesh data={surface.right} side="right" prediction={prediction} />
 
       <OrbitControls
+        ref={controlsRef}
+        onChange={onControlsChange}
         enablePan={false}
         enableZoom
         minDistance={1.6}
@@ -264,6 +315,7 @@ export interface BrainViewer3DProps {
   predictionKey?: string;
   segmentIndex?: number;
   autoRotateSpeed?: number;
+  syncCamera?: boolean;
 }
 
 export function BrainViewer3D({
@@ -323,6 +375,7 @@ export function BrainViewer3D({
             autoRotate={autoRotate}
             prediction={prediction}
             autoRotateSpeed={autoRotateSpeed}
+            syncCamera={props.syncCamera}
           />
         </Canvas>
       )}

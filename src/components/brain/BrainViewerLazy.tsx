@@ -6,6 +6,7 @@ interface BrainViewerLazyProps {
   predictionKey?: string;
   segmentIndex?: number;
   autoRotateSpeed?: number;
+  syncCamera?: boolean;
 }
 
 const BrainViewerDynamic = dynamic<BrainViewerLazyProps>(
