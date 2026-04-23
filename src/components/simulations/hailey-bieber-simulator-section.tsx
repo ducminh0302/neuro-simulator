@@ -62,6 +62,7 @@ type JourneyEvent = {
 };
 
 type Agent = {
+  id: string;
   initial: string;
   name: string;
   age: number;
@@ -320,6 +321,7 @@ const sophia52Events: JourneyEvent[] = [
 
 const agents: Agent[] = [
   {
+    id: "fatima-44",
     initial: "F",
     name: "Fatima",
     age: 44,
@@ -333,6 +335,7 @@ const agents: Agent[] = [
     events: fatimaEvents,
   },
   {
+    id: "jasmine-24",
     initial: "J",
     name: "Jasmine",
     age: 24,
@@ -346,6 +349,7 @@ const agents: Agent[] = [
     events: jasmineEvents,
   },
   {
+    id: "ahmed-32",
     initial: "A",
     name: "Ahmed",
     age: 32,
@@ -359,6 +363,7 @@ const agents: Agent[] = [
     events: ahmedEvents,
   },
   {
+    id: "leila-32",
     initial: "L",
     name: "Leila",
     age: 32,
@@ -372,6 +377,7 @@ const agents: Agent[] = [
     events: leilaEvents,
   },
   {
+    id: "zara-31",
     initial: "Z",
     name: "Zara",
     age: 31,
@@ -385,6 +391,7 @@ const agents: Agent[] = [
     events: zaraEvents,
   },
   {
+    id: "olivia-32",
     initial: "O",
     name: "Olivia",
     age: 32,
@@ -398,6 +405,7 @@ const agents: Agent[] = [
     events: oliviaEvents,
   },
   {
+    id: "maya-23",
     initial: "M",
     name: "Maya",
     age: 23,
@@ -411,6 +419,7 @@ const agents: Agent[] = [
     events: mayaEvents,
   },
   {
+    id: "sophia-39",
     initial: "S",
     name: "Sophia",
     age: 39,
@@ -424,6 +433,7 @@ const agents: Agent[] = [
     events: sophia39Events,
   },
   {
+    id: "emma-52",
     initial: "E",
     name: "Emma",
     age: 52,
@@ -437,6 +447,7 @@ const agents: Agent[] = [
     events: emmaEvents,
   },
   {
+    id: "sophia-52",
     initial: "S",
     name: "Sophia",
     age: 52,
@@ -682,10 +693,10 @@ export function HaileyBieberSimulatorSection() {
         <div className="mt-5 space-y-3">
           {agents.map((agent) => (
             <AgentRow
-              key={agent.name}
+              key={agent.id}
               agent={agent}
-              expanded={expandedAgent === agent.name}
-              onToggle={() => setExpandedAgent(expandedAgent === agent.name ? null : agent.name)}
+              expanded={expandedAgent === agent.id}
+              onToggle={() => setExpandedAgent(expandedAgent === agent.id ? null : agent.id)}
             />
           ))}
         </div>
@@ -949,7 +960,7 @@ function AgentRow({
       {expanded && agent.events.length > 0 ? (
         <div className="space-y-3 border-t border-line px-4 py-4 pl-16">
           {agent.events.map((event, idx) => (
-            <JourneyEventRow key={`${agent.name}-${idx}`} event={event} />
+            <JourneyEventRow key={`${agent.id}-${idx}`} event={event} />
           ))}
         </div>
       ) : null}

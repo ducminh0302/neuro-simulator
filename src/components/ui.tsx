@@ -1,17 +1,45 @@
 import type { ReactNode } from "react";
 
+import { cn } from "@/lib/utils";
+
 type CardProps = {
   children: ReactNode;
   className?: string;
   onClick?: () => void;
 };
 
+/**
+ * Card — Vercel-style flat surface: solid dark bg, 1px border, small radius,
+ * no ambient shadow by default. Hover subtly lifts border color.
+ */
 export function Card({ children, className = "", onClick }: CardProps) {
-  return <div onClick={onClick} className={`rounded-[2rem] bg-panel soft-border shadow-soft ${className}`}>{children}</div>;
+  const interactive = typeof onClick === "function";
+  return (
+    <div
+      onClick={onClick}
+      className={cn(
+        "rounded-xl2 border border-line bg-panel transition-colors duration-fast",
+        interactive && "cursor-pointer hover:border-lineHover",
+        className,
+      )}
+    >
+      {children}
+    </div>
+  );
 }
 
+/**
+ * Surface — slightly raised card, used for nested sections or alternate bg.
+ */
 export function Surface({ children, className = "", onClick }: CardProps) {
-  return <div onClick={onClick} className={`rounded-[2.5rem] bg-panelSoft soft-border ${className}`}>{children}</div>;
+  return (
+    <div
+      onClick={onClick}
+      className={cn("rounded-xl2 border border-line bg-panelSoft", className)}
+    >
+      {children}
+    </div>
+  );
 }
 
 export function SectionHeading({
@@ -26,36 +54,58 @@ export function SectionHeading({
   action?: ReactNode;
 }) {
   return (
-    <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-      <div className="max-w-3xl space-y-3">
+    <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+      <div className="max-w-3xl space-y-2">
         {eyebrow ? <p className="kicker">{eyebrow}</p> : null}
-        <h1 className="headline text-4xl md:text-6xl leading-[0.92]">{title}</h1>
-        {description ? <p className="text-base md:text-lg text-muted leading-relaxed">{description}</p> : null}
+        <h1 className="headline text-2xl md:text-3xl leading-tight">{title}</h1>
+        {description ? (
+          <p className="text-sm md:text-base text-muted leading-relaxed">
+            {description}
+          </p>
+        ) : null}
       </div>
       {action ? <div className="shrink-0">{action}</div> : null}
     </div>
   );
 }
 
+/**
+ * Pill — a small status tag. Vercel uses subtle neutral chips, not pill-shaped
+ * uppercase tags; we mimic that look (small radius, lower-case, subtle bg).
+ */
 export function Pill({
   children,
   tone = "neutral",
   className = "",
 }: {
   children: ReactNode;
-  tone?: "neutral" | "accent" | "soft";
+  tone?:
+    | "neutral"
+    | "accent"
+    | "soft"
+    | "success"
+    | "warning"
+    | "danger"
+    | "info";
   className?: string;
 }) {
-  const toneClass =
-    tone === "accent"
-      ? "bg-accent text-white"
-      : tone === "soft"
-        ? "bg-accentSoft text-accent"
-        : "bg-panelSoft text-ink";
+  const toneClass: Record<string, string> = {
+    neutral: "bg-hover text-muted border border-line",
+    accent: "bg-ink text-canvas border border-ink",
+    soft: "bg-panelSoft text-ink border border-line",
+    success: "bg-success/10 text-success border border-success/30",
+    warning: "bg-warning/10 text-warning border border-warning/30",
+    danger: "bg-danger/10 text-danger border border-danger/30",
+    info: "bg-info/10 text-info border border-info/30",
+  };
 
   return (
     <span
-      className={`inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] ${toneClass} ${className}`}
+      className={cn(
+        "inline-flex items-center rounded-md px-2 py-0.5 text-[11px] font-medium tracking-tight",
+        toneClass[tone] ?? toneClass.neutral,
+        className,
+      )}
     >
       {children}
     </span>
@@ -74,13 +124,29 @@ export function StatCard({
   accent?: boolean;
 }) {
   return (
-    <Card className={`p-6 ${accent ? "bg-accent text-white" : ""}`}>
+    <Card
+      className={cn(
+        "p-5",
+        accent && "bg-ink text-canvas border-ink",
+      )}
+    >
       <div className="flex items-start justify-between gap-4">
-        <p className={`kicker ${accent ? "text-white/70" : ""}`}>{label}</p>
+        <p className={cn("kicker", accent && "text-canvas/70")}>{label}</p>
       </div>
-      <div className="mt-10 space-y-2">
-        <div className={`headline text-4xl md:text-5xl leading-none ${accent ? "text-white" : ""}`}>{value}</div>
-        {delta ? <p className={`text-sm ${accent ? "text-white/80" : "text-muted"}`}>{delta}</p> : null}
+      <div className="mt-6 space-y-1">
+        <div
+          className={cn(
+            "headline text-3xl md:text-4xl leading-none font-mono tabular-nums",
+            accent && "text-canvas",
+          )}
+        >
+          {value}
+        </div>
+        {delta ? (
+          <p className={cn("text-xs", accent ? "text-canvas/70" : "text-muted")}>
+            {delta}
+          </p>
+        ) : null}
       </div>
     </Card>
   );
@@ -88,8 +154,11 @@ export function StatCard({
 
 export function ProgressBar({ value }: { value: number }) {
   return (
-    <div className="h-2 w-full rounded-full bg-line/70 overflow-hidden">
-      <div className="h-full rounded-full bg-accent transition-all duration-500" style={{ width: `${value}%` }} />
+    <div className="h-1 w-full overflow-hidden rounded-full bg-line">
+      <div
+        className="h-full rounded-full bg-ink transition-all duration-500"
+        style={{ width: `${Math.min(100, Math.max(0, value))}%` }}
+      />
     </div>
   );
 }

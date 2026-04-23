@@ -891,14 +891,14 @@ export function GalaReadySimulatorSection() {
         </div>
 
         <div className="mt-8 space-y-6">
-          {multiAgentResponses.map((agent) => (
+          {multiAgentResponses.map((agent, idx) => (
             <Card 
-              key={agent.name} 
-              className={`soft-border border transition-all duration-300 cursor-pointer hover:shadow-md ${stanceCardClass[agent.stance] ?? "border-slate-200 bg-slate-50/80"} ${expandedAgent === agent.name ? 'ring-2 ring-ink/5' : ''}`}
+              key={`${agent.name}-${idx}`} 
+              className={`soft-border border transition-all duration-300 cursor-pointer hover:shadow-md ${stanceCardClass[agent.stance] ?? "border-slate-200 bg-slate-50/80"} ${expandedAgent === `${agent.name}-${idx}` ? 'ring-2 ring-ink/5' : ''}`}
             >
               <div 
                 className="p-4 sm:p-6"
-                onClick={() => setExpandedAgent(expandedAgent === agent.name ? null : agent.name)}
+                onClick={() => setExpandedAgent(expandedAgent === `${agent.name}-${idx}` ? null : `${agent.name}-${idx}`)}
               >
                 <div className="grid gap-6 lg:grid-cols-[280px_minmax(0,1fr)_120px] lg:items-start">
                   <div className="flex flex-col h-full justify-between">
@@ -912,7 +912,7 @@ export function GalaReadySimulatorSection() {
                     </div>
                     
                     <div className="mt-4 flex items-center gap-2 text-xs font-semibold text-ink/60 group">
-                      {expandedAgent === agent.name ? (
+                      {expandedAgent === `${agent.name}-${idx}` ? (
                         <>Collapse analysis <ChevronUp className="h-4 w-4" /></>
                       ) : (
                         <>View deep analysis <ChevronDown className="h-4 w-4 group-hover:translate-y-0.5 transition-transform" /></>
@@ -949,7 +949,7 @@ export function GalaReadySimulatorSection() {
                 </div>
 
                 <AnimatePresence>
-                  {expandedAgent === agent.name && (
+                  {expandedAgent === `${agent.name}-${idx}` && (
                     <AgentDeepAnalysis 
                       agent={agent} 
                       stanceColor={stanceBarClass[agent.stance] || "bg-slate-500"} 

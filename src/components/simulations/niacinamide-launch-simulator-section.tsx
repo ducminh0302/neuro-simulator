@@ -486,7 +486,7 @@ const creativeRecommendations = [
 // MAIN SECTION
 // =============================================================================
 export function NiacinamideLaunchSimulatorSection() {
-  const [expandedAgentIdx, setExpandedAgentIdx] = useState<number>(4); // default: Aria
+  const [expandedAgentIdx, setExpandedAgentIdx] = useState<number>(-1); // default: all closed
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 pb-24">
@@ -784,9 +784,9 @@ function BrainActivationBlock() {
       <div className="mt-4 grid gap-4 md:grid-cols-2">
         {/* LEFT: 3D Brain Viewer */}
         <div className="aspect-square rounded-2xl bg-black md:aspect-auto md:min-h-[420px] overflow-hidden border border-line/20">
-          <BrainViewerLazy 
-            predictionKey="stim.predictions" 
-            segmentIndex={secondsFloor} 
+          <BrainViewerLazy
+            predictionKey="stim.predictions"
+            segmentIndex={secondsFloor}
             autoRotateSpeed={0.125}
           />
         </div>
@@ -931,6 +931,8 @@ function AgentRow({
         type="button"
         onClick={onToggle}
         className="flex w-full items-center gap-4 px-4 py-3 text-left transition hover:bg-panelSoft"
+        aria-expanded={expanded}
+        aria-controls={`agent-journey-${agent.name}`}
       >
         <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ink text-sm font-semibold text-white">
           {agent.name.charAt(0)}
@@ -961,7 +963,7 @@ function AgentRow({
       </button>
 
       {expanded && agent.journey && (
-        <div className="border-t border-line px-6 py-4">
+        <div id={`agent-journey-${agent.name}`} className="border-t border-line px-6 py-4">
           <div className="space-y-3">
             {agent.journey.map((exp) => (
               <div key={exp.day} className="flex gap-3">

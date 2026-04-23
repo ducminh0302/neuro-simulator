@@ -1,17 +1,19 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 
 import { PageTransition } from "@/components/page-transition";
 import "./globals.css";
 
-const inter = Inter({
+const geistSans = Geist({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-geist-sans",
+  display: "swap",
 });
 
-const spaceGrotesk = Space_Grotesk({
+const geistMono = Geist_Mono({
   subsets: ["latin"],
-  variable: "--font-space-grotesk",
+  variable: "--font-geist-mono",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -25,7 +27,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className="light">
-      <body className={`${inter.variable} ${spaceGrotesk.variable}`}>
+      <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <PageTransition>{children}</PageTransition>
       </body>
     </html>

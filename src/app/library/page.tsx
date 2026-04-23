@@ -22,7 +22,7 @@ export default function LibraryPage() {
 
   const handleFileUpload = (files: FileList | null) => {
     if (!files) return;
-    
+
     const newItems = Array.from(files).map((file) => ({
       name: file.name,
       kind: "file" as const,
@@ -73,7 +73,7 @@ export default function LibraryPage() {
           }
         />
 
-        <div 
+        <div
           onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
           onDragLeave={() => setIsDragging(false)}
           onDrop={(e) => {
@@ -81,16 +81,15 @@ export default function LibraryPage() {
             setIsDragging(false);
             handleFileUpload(e.dataTransfer.files);
           }}
-          className={`group relative flex flex-col items-center justify-center rounded-[2.5rem] border-2 border-dashed p-16 text-center transition-all duration-500 ${
-            isDragging 
-              ? "border-accent bg-accent/5 scale-[1.01] shadow-soft" 
+          className={`group relative flex flex-col items-center justify-center rounded-[2.5rem] border-2 border-dashed p-16 text-center transition-all duration-500 ${isDragging
+              ? "border-accent bg-accent/5 scale-[1.01] shadow-soft"
               : "border-accent/20 bg-gradient-to-b from-white to-accentSoft/20 hover:border-accent/40 hover:bg-accentSoft/30"
-          }`}
+            }`}
         >
-          <input 
-            type="file" 
-            multiple 
-            className="absolute inset-0 cursor-pointer opacity-0" 
+          <input
+            type="file"
+            multiple
+            className="absolute inset-0 cursor-pointer opacity-0"
             onChange={(e) => handleFileUpload(e.target.files)}
           />
           <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white shadow-soft group-hover:scale-110 transition-transform duration-500">

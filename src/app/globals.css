@@ -2,47 +2,68 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ===========================================================
+   Vercel design system — CSS variables
+   =========================================================== */
 :root {
   color-scheme: light;
+
+  /* Backgrounds — Vercel light palette */
+  --bg-primary: #ffffff;
+  --bg-secondary: #fafafa;
+  --bg-tertiary: #f5f5f5;
+  --bg-hover: #f4f4f5;
+  --bg-active: #e4e4e7;
+
+  /* Text */
+  --text-primary: #000000;
+  --text-secondary: #666666;
+  --text-tertiary: #999999;
+
+  /* Borders — Vercel's canonical 1px lines */
+  --border-default: #eaeaea;
+  --border-hover: #d4d4d4;
+  --border-focus: #a1a1a1;
+
+  /* Accents */
+  --accent-blue: #0070f3;
+  --accent-purple: #7928ca;
+  --accent-green: #50e3c2;
+  --accent-amber: #f5a623;
+  --accent-red: #e5484d;
 }
 
 html {
   scroll-behavior: smooth;
 }
 
-@keyframes pageIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-    filter: blur(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
+html,
+body {
+  background: var(--bg-primary);
 }
 
 body {
   @apply bg-canvas text-ink antialiased font-body;
-  background-image:
-    radial-gradient(circle at top left, rgba(79, 70, 229, 0.08), transparent 30%),
-    radial-gradient(circle at 80% 10%, rgba(229, 217, 208, 0.45), transparent 24%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* Selection */
 ::selection {
-  background: rgba(79, 70, 229, 0.18);
+  background: rgba(0, 0, 0, 0.1);
+  color: var(--text-primary);
 }
 
+/* Scrollbar — Vercel uses thin, neutral scrollbars */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(100, 109, 114, 0.35) transparent;
+  scrollbar-color: var(--border-default) transparent;
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -50,15 +71,16 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(100, 109, 114, 0.28);
-  border-radius: 9999px;
+  background: var(--border-default);
+  border-radius: 4px;
   border: 2px solid transparent;
   background-clip: padding-box;
+  transition: background-color 0.15s ease;
 }
 
-.grain {
-  background-image: radial-gradient(rgba(32, 36, 39, 0.08) 1px, transparent 1px);
-  background-size: 22px 22px;
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-hover);
+  background-clip: padding-box;
 }
 
 .no-scrollbar {
@@ -70,36 +92,96 @@ body {
   display: none;
 }
 
+/* ===========================================================
+   Utility classes (kept names for backward compatibility)
+   =========================================================== */
+
+/* `soft-border` is referenced across pages — map it to Vercel 1px border */
+.soft-border {
+  border: 1px solid var(--border-default);
+}
+
+/* `grain` is a no-op to keep the Vercel flat-surface aesthetic */
+.grain {
+  background-image: none;
+}
+
+/* Optional subtle dotted grid for hero surfaces */
+.dot-grid {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.06) 1px,
+      transparent 1px);
+  background-size: 24px 24px;
+}
+
 .glass {
-  background: rgba(255, 255, 255, 0.68);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
 }
 
 .page-shell {
   position: relative;
   isolation: isolate;
+  background: var(--bg-primary);
 }
 
-.page-shell::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 10% 20%, rgba(79, 70, 229, 0.08), transparent 28%),
-    radial-gradient(circle at 90% 5%, rgba(229, 217, 208, 0.55), transparent 20%),
-    radial-gradient(circle at 60% 90%, rgba(32, 36, 39, 0.06), transparent 24%);
-  z-index: -1;
-  pointer-events: none;
-}
+/* Previously page-shell had radial gradient halos — removed for Vercel minimalism. */
 
-.soft-border {
-  border: 1px solid rgba(213, 218, 215, 0.9);
-}
-
+/* Typography helpers */
 .kicker {
-  @apply text-[11px] uppercase tracking-[0.24em] text-muted;
+  @apply text-[11px] uppercase tracking-[0.14em] text-muted font-medium;
 }
 
 .headline {
-  @apply font-display tracking-tight text-ink;
+  @apply font-display tracking-tight text-ink font-semibold;
+}
+
+/* Focus ring — Vercel white/subtle */
+*:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Link styles */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Code blocks & inline code */
+code,
+kbd,
+pre,
+samp {
+  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
+    monospace;
+}
+
+/* ===========================================================
+   Small utility components used across the app
+   =========================================================== */
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 rounded-md bg-ink px-4 py-2 text-sm font-medium text-canvas transition-colors duration-fast hover:bg-ink/90;
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center gap-2 rounded-md border border-line bg-panel px-4 py-2 text-sm font-medium text-ink transition-colors duration-fast hover:border-lineHover hover:bg-hover;
+}
+
+.btn-ghost {
+  @apply inline-flex items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted transition-colors duration-fast hover:bg-hover hover:text-ink;
+}
+
+/* Keyframes fallback for keyframes declared in tailwind.config.ts */
+@keyframes pageIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

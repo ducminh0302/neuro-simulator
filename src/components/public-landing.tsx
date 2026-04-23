@@ -131,7 +131,6 @@ function Ticker() {
   );
 }
 
-/* ── Marquee ── */
 /* ── Hero title with word-by-word reveal ── */
 function HeroTitle({ inView }: { inView: boolean }) {
   const line1 = "Predict how minds".split(" ");
@@ -164,9 +163,9 @@ function HeroTitle({ inView }: { inView: boolean }) {
           </span>
         ))}
       </span>
-      {/* Line 2 — "before" italic */}
-  <span className="block">
-    {[...["respond"], ...line2].map((word, i) => (
+      {/* Line 2 — "respond" italic */}
+      <span className="block">
+        {[...["respond"], ...line2].map((word, i) => (
           <span key={i} className="inline-block overflow-hidden mr-[0.22em] last:mr-0">
             <motion.span
               className={`inline-block ${i === 0 ? "font-serif italic text-[#9a9a9a] pr-[0.15em]" : ""}`}
@@ -239,148 +238,6 @@ function ResearchTimeline() {
   );
 }
 
-/* ── A/B test bars ── */
-function ABTestMock() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.5 });
-  return (
-    <div ref={ref} className="mb-6 grid grid-cols-2 gap-3">
-      {[
-        { label: "A · Current", conv: "3.2%", convW: "32%", drop: "68%", dropW: "68%", time: "1m 42s", winner: false },
-        { label: "B · Variant", conv: "5.8%", convW: "58%", drop: "41%", dropW: "41%", time: "0m 58s", winner: true },
-      ].map((v) => (
-        <div key={v.label} className={`rounded-xl border p-3.5 ${v.winner ? "border-black" : "border-black/10"}`}>
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-[10px] font-bold uppercase tracking-[0.06em] text-[#a3a3a3]">{v.label}</span>
-            {v.winner && <span className="rounded-full bg-black px-2 py-0.5 text-[9px] font-bold text-white">Winner</span>}
-          </div>
-          {[{ label: "Conv. rate", val: v.conv, w: v.convW }, { label: "Drop-off", val: v.drop, w: v.dropW }].map((m) => (
-            <div key={m.label} className="mb-2">
-              <div className="flex justify-between text-[10.5px] mb-1">
-                <span className="text-[#a3a3a3]">{m.label}</span>
-                <strong className="text-black">{m.val}</strong>
-              </div>
-              <div className="h-[3.5px] bg-[#e8e8e8] rounded-full overflow-hidden">
-                <motion.div
-                  className="h-full bg-black rounded-full"
-                  initial={{ width: 0 }}
-                  animate={inView ? { width: m.w } : { width: 0 }}
-                  transition={{ duration: 1.1, ease: "easeOut", delay: 0.3 }}
-                />
-              </div>
-            </div>
-          ))}
-          <div className="flex justify-between text-[10.5px] mt-1">
-            <span className="text-[#a3a3a3]">Time on page</span>
-            <strong>{v.time}</strong>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-/* ── Focus group mock ── */
-function FocusGroupMock() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.4 });
-  const msgs = [
-    { av: "S", name: "Sarah, 28", bg: "#111", text: "The pricing page felt unclear — I wasn't sure what was included." },
-    { av: "M", name: "Marcus, 41", bg: "#444", text: "Same. I had to re-read the tier descriptions twice." },
-    { av: "P", name: "Priya, 34",  bg: "#777", text: "I expected a comparison table. Would have helped a lot." },
-  ];
-  return (
-    <div ref={ref} className="mb-6">
-      <div className="mb-4 border-l-2 border-[#d1d1d1] pl-3 text-[12px] italic text-[#6b6b6b]">
-        &quot;What made you hesitate before upgrading?&quot;
-      </div>
-      {msgs.map((m, i) => (
-        <motion.div
-          key={m.av}
-          className="flex gap-2.5 mb-3"
-          initial={{ opacity: 0, x: -16 }}
-          animate={inView ? { opacity: 1, x: 0 } : undefined}
-          transition={{ duration: 0.55, ease, delay: 0.2 + i * 0.18 }}
-        >
-          <div
-            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[9.5px] font-bold text-white"
-            style={{ background: m.bg }}
-          >
-            {m.av}
-          </div>
-          <div>
-            <p className="text-[10px] text-[#a3a3a3] mb-1">{m.name}</p>
-            <div className="rounded-[10px] border border-black/10 bg-white px-3 py-2 text-[12px] leading-[1.55] text-[#555]">
-              {m.text}
-            </div>
-          </div>
-        </motion.div>
-      ))}
-    </div>
-  );
-}
-
-/* ── Issues list mock ── */
-function IssuesMock() {
-  const items = [
-    { sev: "High", color: "bg-red-100 text-red-800", text: "Checkout button unresponsive on mobile" },
-    { sev: "Med",  color: "bg-yellow-100 text-yellow-800", text: "Search returns no results for short queries" },
-    { sev: "Low",  color: "bg-green-100 text-green-800", text: "Onboarding step 3 confusing for new users" },
-  ];
-  return (
-    <div className="mb-6 rounded-xl border border-black/10 bg-[#f6f6f6] overflow-hidden">
-      <div className="px-4 py-2.5 border-b border-black/8 text-[10px] font-bold uppercase tracking-[0.1em] text-[#a3a3a3]">Issues Found</div>
-      {items.map((item, i) => (
-        <div key={i} className="flex items-center gap-3 px-4 py-3 border-b border-black/6 last:border-0">
-          <span className={`shrink-0 rounded px-1.5 py-0.5 text-[9.5px] font-bold uppercase tracking-[0.04em] ${item.color}`}>{item.sev}</span>
-          <span className="text-[12.5px] text-[#555]">{item.text}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-/* ── Code diff mock ── */
-function CodeDiffMock() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.4 });
-  const [charIdx, setCharIdx] = useState(0);
-  const addedLine = "onClick={(e) => { e.preventDefault(); handleSubmit(); }}";
-
-  useEffect(() => {
-    if (!inView) return;
-    let i = 0, alive = true;
-    const tick = () => {
-      if (!alive) return;
-      if (i <= addedLine.length) { setCharIdx(i); i++; setTimeout(tick, 28); }
-    };
-    setTimeout(tick, 600);
-    return () => { alive = false; };
-  }, [inView]);
-
-  return (
-    <div ref={ref} className="mb-6 overflow-hidden rounded-xl border border-black/10 font-mono text-[11.5px]">
-      <div className="border-b border-black/8 bg-[#f6f6f6] px-4 py-2.5 text-[11px] text-[#6b6b6b]">
-        ⚠ Missing e.preventDefault() — form submission conflicting with custom handler.
-      </div>
-      <div className="bg-white px-4 py-3 leading-[1.85]">
-        <div className="text-[#a3a3a3]">{'// components/CheckoutButton.tsx'}</div>
-        <div className="rounded bg-red-50 px-1 text-red-700">{'− onClick={() => handleSubmit()}'}</div>
-        <div className="rounded bg-green-50 px-1 text-green-700">
-          {'+ '}{addedLine.slice(0, charIdx)}
-          {charIdx < addedLine.length && inView && (
-            <span className="inline-block h-[13px] w-[1.5px] animate-[blink_1.1s_step-end_infinite] bg-green-700 align-middle ml-px" />
-          )}
-        </div>
-        <div className="text-[#a3a3a3]">{'  disabled={isLoading}'}</div>
-      </div>
-      <div className="flex justify-end px-4 py-2.5 bg-[#f6f6f6] border-t border-black/8">
-        <span className="rounded-full border border-green-200 bg-green-50 px-3 py-0.5 text-[11px] font-semibold text-green-700">✓ Fix applied</span>
-      </div>
-    </div>
-  );
-}
-
 /* ── Code marquee rows ── */
 const ROW1 = [
   `import { Swarm } from "@swarmhq/sdk"`,
@@ -421,6 +278,256 @@ function CodeRow({ items, reverse }: { items: string[]; reverse?: boolean }) {
             {s.startsWith("//") ? <span className="text-[#a3a3a3] italic">{s}</span> : s}
           </span>
         ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────── */
+/* NEW Feature mock components                                 */
+/* ─────────────────────────────────────────────────────────── */
+
+/* ── Feature 1: Brain Activation heat-map ── */
+function BrainHeatmapMock() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.4 });
+
+  const metrics = [
+    { label: "Excitement", val: 88, w: "88%" },
+    { label: "Surprised",  val: 72, w: "72%" },
+    { label: "Engaged",    val: 64, w: "64%" },
+    { label: "Attracted",  val: 57, w: "57%" },
+    { label: "Relaxed",    val: 47, w: "47%" },
+  ];
+
+  return (
+    <div ref={ref} className="mb-6 rounded-xl border border-black/10 overflow-hidden">
+      {/* Simulated brain heat-map */}
+      <div className="relative bg-[#0a0a0a] h-[130px] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div
+            className="w-[180px] h-[90px] rounded-full opacity-40"
+            style={{ background: "radial-gradient(ellipse at 35% 50%, #ff2200 0%, #ff6600 30%, #0055ff 65%, transparent 100%)" }}
+          />
+        </div>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div
+            className="w-[120px] h-[70px] rounded-full opacity-30"
+            style={{ background: "radial-gradient(ellipse at 70% 45%, #ff4400 0%, #ff9900 25%, transparent 70%)" }}
+          />
+        </div>
+        {/* scale bar */}
+        <div className="absolute bottom-2 right-3 flex items-center gap-1">
+          <div
+            className="h-1.5 w-16 rounded-full"
+            style={{ background: "linear-gradient(to right, #0033ff, #00aaff, #00ff88, #ffcc00, #ff4400)" }}
+          />
+          <span className="text-[8px] text-white/50 font-mono">HIGH</span>
+        </div>
+        <div className="absolute top-2 left-3 text-[9px] font-mono text-white/40 uppercase tracking-[0.08em]">Brain Activation</div>
+      </div>
+      {/* Emotion bars */}
+      <div className="bg-white px-4 py-3 space-y-2">
+        {metrics.map((m, i) => (
+          <div key={m.label} className="flex items-center gap-2">
+            <span className="w-[64px] shrink-0 text-[10px] text-[#a3a3a3] font-mono">{m.label}</span>
+            <div className="flex-1 h-[4px] bg-[#e8e8e8] rounded-full overflow-hidden">
+              <motion.div
+                className="h-full rounded-full bg-black"
+                initial={{ width: 0 }}
+                animate={inView ? { width: m.w } : { width: 0 }}
+                transition={{ duration: 1, ease: "easeOut", delay: 0.15 + i * 0.08 }}
+              />
+            </div>
+            <span className="w-[22px] text-right text-[10px] font-mono text-[#555]">{m.val}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── Feature 2: Agent Decision Journey ── */
+function AgentJourneyMock() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.35 });
+
+  const steps = [
+    { day: "Day 1", label: "awareness",   status: "aware",     text: "Saw the ad on feed — stopped scrolling briefly." },
+    { day: "Day 3", label: "interest",    status: "intrigued",  text: "Visited profile. Compared with current routine." },
+    { day: "Day 7", label: "purchase",    status: "converted",  text: "Applied promo code. Completed checkout." },
+  ];
+
+  const statusColor: Record<string, string> = {
+    aware:     "bg-[#f0f0f0] text-[#555]",
+    intrigued: "bg-amber-50 text-amber-700 border border-amber-200",
+    converted: "bg-green-50 text-green-700 border border-green-200",
+  };
+
+  return (
+    <div ref={ref} className="mb-6 space-y-3">
+      {/* Personas row */}
+      <div className="flex items-center gap-2 mb-1">
+        {[["A", "#111"], ["J", "#444"], ["S", "#777"]].map(([av, bg], i) => (
+          <motion.span
+            key={av}
+            className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[9px] font-bold text-white"
+            style={{ background: bg }}
+            initial={{ opacity: 0, x: -8 }}
+            animate={inView ? { opacity: 1, x: 0 } : undefined}
+            transition={{ duration: 0.35, delay: 0.1 + i * 0.1 }}
+          >
+            {av}
+          </motion.span>
+        ))}
+        <span className="ml-1 text-[10px] text-[#a3a3a3]">12 simulated personas</span>
+      </div>
+
+      {/* Journey steps */}
+      {steps.map((s, i) => (
+        <motion.div
+          key={s.day}
+          className="flex gap-2.5"
+          initial={{ opacity: 0, y: 10 }}
+          animate={inView ? { opacity: 1, y: 0 } : undefined}
+          transition={{ duration: 0.5, ease, delay: 0.25 + i * 0.15 }}
+        >
+          <div className="flex flex-col items-center">
+            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-black text-[8px] font-bold text-white">
+              {i + 1}
+            </span>
+            {i < steps.length - 1 && <div className="w-[1px] flex-1 bg-black/10 mt-1" />}
+          </div>
+          <div className="pb-3">
+            <div className="flex items-center gap-2 mb-0.5">
+              <span className="text-[10px] font-mono text-[#a3a3a3]">{s.day}</span>
+              <span className={`rounded-full px-2 py-0.5 text-[9px] font-semibold ${statusColor[s.status]}`}>
+                {s.label}
+              </span>
+            </div>
+            <p className="text-[11.5px] text-[#555] leading-[1.5]">{s.text}</p>
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
+/* ── Feature 3: Funnel Breakdown ── */
+function FunnelMock() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.4 });
+
+  const stages = [
+    { label: "Aware",       w: "100%", note: "100%" },
+    { label: "Paid",        w: "72%",  note: "51.6%" },
+    { label: "Unaware",     w: "52%",  note: "28.4%" },
+    { label: "Browsing",    w: "36%",  note: "13.0%" },
+    { label: "Purchased",   w: "20%",  note: "2.4%" },
+    { label: "Considering", w: "12%",  note: "1.1%" },
+  ];
+
+  return (
+    <div ref={ref} className="mb-6 rounded-xl border border-black/10 bg-white overflow-hidden">
+      <div className="px-4 py-2.5 border-b border-black/8 flex items-center justify-between">
+        <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#a3a3a3]">Funnel Breakdown</span>
+        <span className="text-[11px] font-semibold">50.0K total</span>
+      </div>
+      <div className="px-4 py-3 space-y-2.5">
+        {stages.map((s, i) => (
+          <div key={s.label} className="flex items-center gap-2">
+            <span className="w-[70px] shrink-0 text-[10px] text-[#6b6b6b]">{s.label}</span>
+            <div className="flex-1 h-[6px] bg-[#e8e8e8] rounded-full overflow-hidden">
+              <motion.div
+                className="h-full bg-black rounded-full"
+                initial={{ width: 0 }}
+                animate={inView ? { width: s.w } : { width: 0 }}
+                transition={{ duration: 1.1, ease: "easeOut", delay: 0.15 + i * 0.08 }}
+              />
+            </div>
+            <span className="w-[32px] text-right text-[10px] font-mono text-[#a3a3a3]">{s.note}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── Feature 4: Creative Benchmarks + Recommendations ── */
+function BenchmarkMock() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.4 });
+
+  const benchmarks = [
+    { label: "Attention Capture",   score: 45, industry: 60, good: false },
+    { label: "Emotional Arousal",   score: 68, industry: 55, good: true  },
+    { label: "Memory Encoding",     score: 38, industry: 52, good: false },
+    { label: "Emotional Intensity", score: 80, industry: 58, good: true  },
+    { label: "Social Resonance",    score: 32, industry: 40, good: false },
+  ];
+
+  const recs = [
+    { type: "BUDGET",   text: "Instagram feed is 2.1× more effective than baseline — consider increasing allocation here." },
+    { type: "CREATIVE", text: "Low social recall potential. Consider adding social proof, UGC elements, or shareable moments." },
+  ];
+
+  return (
+    <div ref={ref} className="mb-6 space-y-3">
+      {/* Benchmark bars */}
+      <div className="rounded-xl border border-black/10 bg-white overflow-hidden">
+        <div className="px-4 py-2.5 border-b border-black/8 text-[10px] font-bold uppercase tracking-[0.1em] text-[#a3a3a3]">
+          Creative Benchmarks
+        </div>
+        <div className="px-4 py-3 space-y-2.5">
+          {benchmarks.map((b, i) => (
+            <div key={b.label}>
+              <div className="flex justify-between text-[10px] mb-1">
+                <span className="text-[#6b6b6b]">{b.label}</span>
+                <span className={`font-semibold ${b.good ? "text-green-600" : "text-[#dc2626]"}`}>{b.score}/100</span>
+              </div>
+              <div className="relative h-[5px] bg-[#e8e8e8] rounded-full overflow-hidden">
+                <motion.div
+                  className={`h-full rounded-full ${b.good ? "bg-black" : "bg-[#dc2626]"}`}
+                  initial={{ width: 0 }}
+                  animate={inView ? { width: `${b.score}%` } : { width: 0 }}
+                  transition={{ duration: 1, ease: "easeOut", delay: 0.15 + i * 0.1 }}
+                />
+                {/* industry avg tick */}
+                <div
+                  className="absolute top-0 h-full w-[2px] bg-[#a3a3a3]/60"
+                  style={{ left: `${b.industry}%` }}
+                />
+              </div>
+            </div>
+          ))}
+          <div className="flex items-center gap-2 pt-1">
+            <div className="h-[2px] w-4 bg-[#a3a3a3]/60" />
+            <span className="text-[9.5px] text-[#a3a3a3]">Industry average</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Recommendations */}
+      <div className="rounded-xl border border-black/10 bg-[#f6f6f6] overflow-hidden">
+        <div className="px-4 py-2.5 border-b border-black/8 text-[10px] font-bold uppercase tracking-[0.1em] text-[#a3a3a3]">
+          Recommendations
+        </div>
+        <div className="divide-y divide-black/6">
+          {recs.map((r, i) => (
+            <motion.div
+              key={r.type}
+              className="px-4 py-3 flex gap-2.5"
+              initial={{ opacity: 0, x: -10 }}
+              animate={inView ? { opacity: 1, x: 0 } : undefined}
+              transition={{ duration: 0.45, delay: 0.5 + i * 0.15 }}
+            >
+              <span className="shrink-0 rounded px-1.5 py-0.5 text-[8.5px] font-bold uppercase tracking-[0.06em] bg-black text-white h-fit mt-0.5">
+                {r.type}
+              </span>
+              <p className="text-[11.5px] text-[#555] leading-[1.55]">{r.text}</p>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -481,8 +588,6 @@ export function PublicLanding() {
         {/* radial glow */}
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[44rem] w-[44rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(17,17,17,0.06)_0%,rgba(255,255,255,0)_70%)]" />
 
-
-
         {/* title — word by word */}
         <HeroTitle inView={heroInView} />
 
@@ -517,8 +622,6 @@ export function PublicLanding() {
             Try for Free <ArrowRight className="h-4 w-4" />
           </Link>
         </motion.div>
-
-
       </section>
 
       {/* ── HALFTONE ── */}
@@ -645,6 +748,50 @@ export function PublicLanding() {
             <p className="mt-2 text-[13px] leading-[1.65] text-[#6b6b6b]">See exactly where users struggled and what to fix before you ship.</p>
           </motion.article>
         </StaggerReveal>
+
+        <StaggerReveal className="mt-5 grid gap-5 md:grid-cols-2">
+          <motion.article variants={staggerItem} className="rounded-2xl border border-black/10 bg-[#f6f6f6] p-6">
+            <p className="text-[10.5px] font-bold uppercase tracking-[0.08em] text-[#a3a3a3] mb-4">04 / Compare & validate</p>
+            <div className="grid grid-cols-2 gap-2 mb-4">
+              {[
+                { label: "A · Control", val: "3.2%", winner: false },
+                { label: "B · Variant", val: "5.8%", winner: true },
+              ].map(v => (
+                <div key={v.label} className={`rounded-xl border p-3 ${v.winner ? "border-black" : "border-black/10"}`}>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] font-bold uppercase text-[#a3a3a3]">{v.label}</span>
+                    {v.winner && <span className="rounded-full bg-black px-1.5 py-0.5 text-[8px] font-bold text-white">Winner</span>}
+                  </div>
+                  <span className="text-[18px] font-semibold">{v.val}</span>
+                  <p className="text-[10px] text-[#a3a3a3] mt-0.5">conv. rate</p>
+                </div>
+              ))}
+            </div>
+            <h3 className="text-[17px] font-semibold">Compare variants instantly.</h3>
+            <p className="mt-2 text-[13px] leading-[1.65] text-[#6b6b6b]">A/B test creative, copy, or flows with simulated audiences before a single pixel goes live.</p>
+          </motion.article>
+
+          <motion.article variants={staggerItem} className="rounded-2xl border border-black/10 bg-[#f6f6f6] p-6">
+            <p className="text-[10.5px] font-bold uppercase tracking-[0.08em] text-[#a3a3a3] mb-4">05 / Export & share</p>
+            <div className="space-y-2 mb-4">
+              {[
+                { icon: "↗", label: "Full simulation report", sub: "PDF · 24 pages" },
+                { icon: "↗", label: "Agent decision journeys", sub: "CSV · 12 personas" },
+                { icon: "↗", label: "Creative benchmark scores", sub: "JSON · API ready" },
+              ].map(item => (
+                <div key={item.label} className="flex items-center gap-3 rounded-lg border border-black/8 bg-white px-3 py-2.5">
+                  <span className="text-[14px]">{item.icon}</span>
+                  <div>
+                    <p className="text-[12px] font-medium text-[#333]">{item.label}</p>
+                    <p className="text-[10px] text-[#a3a3a3]">{item.sub}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <h3 className="text-[17px] font-semibold">Share results in one click.</h3>
+            <p className="mt-2 text-[13px] leading-[1.65] text-[#6b6b6b]">Export reports, raw data, or API-ready scores. Built for teams that move fast.</p>
+          </motion.article>
+        </StaggerReveal>
       </section>
 
       {/* ── HALFTONE ── */}
@@ -659,37 +806,47 @@ export function PublicLanding() {
         </Reveal>
 
         <div className="grid gap-px bg-black/10 border-y border-black/10 md:grid-cols-2">
-          {/* Feature 1 — Ticketing */}
+
+          {/* Feature 1 — Brain Activation */}
           <Reveal className="bg-white px-12 py-14">
             <p className="text-[10.5px] font-bold uppercase tracking-[0.12em] text-[#a3a3a3] mb-9">01 — Feature</p>
-            <IssuesMock />
-            <h3 className="text-[20px] font-semibold tracking-[-0.01em] mb-2">Push to your ticketing platform.</h3>
-            <p className="max-w-[420px] text-[13.5px] leading-[1.7] text-[#6b6b6b]">Issues sync directly to Linear, Jira, or GitHub — no copy-paste, no ticket creation overhead.</p>
+            <BrainHeatmapMock />
+            <h3 className="text-[20px] font-semibold tracking-[-0.01em] mb-2">See where attention lands.</h3>
+            <p className="max-w-[420px] text-[13.5px] leading-[1.7] text-[#6b6b6b]">
+              Neuro-mapped heat overlays reveal which parts of your creative capture focus, trigger emotion, and drive memory encoding — before a single dollar is spent.
+            </p>
           </Reveal>
 
-          {/* Feature 2 — Exact fix */}
+          {/* Feature 2 — Agent Decision Journeys */}
           <Reveal className="bg-white px-12 py-14" delay={0.1}>
             <p className="text-[10.5px] font-bold uppercase tracking-[0.12em] text-[#a3a3a3] mb-9">02 — Feature</p>
-            <CodeDiffMock />
-            <h3 className="text-[20px] font-semibold tracking-[-0.01em] mb-2">Get exact fixes, not vague reports.</h3>
-            <p className="max-w-[420px] text-[13.5px] leading-[1.7] text-[#6b6b6b]">Swarm pinpoints the root cause and suggests the exact code change needed to resolve it.</p>
+            <AgentJourneyMock />
+            <h3 className="text-[20px] font-semibold tracking-[-0.01em] mb-2">Simulate real buyer journeys.</h3>
+            <p className="max-w-[420px] text-[13.5px] leading-[1.7] text-[#6b6b6b]">
+              AI personas move through awareness, consideration, and purchase — exactly as real audiences would. Watch 12 different archetypes respond to your content.
+            </p>
           </Reveal>
 
-          {/* Feature 3 — Focus group */}
+          {/* Feature 3 — Funnel Breakdown */}
           <Reveal className="bg-white px-12 py-14">
             <p className="text-[10.5px] font-bold uppercase tracking-[0.12em] text-[#a3a3a3] mb-9">03 — Feature</p>
-            <FocusGroupMock />
-            <h3 className="text-[20px] font-semibold tracking-[-0.01em] mb-2">Run mini focus groups on demand.</h3>
-            <p className="max-w-[420px] text-[13.5px] leading-[1.7] text-[#6b6b6b]">Get qualitative feedback from diverse AI personas without scheduling a single interview.</p>
+            <FunnelMock />
+            <h3 className="text-[20px] font-semibold tracking-[-0.01em] mb-2">Predict your funnel before launch.</h3>
+            <p className="max-w-[420px] text-[13.5px] leading-[1.7] text-[#6b6b6b]">
+              From 50K impressions to conversion — see exactly where audiences drop off and how many will make it through each stage of your funnel.
+            </p>
           </Reveal>
 
-          {/* Feature 4 — A/B */}
+          {/* Feature 4 — Creative Benchmarks */}
           <Reveal className="bg-white px-12 py-14" delay={0.1}>
             <p className="text-[10.5px] font-bold uppercase tracking-[0.12em] text-[#a3a3a3] mb-9">04 — Feature</p>
-            <ABTestMock />
-            <h3 className="text-[20px] font-semibold tracking-[-0.01em] mb-2">Run A/B tests before shipping.</h3>
-            <p className="max-w-[420px] text-[13.5px] leading-[1.7] text-[#6b6b6b]">Compare variants with simulated user behavior before a single line goes to production.</p>
+            <BenchmarkMock />
+            <h3 className="text-[20px] font-semibold tracking-[-0.01em] mb-2">Benchmark against your industry.</h3>
+            <p className="max-w-[420px] text-[13.5px] leading-[1.7] text-[#6b6b6b]">
+              Score your creative on attention, emotion, memory, and social resonance — then get AI recommendations that tell you exactly what to fix.
+            </p>
           </Reveal>
+
         </div>
       </section>
 

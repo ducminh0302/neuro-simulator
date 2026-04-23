@@ -15,11 +15,11 @@ const metrics: Array<{
   sub: string;
   accent?: boolean;
 }> = [
-  { label: "Active Clients", value: "18", sub: "Premium portfolio" },
-  { label: "Campaigns Optimized", value: "142", sub: "Across 4 platforms" },
-  { label: "Monthly Ad Spend", value: "$2.4M", sub: "Managed budget" },
-  { label: "Avg. ROI Lift", value: "+34.2%", sub: "AI Enhanced", accent: true },
-];
+    { label: "Active Clients", value: "18", sub: "Premium portfolio" },
+    { label: "Campaigns Optimized", value: "142", sub: "Across 4 platforms" },
+    { label: "Monthly Ad Spend", value: "$2.4M", sub: "Managed budget" },
+    { label: "Avg. ROI Lift", value: "+34.2%", sub: "AI Enhanced", accent: true },
+  ];
 
 const engagementDrivers = [
   {
