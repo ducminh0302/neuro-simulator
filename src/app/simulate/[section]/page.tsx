@@ -2,7 +2,9 @@ import { notFound } from "next/navigation";
 
 import { AbVariantCompareSimulatorSection } from "@/components/simulations/ab-variant-compare-simulator-section";
 import { GalaReadySimulatorSection } from "@/components/simulations/gala-ready-simulator-section";
+import { HaileyBieberSimulatorSection } from "@/components/simulations/hailey-bieber-simulator-section";
 import { NeuroFocusSimulatorSection } from "@/components/simulations/neuro-focus-simulator-section";
+import { NiacinamideLaunchSimulatorSection } from "@/components/simulations/niacinamide-launch-simulator-section";
 import { PostContentSimulatorSection } from "@/components/simulations/post-content-simulator-section";
 import { WorkspaceProductivitySimulatorSection } from "@/components/simulations/workspace-productivity-simulator-section";
 import { SiteShell } from "@/components/site-shell";
@@ -40,6 +42,10 @@ export default async function SimulationSectionPage({ params }: Props) {
         <NeuroFocusSimulatorSection />
       ) : section.slug === "ab-variant-compare" ? (
         <AbVariantCompareSimulatorSection />
+      ) : section.slug === "hailey-bieber-instagram-feed" ? (
+        <HaileyBieberSimulatorSection />
+      ) : section.slug === "niacinamide-launch-acne-solutions" ? (
+        <NiacinamideLaunchSimulatorSection />
       ) : (
         <SimulationPlaceholder title={section.title} summary={section.summary} />
       )}

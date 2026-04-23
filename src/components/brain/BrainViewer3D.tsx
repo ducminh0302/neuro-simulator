@@ -165,9 +165,10 @@ interface SceneProps {
   surface: SurfaceData;
   autoRotate: boolean;
   prediction: PredictionData | null;
+  autoRotateSpeed: number;
 }
 
-function Scene({ surface, autoRotate, prediction }: SceneProps) {
+function Scene({ surface, autoRotate, prediction, autoRotateSpeed }: SceneProps) {
   const { camera } = useThree();
 
   useEffect(() => {
@@ -190,7 +191,7 @@ function Scene({ surface, autoRotate, prediction }: SceneProps) {
         minDistance={1.6}
         maxDistance={6}
         autoRotate={autoRotate}
-        autoRotateSpeed={0.25}
+        autoRotateSpeed={autoRotateSpeed}
         dampingFactor={0.08}
         enableDamping
       />
@@ -262,11 +263,13 @@ async function loadPrediction(key: string, segmentIndex?: number): Promise<Predi
 export interface BrainViewer3DProps {
   predictionKey?: string;
   segmentIndex?: number;
+  autoRotateSpeed?: number;
 }
 
 export function BrainViewer3D({
   predictionKey = DEFAULT_PREDICTION_KEY,
   segmentIndex,
+  autoRotateSpeed = 0.25,
 }: BrainViewer3DProps = {}) {
   const [surface, setSurface] = useState<SurfaceData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -315,7 +318,12 @@ export function BrainViewer3D({
           className="h-full w-full"
         >
           <color attach="background" args={["#080808"]} />
-          <Scene surface={surface} autoRotate={autoRotate} prediction={prediction} />
+          <Scene
+            surface={surface}
+            autoRotate={autoRotate}
+            prediction={prediction}
+            autoRotateSpeed={autoRotateSpeed}
+          />
         </Canvas>
       )}
 

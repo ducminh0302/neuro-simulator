@@ -80,6 +80,18 @@ export const simulationSections: SimulationSection[] = [
     summary: "Run two creative variants head-to-head and surface the winning treatment with revenue, conversions, and sentiment lift.",
     status: "Live",
   },
+  {
+    slug: "hailey-bieber-instagram-feed",
+    title: "Hailey Bieber Instagram Feed Campaign",
+    summary: "Deep simulation of a clean beauty Instagram Feed drop — brain activation, agent journeys, funnel, cascade, and creative benchmarks.",
+    status: "Live",
+  },
+  {
+    slug: "niacinamide-launch-acne-solutions",
+    title: "Niacinamide Launch - Acne Solutions",
+    summary: "Video-driven deep simulation with second-by-second brain activation, agent journeys, funnel, and creative benchmarks.",
+    status: "Live",
+  },
 ];
 
 export const libraryItems: LibraryItem[] = [

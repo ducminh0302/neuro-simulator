@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 interface BrainViewerLazyProps {
   predictionKey?: string;
   segmentIndex?: number;
+  autoRotateSpeed?: number;
 }
 
 const BrainViewerDynamic = dynamic<BrainViewerLazyProps>(
