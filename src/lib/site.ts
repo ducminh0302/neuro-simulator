@@ -51,6 +51,24 @@ export const footerLinks = [
 
 export const simulationSections: SimulationSection[] = [
   {
+    slug: "ab-variant-compare",
+    title: "A/B Variant Compare",
+    summary: "Run two creative variants head-to-head and surface the winning treatment with revenue, conversions, and sentiment lift.",
+    status: "Live",
+  },
+  {
+    slug: "hailey-bieber-instagram-feed",
+    title: "Hailey Bieber Instagram Feed Campaign",
+    summary: "Deep simulation of a clean beauty Instagram Feed drop — brain activation, agent journeys, funnel, cascade, and creative benchmarks.",
+    status: "Live",
+  },
+  {
+    slug: "niacinamide-launch-acne-solutions",
+    title: "Niacinamide Launch - Acne Solutions",
+    summary: "Video-driven deep simulation with second-by-second brain activation, agent journeys, funnel, and creative benchmarks.",
+    status: "Live",
+  },
+  {
     slug: "post-content-simulator",
     title: "Post Content Simulator",
     summary: "Predict launch performance from media, caption, and audience input.",
@@ -72,24 +90,6 @@ export const simulationSections: SimulationSection[] = [
     slug: "neuro-focus-attention-heatmap",
     title: "Neuro-Focus: Cognitive Response & Attention Heatmap Simulator",
     summary: "Predictive neural analytics to decode how the human brain processes your visual stimuli.",
-    status: "Live",
-  },
-  {
-    slug: "ab-variant-compare",
-    title: "A/B Variant Compare",
-    summary: "Run two creative variants head-to-head and surface the winning treatment with revenue, conversions, and sentiment lift.",
-    status: "Live",
-  },
-  {
-    slug: "hailey-bieber-instagram-feed",
-    title: "Hailey Bieber Instagram Feed Campaign",
-    summary: "Deep simulation of a clean beauty Instagram Feed drop — brain activation, agent journeys, funnel, cascade, and creative benchmarks.",
-    status: "Live",
-  },
-  {
-    slug: "niacinamide-launch-acne-solutions",
-    title: "Niacinamide Launch - Acne Solutions",
-    summary: "Video-driven deep simulation with second-by-second brain activation, agent journeys, funnel, and creative benchmarks.",
     status: "Live",
   },
 ];

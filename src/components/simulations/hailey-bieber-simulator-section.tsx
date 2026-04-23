@@ -539,7 +539,7 @@ const memorySeries: SeriesPoint[] = [
 // MAIN COMPONENT
 // ============================================================
 export function HaileyBieberSimulatorSection() {
-  const [expandedAgent, setExpandedAgent] = useState<string | null>("Fatima");
+  const [expandedAgent, setExpandedAgent] = useState<string | null>(null);
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 pb-24">

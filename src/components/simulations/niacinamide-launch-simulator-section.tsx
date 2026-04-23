@@ -12,6 +12,8 @@ import {
   Play,
   TrendingUp,
   Users,
+  Volume2,
+  VolumeX,
 } from "lucide-react";
 
 import { Card } from "@/components/ui";
@@ -730,6 +732,7 @@ function BrainActivationBlock() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [currentTime, setCurrentTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
   const [duration, setDuration] = useState(VIDEO_DURATION);
 
   // Simulation mode: when no real video is set, advance currentTime via an
@@ -791,7 +794,7 @@ function BrainActivationBlock() {
         {/* RIGHT: video + second-by-second metrics */}
         <div className="space-y-4">
           {/* Video surface */}
-          <div className="overflow-hidden rounded-2xl bg-black">
+          <div className="relative overflow-hidden rounded-2xl bg-black group">
             {VIDEO_SRC ? (
               <video
                 ref={videoRef}
@@ -803,9 +806,26 @@ function BrainActivationBlock() {
                 onEnded={() => setIsPlaying(false)}
                 className="aspect-video w-full object-cover"
                 playsInline
+                muted={isMuted}
               />
             ) : (
               <div className="aspect-video w-full" />
+            )}
+
+            {/* Mute button overlay */}
+            {VIDEO_SRC && (
+              <button
+                type="button"
+                onClick={() => setIsMuted(!isMuted)}
+                className="absolute bottom-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md transition hover:bg-black/60"
+                aria-label={isMuted ? "Unmute" : "Mute"}
+              >
+                {isMuted ? (
+                  <VolumeX className="h-4 w-4" />
+                ) : (
+                  <Volume2 className="h-4 w-4" />
+                )}
+              </button>
             )}
           </div>
 
