@@ -21,11 +21,60 @@ import { BrainViewerLazy } from "@/components/brain/BrainViewerLazy";
 import { simulationIndexPath } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-// -----------------------------------------------------------------------------
-// VIDEO CONFIG
-// -----------------------------------------------------------------------------
-const VIDEO_SRC = "/grid-dataops.mp4";
-const VIDEO_DURATION = 19; // seconds — 19 segments in test.predictions.npy
+export type GridStyleSimulationConfig = {
+  title: string;
+  metaLine: string;
+  overallScoreLabel: string;
+  kpis: [
+    { label: string; value: string },
+    { label: string; value: string },
+    { label: string; value: string },
+    { label: string; value: string },
+  ];
+  secondaryStats: [{ label: string; value: string }, { label: string; value: string }, { label: string; value: string }];
+  video: {
+    src: string;
+    duration: number;
+    predictionKey: string;
+    maxSegment: number;
+  };
+  brainFooter: {
+    simulatedReach: string;
+    peakAttention: string;
+  };
+  agentJourneys?: Agent[];
+  recommendations?: {
+    budget: string[];
+    creative: string[];
+  };
+};
+
+const defaultGridConfig: GridStyleSimulationConfig = {
+  title: "Grid DataOps India - Humanoid Training",
+  metaLine: "single · 10.0K agents · 841.3s · 10 archetypes · 84.0% confidence",
+  overallScoreLabel: "Overall: 64/100",
+  kpis: [
+    { label: "AI Performance Score", value: "84/100" },
+    { label: "Simulated Reach", value: "12.5K" },
+    { label: "Conversion (pCVR)", value: "7.1%" },
+    { label: "High Arousal Index", value: "0.42" },
+  ],
+  secondaryStats: [
+    { label: "Attention Score", value: "92%" },
+    { label: "Trust Score", value: "38%" },
+    { label: "Desire Score", value: "88%" },
+  ],
+  video: {
+    src: "/grid-dataops.mp4",
+    duration: 19,
+    predictionKey: "test.predictions",
+    maxSegment: 18,
+  },
+  brainFooter: {
+    simulatedReach: "12.5K",
+    peakAttention: "92%",
+  },
+};
 
 function Chip({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
@@ -464,8 +513,11 @@ const creativeRecommendations = [
 // =============================================================================
 // MAIN SECTION
 // =============================================================================
-export function GridDataopsSimulatorSection() {
+export function GridStyleSimulationSection({ config }: { config: GridStyleSimulationConfig }) {
   const [expandedAgentIdx, setExpandedAgentIdx] = useState<number>(-1);
+  const sectionAgents = config.agentJourneys ?? agents;
+  const sectionBudgetRecommendations = config.recommendations?.budget ?? budgetRecommendations;
+  const sectionCreativeRecommendations = config.recommendations?.creative ?? creativeRecommendations;
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 pb-24">
@@ -483,15 +535,12 @@ export function GridDataopsSimulatorSection() {
           <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-3">
               <h1 className="headline text-3xl leading-tight text-ink md:text-[2.25rem]">
-                Grid DataOps India - Humanoid Training
+                {config.title}
               </h1>
               <Chip>Deep Simulation</Chip>
             </div>
             <p className="text-sm text-inkMuted">
-              single <span className="text-inkFaint">·</span> 10.0K agents{" "}
-              <span className="text-inkFaint">·</span> 841.3s{" "}
-              <span className="text-inkFaint">·</span> 10 archetypes{" "}
-              <span className="text-inkFaint">·</span> 84.0% confidence
+              {config.metaLine}
             </p>
           </div>
           <button
@@ -508,32 +557,32 @@ export function GridDataopsSimulatorSection() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <KpiCard
           icon={<DollarSign className="h-4 w-4" />}
-          label="AI Performance Score"
-          value="84/100"
+          label={config.kpis[0].label}
+          value={config.kpis[0].value}
           sparkD={revenueSpark}
           sparkColor="#22c55e"
           sparkFill="rgba(34,197,94,0.12)"
         />
         <KpiCard
           icon={<Users className="h-4 w-4" />}
-          label="Simulated Reach"
-          value="12.5K"
+          label={config.kpis[1].label}
+          value={config.kpis[1].value}
           sparkD={conversionsSpark}
           sparkColor="#2f7bff"
           sparkFill="rgba(47,123,255,0.10)"
         />
         <KpiCard
           icon={<Eye className="h-4 w-4" />}
-          label="Conversion (pCVR)"
-          value="7.1%"
+          label={config.kpis[2].label}
+          value={config.kpis[2].value}
           sparkD={awarenessSpark}
           sparkColor="#14b8a6"
           sparkFill="rgba(20,184,166,0.10)"
         />
         <KpiCard
           icon={<TrendingUp className="h-4 w-4" />}
-          label="High Arousal Index"
-          value="0.42"
+          label={config.kpis[3].label}
+          value={config.kpis[3].value}
           sparkD={sentimentSpark}
           sparkColor="#f59e0b"
           sparkFill="rgba(245,158,11,0.10)"
@@ -542,13 +591,13 @@ export function GridDataopsSimulatorSection() {
 
       {/* ---------- secondary KPIs ---------- */}
       <div className="grid gap-4 md:grid-cols-3">
-        <MiniStat label="Attention Score" value="92%" />
-        <MiniStat label="Trust Score" value="38%" />
-        <MiniStat label="Desire Score" value="88%" />
+        <MiniStat label={config.secondaryStats[0].label} value={config.secondaryStats[0].value} />
+        <MiniStat label={config.secondaryStats[1].label} value={config.secondaryStats[1].value} />
+        <MiniStat label={config.secondaryStats[2].label} value={config.secondaryStats[2].value} />
       </div>
 
       {/* ---------- brain activation with video ---------- */}
-      <BrainActivationBlock />
+      <BrainActivationBlock config={config} />
 
       {/* ---------- agent decision journeys ---------- */}
       <Card className="p-5">
@@ -557,7 +606,7 @@ export function GridDataopsSimulatorSection() {
           <span className="text-xs text-inkMuted">10 archetypes simulated</span>
         </div>
         <div className="mt-4 space-y-2">
-          {agents.map((agent, idx) => (
+          {sectionAgents.map((agent, idx) => (
             <AgentRow
               key={`${agent.name}-${idx}`}
               agent={agent}
@@ -625,7 +674,7 @@ export function GridDataopsSimulatorSection() {
         <div className="mt-4">
           <p className="text-[11px] font-semibold tracking-[0.12em] text-inkMuted">BUDGET</p>
           <div className="mt-2 space-y-2">
-            {budgetRecommendations.map((rec) => (
+            {sectionBudgetRecommendations.map((rec) => (
               <RecommendationItem key={rec} text={rec} />
             ))}
           </div>
@@ -634,7 +683,7 @@ export function GridDataopsSimulatorSection() {
         <div className="mt-5">
           <p className="text-[11px] font-semibold tracking-[0.12em] text-inkMuted">CREATIVE</p>
           <div className="mt-2 space-y-2">
-            {creativeRecommendations.map((rec) => (
+            {sectionCreativeRecommendations.map((rec) => (
               <RecommendationItem key={rec} text={rec} />
             ))}
           </div>
@@ -648,6 +697,10 @@ export function GridDataopsSimulatorSection() {
       </Card>
     </div>
   );
+}
+
+export function GridDataopsSimulatorSection() {
+  return <GridStyleSimulationSection config={defaultGridConfig} />;
 }
 
 // =============================================================================
@@ -699,15 +752,15 @@ function MiniStat({ label, value }: { label: string; value: string }) {
 // =============================================================================
 // Brain Activation (with video + second-by-second metrics)
 // =============================================================================
-function BrainActivationBlock() {
+function BrainActivationBlock({ config }: { config: GridStyleSimulationConfig }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [currentTime, setCurrentTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
-  const [duration, setDuration] = useState(VIDEO_DURATION);
+  const [duration, setDuration] = useState(config.video.duration);
 
   useEffect(() => {
-    if (VIDEO_SRC) return;
+    if (config.video.src) return;
     if (!isPlaying) return;
     const id = window.setInterval(() => {
       setCurrentTime((t) => {
@@ -720,7 +773,7 @@ function BrainActivationBlock() {
       });
     }, 100);
     return () => window.clearInterval(id);
-  }, [isPlaying, duration]);
+  }, [isPlaying, duration, config.video.src]);
 
   const handlePlayPause = () => {
     if (videoRef.current) {
@@ -747,25 +800,25 @@ function BrainActivationBlock() {
     <Card className="p-5">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold text-ink">Brain Activation</h2>
-        <span className="text-xs text-inkMuted">Overall: 64/100</span>
+        <span className="text-xs text-inkMuted">{config.overallScoreLabel}</span>
       </div>
 
       <div className="mt-4 grid gap-4 md:grid-cols-2">
         {/* TOP LEFT: 3D Brain Viewer — height matched to video */}
         <div className="aspect-[9/16] rounded-2xl bg-black overflow-hidden border border-line/20">
           <BrainViewerLazy
-            predictionKey="test.predictions"
-            segmentIndex={Math.min(secondsFloor, 18)}
-            autoRotateSpeed={0.125}
+                predictionKey={config.video.predictionKey}
+                segmentIndex={Math.min(secondsFloor, config.video.maxSegment)}
+                autoRotateSpeed={0.125}
           />
         </div>
 
         {/* TOP RIGHT: Video container */}
         <div className="relative overflow-hidden rounded-2xl bg-black group">
-          {VIDEO_SRC ? (
+          {config.video.src ? (
             <video
               ref={videoRef}
-              src={VIDEO_SRC}
+              src={config.video.src}
               onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)}
               onLoadedMetadata={(event) => setDuration(event.currentTarget.duration)}
               onPlay={() => setIsPlaying(true)}
@@ -779,7 +832,7 @@ function BrainActivationBlock() {
             <div className="aspect-[9/16] w-full" />
           )}
 
-          {VIDEO_SRC && (
+          {config.video.src && (
             <button
               type="button"
               onClick={() => setIsMuted(!isMuted)}
@@ -867,11 +920,11 @@ function BrainActivationBlock() {
           <div className="mt-2 grid grid-cols-2 gap-4 border-t border-line pt-4">
             <div>
               <div className="text-xs text-inkMuted">Simulated Reach</div>
-              <div className="mt-0.5 text-lg font-semibold text-ink">12.5K</div>
+              <div className="mt-0.5 text-lg font-semibold text-ink">{config.brainFooter.simulatedReach}</div>
             </div>
             <div>
               <div className="text-xs text-inkMuted">Peak Attention</div>
-              <div className="mt-0.5 text-lg font-semibold text-ink">92%</div>
+              <div className="mt-0.5 text-lg font-semibold text-ink">{config.brainFooter.peakAttention}</div>
             </div>
           </div>
         </div>

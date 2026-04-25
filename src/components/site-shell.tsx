@@ -181,14 +181,14 @@ export function SiteShell({
             {/* Workspace account card */}
             <div className="mt-3 flex items-center gap-2.5 rounded-md border border-line bg-canvas px-2 py-2">
               <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-ink text-xs font-semibold text-canvas">
-                N
+                P
               </div>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-xs font-medium text-ink">
-                  Nexus Digital
+                  parthiv
                 </p>
                 <p className="truncate text-[11px] text-muted">
-                  hello@nexus-digital.agency
+                  parthiv@metaforms.ai
                 </p>
               </div>
             </div>

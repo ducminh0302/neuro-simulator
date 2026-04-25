@@ -38,7 +38,6 @@ export const competitiveIntelligencePath = "/competitive";
 export const navItems: NavItem[] = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/library", label: "Library" },
-  { href: competitiveIntelligencePath, label: "Competitors" },
   { href: "/simulate", label: "Simulations" },
 ];
 
@@ -50,6 +49,12 @@ export const footerLinks = [
 ];
 
 export const simulationSections: SimulationSection[] = [
+  {
+    slug: "afterboards-cuet-ipmat-ad-evaluation",
+    title: "Afterboards CUET/IPMAT Ad Evaluation",
+    summary: "Video-driven deep simulation for the Afterboards campaign with synchronized neural activation and 52-second EEG prediction playback.",
+    status: "Live",
+  },
   {
     slug: "ab-variant-compare",
     title: "A/B Variant Compare",

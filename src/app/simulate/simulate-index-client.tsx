@@ -18,6 +18,10 @@ export function SimulateIndexClient() {
     );
   }, [searchQuery]);
 
+  const visibleSections = useMemo(() => {
+    return filteredSections.slice(0, 5);
+  }, [filteredSections]);
+
   return (
     <SiteShell
       active="simulate"
@@ -60,12 +64,12 @@ export function SimulateIndexClient() {
               <div className="flex items-center justify-between px-1">
                 <p className="kicker">Chat history</p>
                 <span className="text-xs uppercase tracking-[0.18em] text-muted">
-                  {filteredSections.length} found · Most recent first
+                  {visibleSections.length} shown · Most recent first
                 </span>
               </div>
 
-              {filteredSections.length > 0 ? (
-                filteredSections.map((section, index) => (
+              {visibleSections.length > 0 ? (
+                visibleSections.map((section, index) => (
                   <Card key={section.slug} className="p-0">
                     <Link
                       href={`/simulate/${section.slug}`}
@@ -88,17 +92,6 @@ export function SimulateIndexClient() {
               ) : (
                 <div className="py-12 text-center">
                   <p className="text-muted">No simulations found matching your search.</p>
-                </div>
-              )}
-
-              {filteredSections.length > 0 && (
-                <div className="mt-8 flex justify-center">
-                  <button className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-3 text-sm font-semibold text-ink soft-border shadow-sm transition-all hover:bg-panelSoft hover:shadow-soft active:scale-95">
-                    <span>See more history</span>
-                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
                 </div>
               )}
             </div>
