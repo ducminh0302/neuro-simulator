@@ -5,10 +5,12 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   ArrowLeft,
+  Check,
   ChevronDown,
   DollarSign,
   Download,
   Eye,
+  Sparkles,
   Share2,
   TrendingUp,
   Users,
@@ -547,11 +549,110 @@ const memorySeries: SeriesPoint[] = [
   { x: 14, y: 0.034 },
 ];
 
+type ImproveCaptionOption = {
+  id: string;
+  tone: string;
+  hook: string;
+  caption: string;
+  cta: string;
+};
+
+const captionOptions: ImproveCaptionOption[] = [
+  {
+    id: "premium",
+    tone: "Premium",
+    hook: "Clinical glow, without the noise.",
+    caption:
+      "A minimalist routine engineered for visible clarity. Lightweight texture, precision ingredients, and a finish that looks like your skin on its best day.",
+    cta: "Shop the Radiance Set",
+  },
+  {
+    id: "friendly",
+    tone: "Friendly",
+    hook: "Skincare that feels easy to stick with.",
+    caption:
+      "No 10-step routine, no confusion. Just a clean formula that fits your day and helps your skin look calm, hydrated, and naturally bright.",
+    cta: "Try the Daily Duo",
+  },
+  {
+    id: "conversion",
+    tone: "Conversion",
+    hook: "Your clear-skin starter is live for 24 hours.",
+    caption:
+      "Limited-time bundle pricing on our bestselling serum + cleanser. If your current routine is underperforming, this is the easiest switch to test this week.",
+    cta: "Claim 24h Bundle Offer",
+  },
+];
+
+const visualChecklistItems = [
+  "Shift product 8-12% closer to center for faster first-glance recognition.",
+  "Lift facial brightness slightly (+0.2 exposure) to boost eye-contact saliency.",
+  "Add a micro social-proof badge (e.g. '4.9/5 by 12K users') near bottom-right.",
+  "Increase contrast between bottle silhouette and background by ~15%.",
+  "Reserve one clean area for caption overlay to avoid text-on-face conflict.",
+];
+
+type CreativeVariant = {
+  id: string;
+  name: string;
+  tone: string;
+  headline: string;
+  cta: string;
+  visualFocus: string;
+};
+
 // ============================================================
 // MAIN COMPONENT
 // ============================================================
 export function HaileyBieberSimulatorSection() {
   const [expandedAgent, setExpandedAgent] = useState<string | null>(null);
+  const [showImprovePanel, setShowImprovePanel] = useState(false);
+  const [selectedCaptionId, setSelectedCaptionId] = useState(captionOptions[0].id);
+  const [selectedChecklistItems, setSelectedChecklistItems] = useState<string[]>([]);
+  const [generatedVariants, setGeneratedVariants] = useState<CreativeVariant[]>([]);
+
+  const selectedCaption =
+    captionOptions.find((option) => option.id === selectedCaptionId) ?? captionOptions[0];
+
+  const toggleChecklistItem = (item: string) => {
+    setSelectedChecklistItems((prev) =>
+      prev.includes(item) ? prev.filter((entry) => entry !== item) : [...prev, item],
+    );
+  };
+
+  const generateCreativeVariants = () => {
+    const visualFocus =
+      selectedChecklistItems.length > 0
+        ? selectedChecklistItems[0]
+        : "Increase product clarity and CTA readability in the hero frame.";
+
+    setGeneratedVariants([
+      {
+        id: "v1",
+        name: "Variant A",
+        tone: selectedCaption.tone,
+        headline: selectedCaption.hook,
+        cta: selectedCaption.cta,
+        visualFocus,
+      },
+      {
+        id: "v2",
+        name: "Variant B",
+        tone: "Trust-led",
+        headline: "Visible results with cleaner proof signals.",
+        cta: "See Real User Results",
+        visualFocus: "Add rating/review proof and de-emphasize decorative background elements.",
+      },
+      {
+        id: "v3",
+        name: "Variant C",
+        tone: "Urgency-led",
+        headline: "One routine. Limited window. Better skin momentum.",
+        cta: "Unlock Today Only Offer",
+        visualFocus: "Tight crop on eye-contact frame with stronger product highlight.",
+      },
+    ]);
+  };
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 pb-24">
@@ -679,11 +780,123 @@ export function HaileyBieberSimulatorSection() {
 
         <button
           type="button"
+          onClick={() => setShowImprovePanel((prev) => !prev)}
           className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-ink px-5 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5 sm:w-auto sm:self-end"
         >
-          Improve this creative
+          <Sparkles className="h-4 w-4" />
+          {showImprovePanel ? "Hide improvement panel" : "Improve this creative"}
         </button>
       </Card>
+
+      {showImprovePanel ? (
+        <Card className="p-6 sm:p-8">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <p className="text-base font-semibold text-ink">Creative Improvement Panel</p>
+              <p className="mt-1 text-xs text-muted">
+                Focused on caption and CTA upgrades, visual edit checklist, and auto-generated variants.
+              </p>
+            </div>
+            <Chip className="bg-accentSoft text-accent">Live Draft</Chip>
+          </div>
+
+          <div className="mt-6 grid gap-6 lg:grid-cols-3">
+            <div className="rounded-2xl border border-line bg-white p-4">
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted">1. Caption + CTA</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {captionOptions.map((option) => (
+                  <button
+                    key={option.id}
+                    type="button"
+                    onClick={() => setSelectedCaptionId(option.id)}
+                    className={cn(
+                      "rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors",
+                      option.id === selectedCaptionId
+                        ? "border-ink bg-ink text-white"
+                        : "border-line bg-panel text-ink hover:bg-panelSoft",
+                    )}
+                  >
+                    {option.tone}
+                  </button>
+                ))}
+              </div>
+
+              <div className="mt-4 rounded-xl bg-panelSoft/70 p-3">
+                <p className="text-xs text-muted">Hook</p>
+                <p className="mt-1 text-sm font-semibold text-ink">{selectedCaption.hook}</p>
+                <p className="mt-3 text-xs text-muted">Caption</p>
+                <p className="mt-1 text-sm leading-relaxed text-ink">{selectedCaption.caption}</p>
+                <p className="mt-3 text-xs text-muted">CTA</p>
+                <p className="mt-1 text-sm font-semibold text-ink">{selectedCaption.cta}</p>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-line bg-white p-4">
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted">2. Visual Checklist</p>
+              <div className="mt-3 space-y-2">
+                {visualChecklistItems.map((item) => {
+                  const checked = selectedChecklistItems.includes(item);
+                  return (
+                    <button
+                      key={item}
+                      type="button"
+                      onClick={() => toggleChecklistItem(item)}
+                      className={cn(
+                        "flex w-full items-start gap-2 rounded-lg border p-3 text-left transition-colors",
+                        checked
+                          ? "border-emerald-300 bg-emerald-50/60"
+                          : "border-line bg-white hover:bg-panelSoft/60",
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          "mt-0.5 inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border",
+                          checked
+                            ? "border-emerald-500 bg-emerald-500 text-white"
+                            : "border-line bg-white text-transparent",
+                        )}
+                      >
+                        <Check className="h-3 w-3" />
+                      </span>
+                      <span className="text-xs leading-relaxed text-ink">{item}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-line bg-white p-4">
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted">3. Auto Variants</p>
+              <p className="mt-3 text-sm leading-relaxed text-muted">
+                Generate three ready-to-test directions from your selected tone and checklist priorities.
+              </p>
+              <button
+                type="button"
+                onClick={generateCreativeVariants}
+                className="mt-4 inline-flex items-center justify-center rounded-full bg-ink px-4 py-2 text-xs font-semibold text-white transition-transform hover:-translate-y-0.5"
+              >
+                Generate 3 creative variants
+              </button>
+            </div>
+          </div>
+
+          {generatedVariants.length > 0 ? (
+            <div className="mt-6 grid gap-3 md:grid-cols-3">
+              {generatedVariants.map((variant) => (
+                <div key={variant.id} className="rounded-2xl border border-line bg-panelSoft/50 p-4">
+                  <p className="text-xs text-muted">{variant.name}</p>
+                  <p className="mt-1 text-sm font-semibold text-ink">{variant.tone}</p>
+                  <p className="mt-3 text-sm leading-relaxed text-ink">{variant.headline}</p>
+                  <p className="mt-3 text-xs text-muted">CTA</p>
+                  <p className="mt-1 text-sm font-semibold text-ink">{variant.cta}</p>
+                  <p className="mt-3 text-xs text-muted">Visual focus</p>
+                  <p className="mt-1 text-xs leading-relaxed text-ink">{variant.visualFocus}</p>
+                </div>
+              ))}
+            </div>
+          ) : null}
+        </Card>
+      ) : null}
 
       {/* Agent Decision Journeys */}
       <Card className="p-6 sm:p-8">
