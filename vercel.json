@@ -1,0 +1,14 @@
+{
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "simulai.simulacrum.world"
+        }
+      ],
+      "destination": "/simulate/:path*"
+    }
+  ]
+}
