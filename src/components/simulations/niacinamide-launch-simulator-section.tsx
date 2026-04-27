@@ -455,7 +455,6 @@ type Benchmark = { label: string; score: number; percentile: string };
 const benchmarks: Benchmark[] = [
   { label: "Attention Capture", score: 45, percentile: "P39" },
   { label: "Sustained Attention", score: 20, percentile: "P0" },
-  { label: "Emotional Arousal", score: 20, percentile: "P6" },
   { label: "Emotional Valence", score: 55, percentile: "P33" },
   { label: "Reward", score: 35, percentile: "P6" },
   { label: "Memory Encoding", score: 30, percentile: "P0" },
@@ -463,18 +462,12 @@ const benchmarks: Benchmark[] = [
   { label: "Curiosity", score: 30, percentile: "P17" },
 ];
 
-const performanceDrivers = ["Memory Encoding", "Attention Capture", "Emotional Arousal"];
+const performanceDrivers = ["Memory Encoding", "Attention Capture"];
 
-const budgetRecommendations = [
-  "Instagram Feed is underperforming (0.3x baseline) — consider reallocating budget.",
-  "Tiktok is underperforming (0.3x baseline) — consider reallocating budget.",
-  "Facebook Feed is underperforming (0.3x baseline) — consider reallocating budget.",
-  "Google Search is 2.7x more effective than baseline — consider increasing allocation here.",
-];
+const budgetRecommendations: string[] = [];
 
 const creativeRecommendations = [
   "Improve sustained attention: current score (20) is in the bottom 25% of historical content. Sustained Attention is weak (bottom 25%) — this may significantly limit performance.",
-  "Improve emotional arousal: current score (20) is in the bottom 25% of historical content. Emotional Arousal is weak (bottom 25%) — this may significantly limit performance.",
   "Improve reward: current score (35) is in the bottom 25% of historical content. Reward is weak (bottom 25%) — this may significantly limit performance.",
   "Improve memory encoding: current score (30) is in the bottom 25% of historical content. Memory Encoding is weak (bottom 25%) — this may significantly limit performance.",
   "Improve curiosity: current score (30) is in the bottom 25% of historical content. Curiosity is weak (bottom 25%) — this may significantly limit performance.",
@@ -641,23 +634,27 @@ export function NiacinamideLaunchSimulatorSection() {
       <Card className="p-5">
         <h2 className="text-lg font-semibold text-ink">Recommendations</h2>
 
-        <div className="mt-4">
-          <p className="text-[11px] font-semibold tracking-[0.12em] text-inkMuted">BUDGET</p>
-          <div className="mt-2 space-y-2">
-            {budgetRecommendations.map((rec) => (
-              <RecommendationItem key={rec} text={rec} />
-            ))}
+        {budgetRecommendations.length > 0 && (
+          <div className="mt-4">
+            <p className="text-[11px] font-semibold tracking-[0.12em] text-inkMuted">BUDGET</p>
+            <div className="mt-2 space-y-2">
+              {budgetRecommendations.map((rec) => (
+                <RecommendationItem key={rec} text={rec} />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
-        <div className="mt-5">
-          <p className="text-[11px] font-semibold tracking-[0.12em] text-inkMuted">CREATIVE</p>
-          <div className="mt-2 space-y-2">
-            {creativeRecommendations.map((rec) => (
-              <RecommendationItem key={rec} text={rec} />
-            ))}
+        {creativeRecommendations.length > 0 && (
+          <div className="mt-5">
+            <p className="text-[11px] font-semibold tracking-[0.12em] text-inkMuted">CREATIVE</p>
+            <div className="mt-2 space-y-2">
+              {creativeRecommendations.map((rec) => (
+                <RecommendationItem key={rec} text={rec} />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </Card>
 
       {/* ---------- awareness, sentiment & memory ---------- */}

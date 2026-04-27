@@ -47,6 +47,8 @@ export type GridStyleSimulationConfig = {
     budget: string[];
     creative: string[];
   };
+  hideEmotionalArousal?: boolean;
+  hideDesireAida?: boolean;
 };
 
 const defaultGridConfig: GridStyleSimulationConfig = {
@@ -74,6 +76,8 @@ const defaultGridConfig: GridStyleSimulationConfig = {
     simulatedReach: "12.5K",
     peakAttention: "92%",
   },
+  hideEmotionalArousal: true,
+  hideDesireAida: true,
 };
 
 function Chip({ children, className = "" }: { children: React.ReactNode; className?: string }) {
@@ -494,12 +498,7 @@ const benchmarks: Benchmark[] = [
 
 const performanceDrivers = ["Attention Capture", "Curiosity", "Emotional Arousal"];
 
-const budgetRecommendations = [
-  "Instagram Reels is 2.3x more effective than baseline — increase allocation by 30%.",
-  "YouTube Pre-Roll is underperforming (0.4x baseline) — consider reallocating budget.",
-  "Facebook Feed is below baseline (0.5x) — creative format mismatch for this audience.",
-  "TikTok For You Page shows strong early signals (1.8x) — test incremental budget here.",
-];
+const budgetRecommendations: string[] = [];
 
 const creativeRecommendations = [
   "Remove falling cash VFX to increase the 'Trust' metric by ~20% among high-skepticism segments.",
@@ -644,7 +643,9 @@ export function GridStyleSimulationSection({ config }: { config: GridStyleSimula
           campaigns.
         </p>
         <div className="mt-5 space-y-4">
-          {benchmarks.map((b) => (
+          {benchmarks
+            .filter((b) => !(config.hideEmotionalArousal && b.label === "Emotional Arousal"))
+            .map((b) => (
             <BenchmarkRow key={b.label} benchmark={b} />
           ))}
         </div>
@@ -671,29 +672,33 @@ export function GridStyleSimulationSection({ config }: { config: GridStyleSimula
       <Card className="p-5">
         <h2 className="text-lg font-semibold text-ink">Recommendations</h2>
 
-        <div className="mt-4">
-          <p className="text-[11px] font-semibold tracking-[0.12em] text-inkMuted">BUDGET</p>
-          <div className="mt-2 space-y-2">
-            {sectionBudgetRecommendations.map((rec) => (
-              <RecommendationItem key={rec} text={rec} />
-            ))}
+        {sectionBudgetRecommendations.length > 0 && (
+          <div className="mt-4">
+            <p className="text-[11px] font-semibold tracking-[0.12em] text-inkMuted">BUDGET</p>
+            <div className="mt-2 space-y-2">
+              {sectionBudgetRecommendations.map((rec) => (
+                <RecommendationItem key={rec} text={rec} />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
-        <div className="mt-5">
-          <p className="text-[11px] font-semibold tracking-[0.12em] text-inkMuted">CREATIVE</p>
-          <div className="mt-2 space-y-2">
-            {sectionCreativeRecommendations.map((rec) => (
-              <RecommendationItem key={rec} text={rec} />
-            ))}
+        {sectionCreativeRecommendations.length > 0 && (
+          <div className="mt-5">
+            <p className="text-[11px] font-semibold tracking-[0.12em] text-inkMuted">CREATIVE</p>
+            <div className="mt-2 space-y-2">
+              {sectionCreativeRecommendations.map((rec) => (
+                <RecommendationItem key={rec} text={rec} />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </Card>
 
       {/* ---------- awareness, sentiment & memory ---------- */}
       <Card className="p-5">
         <h2 className="text-lg font-semibold text-ink">AIDA Funnel &amp; Sentiment Over Time</h2>
-        <AwarenessSentimentMemoryChart />
+        <AwarenessSentimentMemoryChart hideDesire={config.hideDesireAida} />
       </Card>
     </div>
   );
@@ -807,9 +812,9 @@ function BrainActivationBlock({ config }: { config: GridStyleSimulationConfig })
         {/* TOP LEFT: 3D Brain Viewer — height matched to video */}
         <div className="aspect-[9/16] rounded-2xl bg-black overflow-hidden border border-line/20">
           <BrainViewerLazy
-                predictionKey={config.video.predictionKey}
-                segmentIndex={Math.min(secondsFloor, config.video.maxSegment)}
-                autoRotateSpeed={0.125}
+            predictionKey={config.video.predictionKey}
+            segmentIndex={Math.min(secondsFloor, config.video.maxSegment)}
+            autoRotateSpeed={0.125}
           />
         </div>
 
@@ -1240,7 +1245,7 @@ function RecommendationItem({ text }: { text: string }) {
 // =============================================================================
 // AIDA Funnel & Sentiment chart
 // =============================================================================
-function AwarenessSentimentMemoryChart() {
+function AwarenessSentimentMemoryChart({ hideDesire = false }: { hideDesire?: boolean }) {
   // AIDA from test-result.md: Awareness 100%, Interest 72%, Desire 45%, Action 7.1%
   // Sentiment verticals: Excitement 75%, Confusion 40%, Distrust 55%, Curiosity 82%
   const days = Array.from({ length: 15 }, (_, i) => i);
@@ -1285,9 +1290,11 @@ function AwarenessSentimentMemoryChart() {
         <span className="inline-flex items-center gap-1.5">
           <span className="inline-block h-0.5 w-5 bg-[#2f7bff]" /> Interest
         </span>
-        <span className="inline-flex items-center gap-1.5">
-          <span className="inline-block h-0.5 w-5 bg-[#f59e0b]" /> Desire
-        </span>
+        {!hideDesire && (
+          <span className="inline-flex items-center gap-1.5">
+            <span className="inline-block h-0.5 w-5 bg-[#f59e0b]" /> Desire
+          </span>
+        )}
       </div>
       <svg viewBox={`0 0 ${chartW} ${chartH}`} className="w-full">
         {yLabels.map((val) => {
@@ -1304,7 +1311,9 @@ function AwarenessSentimentMemoryChart() {
 
         <path d={toPath(awareness)} fill="none" stroke="#22c55e" strokeWidth="1.8" />
         <path d={toPath(interest)} fill="none" stroke="#2f7bff" strokeWidth="1.8" />
-        <path d={toPath(desire)} fill="none" stroke="#f59e0b" strokeWidth="1.8" />
+        {!hideDesire && (
+          <path d={toPath(desire)} fill="none" stroke="#f59e0b" strokeWidth="1.8" />
+        )}
 
         {days
           .filter((d) => d % 2 === 0)

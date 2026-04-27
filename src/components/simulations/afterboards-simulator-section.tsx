@@ -223,12 +223,7 @@ const afterboardsConfig: GridStyleSimulationConfig = {
     },
   ],
   recommendations: {
-    budget: [
-      "Scale reels-first distribution for 48h to maximize the 'Comment PYP' loop while momentum is fresh.",
-      "Allocate extra spend to segments with high NTA/coaching fatigue signals; message-market fit is strongest there.",
-      "Retarget viewers who paused around 0:23-0:35 with a follow-up creative focused only on product walkthrough.",
-      "Set a second retargeting wave for users who commented but did not click through, using direct mock-test utility hooks.",
-    ],
+    budget: [],
     creative: [
       "Add on-screen subtitles and slightly slower delivery in the first 20s to reduce language-barrier drop-off.",
       "Stabilize and brighten the screen-recording segment so topic and difficulty tags are readable on first pass.",
@@ -237,6 +232,8 @@ const afterboardsConfig: GridStyleSimulationConfig = {
       "Add a 'Save this for revision' micro-CTA before final comment CTA to capture high-intent users who are not ready to comment yet.",
     ],
   },
+  hideEmotionalArousal: true,
+  hideDesireAida: true,
 };
 
 export function AfterboardsSimulatorSection() {

@@ -502,7 +502,6 @@ type Benchmark = { label: string; value: number; percentile: string };
 const benchmarks: Benchmark[] = [
   { label: "Attention Capture", value: 68, percentile: "P88" },
   { label: "Sustained Attention", value: 45, percentile: "P63" },
-  { label: "Emotional Arousal", value: 35, percentile: "P75" },
   { label: "Emotional Valence", value: 62, percentile: "P63" },
   { label: "Reward", value: 55, percentile: "P75" },
   { label: "Memory Encoding", value: 52, percentile: "P88" },
@@ -1032,12 +1031,7 @@ export function HaileyBieberSimulatorSection() {
       <Card className="p-6 sm:p-8">
         <p className="text-base font-semibold text-ink">Recommendations</p>
 
-        <div className="mt-5">
-          <p className="text-[11px] font-semibold uppercase tracking-wider text-muted">Budget</p>
-          <RecommendationItem>
-            Instagram Feed is 2.7x more effective than baseline — consider increasing allocation here.
-          </RecommendationItem>
-        </div>
+
 
         <div className="mt-5">
           <p className="text-[11px] font-semibold uppercase tracking-wider text-muted">Creative</p>

@@ -37,7 +37,6 @@ export const competitiveIntelligencePath = "/competitive";
 
 export const navItems: NavItem[] = [
   { href: "/dashboard", label: "Dashboard" },
-  { href: "/library", label: "Library" },
   { href: "/simulate", label: "Simulations" },
 ];
 

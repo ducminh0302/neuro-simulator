@@ -4,12 +4,9 @@ import Link from "next/link";
 import { type ReactNode, useState, useEffect } from "react";
 
 import {
-  Settings,
-  HelpCircle,
   PanelLeftOpen,
   PanelLeftClose,
   LayoutDashboard,
-  FolderClosed,
   Swords,
   FlaskConical,
   Plus,
@@ -37,7 +34,6 @@ export type ShellProps = {
 /** Icon map for nav items, keyed by href. */
 const navIcons: Record<string, LucideIcon> = {
   "/dashboard": LayoutDashboard,
-  "/library": FolderClosed,
   "/competitive": Swords,
   "/simulate": FlaskConical,
 };
@@ -163,21 +159,6 @@ export function SiteShell({
 
           {/* Footer utilities */}
           <div className="border-t border-line px-2 py-3">
-            <ul className="space-y-0.5">
-              <li>
-                <button className="flex w-full items-center gap-2.5 rounded-md px-2 py-1.5 text-sm font-medium text-muted transition-colors duration-fast hover:bg-hover hover:text-ink">
-                  <Settings className="h-4 w-4" strokeWidth={1.75} />
-                  <span>Settings</span>
-                </button>
-              </li>
-              <li>
-                <button className="flex w-full items-center gap-2.5 rounded-md px-2 py-1.5 text-sm font-medium text-muted transition-colors duration-fast hover:bg-hover hover:text-ink">
-                  <HelpCircle className="h-4 w-4" strokeWidth={1.75} />
-                  <span>Help Center</span>
-                </button>
-              </li>
-            </ul>
-
             {/* Workspace account card */}
             <div className="mt-3 flex items-center gap-2.5 rounded-md border border-line bg-canvas px-2 py-2">
               <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-ink text-xs font-semibold text-canvas">
