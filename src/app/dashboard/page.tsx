@@ -16,98 +16,76 @@ const trackedCompetitors: Array<{
   socials: Array<{ label: string; url: string }>;
 }> = [
   {
-    name: "We Are Social",
+    name: "iQuanta",
     relevance: "Top relevant",
-    website: { label: "wearesocial.com", url: "https://wearesocial.com" },
+    website: { label: "iquanta.in", url: "https://www.iquanta.in" },
     socials: [
-      { label: "Instagram", url: "https://www.instagram.com/wearesocial/" },
-      { label: "TikTok", url: "https://www.tiktok.com/@wearesociallondon" },
-      { label: "Facebook", url: "https://www.facebook.com/wearesocial/" },
-      { label: "LinkedIn", url: "https://www.linkedin.com/company/we-are-social" },
+      { label: "Facebook", url: "https://www.facebook.com/iQuanta.in/" },
+      { label: "Instagram", url: "https://www.instagram.com/iquanta.in/" },
+      { label: "YouTube", url: "https://www.youtube.com/channel/UCJcXnTkWeIrXavsa_DUzq5w" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/company/iquanta-edu-services/" },
+      { label: "Twitter", url: "https://twitter.com/iquanta_in" },
     ],
   },
   {
-    name: "Viral Nation",
+    name: "Career Launcher",
     relevance: "Top relevant",
-    website: { label: "viralnation.com", url: "https://viralnation.com" },
+    website: { label: "careerlauncher.com", url: "https://www.careerlauncher.com" },
     socials: [
-      { label: "Instagram", url: "https://www.instagram.com/viralnation/" },
-      { label: "TikTok", url: "https://www.tiktok.com/@viralnationinc" },
-      { label: "Facebook", url: "https://www.facebook.com/theviralnation/" },
-      { label: "LinkedIn", url: "https://www.linkedin.com/company/viralnationinc" },
-      { label: "YouTube", url: "https://www.youtube.com/@viralnationinc" },
+      { label: "Facebook", url: "https://www.facebook.com/CLRocks/" },
+      { label: "Instagram", url: "https://www.instagram.com/career_launcher/" },
+      { label: "YouTube", url: "https://www.youtube.com/user/CareerLauncherMedia" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/company/career-launcher/" },
+      { label: "Twitter", url: "https://twitter.com/careerlauncher" },
     ],
   },
   {
-    name: "NoGood",
+    name: "PRATHAM Test Prep",
+    relevance: "98% relevant",
+    website: { label: "prathamonline.com", url: "https://www.prathamonline.com" },
+    socials: [
+      { label: "Facebook", url: "https://www.facebook.com/pratham.leadtheway/" },
+      { label: "Instagram", url: "https://www.instagram.com/pratham_testprep/" },
+      { label: "YouTube", url: "https://www.youtube.com/c/PRATHAMTestPrep" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/company/prathamtestprep/" },
+    ],
+  },
+  {
+    name: "DUBuddy",
     relevance: "95% relevant",
-    website: { label: "nogood.io", url: "https://nogood.io" },
+    website: { label: "dubuddy.in", url: "https://www.dubuddy.in" },
     socials: [
-      { label: "Instagram", url: "https://www.instagram.com/nogood.io/" },
-      { label: "TikTok", url: "https://www.tiktok.com/@nogood.io" },
-      { label: "Facebook", url: "https://www.facebook.com/nogood.io/" },
-      { label: "LinkedIn", url: "https://www.linkedin.com/company/nogood" },
-      { label: "YouTube", url: "https://www.youtube.com/@nogoodhq" },
+      { label: "Facebook", url: "https://www.facebook.com/people/DuBuddy/61558936004226/" },
+      { label: "Instagram", url: "https://www.instagram.com/du.buddy/" },
+      { label: "YouTube", url: "https://www.youtube.com/@dubuddy" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/company/du-buddy/" },
+      { label: "Twitter", url: "https://twitter.com/DuBuddy" },
     ],
   },
   {
-    name: "The Social Shepherd",
-    relevance: "95% relevant",
-    website: { label: "thesocialshepherd.com", url: "https://thesocialshepherd.com" },
+    name: "AceIPM",
+    relevance: "92% relevant",
+    website: { label: "aceipm.com", url: "https://www.aceipm.com" },
     socials: [
-      { label: "Instagram", url: "https://www.instagram.com/thesocialshepherd/" },
-      { label: "TikTok", url: "https://www.tiktok.com/@thesocialshepherdagency" },
-      { label: "Facebook", url: "https://www.facebook.com/thesocialshepherdagency/" },
+      { label: "Facebook", url: "https://www.facebook.com/aceipm/" },
+      { label: "Instagram", url: "https://www.instagram.com/ace.ipm/" },
+      { label: "YouTube", url: "https://www.youtube.com/@AceIPM" },
+      { label: "LinkedIn", url: "https://www.linkedin.com/company/aceipm/" },
     ],
   },
   {
-    name: "Disruptive Advertising",
+    name: "CUET Mock",
     relevance: "90% relevant",
-    website: { label: "disruptiveadvertising.com", url: "https://disruptiveadvertising.com" },
+    website: { label: "cuetmock.com", url: "https://www.cuetmock.com" },
     socials: [
-      { label: "Instagram", url: "https://www.instagram.com/disruptiveads/" },
-      { label: "TikTok", url: "https://www.tiktok.com/@disruptiveads" },
-      { label: "Facebook", url: "https://www.facebook.com/disruptiveads/" },
-      { label: "LinkedIn", url: "https://www.linkedin.com/company/disruptive-advertising" },
-    ],
-  },
-  {
-    name: "Sociallyin",
-    relevance: "90% relevant",
-    website: { label: "sociallyin.com", url: "https://sociallyin.com" },
-    socials: [
-      { label: "Instagram", url: "https://www.instagram.com/sociallyin__/" },
-      { label: "TikTok", url: "https://www.tiktok.com/@sociallyin" },
-      { label: "Facebook", url: "https://www.facebook.com/sociallyin/" },
-      { label: "LinkedIn", url: "https://www.linkedin.com/company/sociallyin" },
-      { label: "YouTube", url: "https://www.youtube.com/@sociallyintheagency" },
-    ],
-  },
-  {
-    name: "Moburst",
-    relevance: "90% relevant",
-    website: { label: "moburst.com", url: "https://moburst.com" },
-    socials: [
-      { label: "Instagram", url: "https://www.instagram.com/moburst.agency/" },
-      { label: "TikTok", url: "https://www.tiktok.com/@moburst" },
-      { label: "Facebook", url: "https://www.facebook.com/moburstmobilemarketing/" },
-      { label: "LinkedIn", url: "https://www.linkedin.com/company/moburst" },
-      { label: "YouTube", url: "https://www.youtube.com/channel/UC7U9_olLMlDdyHmrtXIQCcg" },
-    ],
-  },
-  {
-    name: "Power Digital Marketing",
-    relevance: "90% relevant",
-    website: { label: "powerdigitalmarketing.com", url: "https://powerdigitalmarketing.com" },
-    socials: [
-      { label: "Instagram", url: "https://www.instagram.com/power_digital/" },
-      { label: "TikTok", url: "https://www.tiktok.com/@powerdigital" },
-      { label: "Facebook", url: "https://www.facebook.com/PowerDigitalMarketing/" },
-      { label: "LinkedIn", url: "https://www.linkedin.com/company/powerdigitalmarketing" },
-      { label: "YouTube", url: "https://www.youtube.com/@PowerDigitalMarketing" },
+      { label: "Facebook", url: "https://www.facebook.com/CUETMock/" },
+      { label: "Instagram", url: "https://www.instagram.com/cuetmock/" },
+      { label: "YouTube", url: "https://www.youtube.com/@CuetMock" },
+      { label: "Twitter", url: "https://x.com/cuet_mock" },
     ],
   },
 ];
+
 
 const ordinaryPosts: Array<{
   likes: string;
@@ -139,6 +117,9 @@ const getSocialStyles = (platform: string) => {
       return "bg-[#0A66C2]/15 border-[#0A66C2]/30 text-[#0A66C2] hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2]";
     case "youtube":
       return "bg-[#FF0000]/15 border-[#FF0000]/30 text-[#FF0000] hover:bg-[#FF0000] hover:text-white hover:border-[#FF0000]";
+    case "twitter":
+    case "x":
+      return "bg-black/15 border-black/30 text-black hover:bg-black hover:text-white hover:border-black";
     default:
       return "bg-panelSoft border-line text-muted hover:bg-panel hover:text-ink";
   }
@@ -183,12 +164,21 @@ function CompetitorCard({ name, relevance, website, socials }: (typeof trackedCo
 
 export default function DashboardPage() {
   return (
-    <SiteShell active="dashboard" title="Agency Control Center" subtitle="Managing multi-platform campaigns and neural creative optimization.">
+    <SiteShell active="dashboard" title="Agency Control Center">
       <div className="space-y-8 pb-10">
         <SectionHeading
           eyebrow="BRAND WORKSPACE"
-          title={<>GlowUp Skincare</>}
-          description="D2C skincare"
+          title={
+            <a 
+              href="https://www.afterboards.in/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-block px-3 py-1 -ml-3 rounded-xl hover:bg-accent/5 hover:text-accent transition-all duration-500 active:scale-[0.98] underline decoration-accent/10 underline-offset-8 hover:decoration-accent/40"
+            >
+              Afterboards
+            </a>
+          }
+          description="Coaching company, focusing on Indian Exams, particularly IPMAT, JIPMAT, and CUET."
         />
 
         <Card className="p-6 sm:p-8">
@@ -275,7 +265,7 @@ export default function DashboardPage() {
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div>
               <p className="kicker">Scraped feed</p>
-              <h2 className="headline mt-2 text-2xl sm:text-3xl">We Are Social (10)</h2>
+              <h2 className="headline mt-2 text-2xl sm:text-3xl">iQuanta (10)</h2>
             </div>
             <button
               type="button"
@@ -293,7 +283,7 @@ export default function DashboardPage() {
                 />
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-baseline gap-2">
-                    <span className="headline text-base text-ink">We Are Social</span>
+                    <span className="headline text-base text-ink">iQuanta</span>
                     <Pill tone="neutral">instagram</Pill>
                   </div>
                   <p className="mt-1.5 text-sm text-muted">

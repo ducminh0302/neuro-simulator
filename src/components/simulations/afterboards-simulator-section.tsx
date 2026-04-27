@@ -22,6 +22,7 @@ const afterboardsConfig: GridStyleSimulationConfig = {
     duration: 52,
     predictionKey: "afterboards-test.predictions",
     maxSegment: 51,
+    aspectRatio: "16/9",
   },
   brainFooter: {
     simulatedReach: "10.0K",

@@ -49,8 +49,14 @@ export const footerLinks = [
 
 export const simulationSections: SimulationSection[] = [
   {
+    slug: "afterboards-cuet-ipmat-ad-evaluation-35s",
+    title: "Afterboards 2026: High-Intent UGC Prototype",
+    summary: "35-second video simulation using test3 assets with synchronized brain-3D activation playback and conversion-focused creative diagnostics.",
+    status: "Live",
+  },
+  {
     slug: "afterboards-cuet-ipmat-ad-evaluation",
-    title: "Afterboards CUET/IPMAT Ad Evaluation",
+    title: "Afterboards CUET/IPMAT - Simulacrum Ad Evaluation",
     summary: "Video-driven deep simulation for the Afterboards campaign with synchronized neural activation and 52-second EEG prediction playback.",
     status: "Live",
   },

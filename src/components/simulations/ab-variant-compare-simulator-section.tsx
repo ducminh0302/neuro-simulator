@@ -764,7 +764,7 @@ function AnalysisTab({
                       )}
                     >
                       {delta >= 0 ? "+" : ""}
-                      {delta.toLocaleString("en-US")}{" "}
+                      <span suppressHydrationWarning>{delta.toLocaleString("en-US")}</span>{" "}
                       <span className="font-normal text-muted">
                         ({deltaPct >= 0 ? "+" : ""}
                         {deltaPct.toFixed(1)}%)
@@ -842,11 +842,11 @@ function AnalysisTab({
                         </div>
                       </td>
                       <td className="px-4 py-3 text-muted">
-                        {row.aConv} · ${row.aRev.toLocaleString("en-US")}
+                        {row.aConv} · <span suppressHydrationWarning>${row.aRev.toLocaleString("en-US")}</span>
                       </td>
                       <td className="px-4 py-3 text-ink">
                         <span className="font-semibold">{row.bConv}</span> ·{" "}
-                        <span className="font-semibold">${row.bRev.toLocaleString("en-US")}</span>
+                        <span className="font-semibold" suppressHydrationWarning>${row.bRev.toLocaleString("en-US")}</span>
                       </td>
                       <td
                         className={cn(
@@ -854,7 +854,7 @@ function AnalysisTab({
                           positive ? "text-emerald-600" : "text-rose-600",
                         )}
                       >
-                        {positive ? "+" : ""}${delta.toLocaleString("en-US")}
+                        {positive ? "+" : ""}<span suppressHydrationWarning>${delta.toLocaleString("en-US")}</span>
                       </td>
                     </tr>
                   );
@@ -1373,7 +1373,7 @@ function FunnelBar({
           style={{ width: `${widthPct}%` }}
         />
       </div>
-      <span className="w-16 text-right text-xs font-semibold text-ink">
+      <span className="w-16 text-right text-xs font-semibold text-ink" suppressHydrationWarning>
         {count.toLocaleString()}
       </span>
     </div>

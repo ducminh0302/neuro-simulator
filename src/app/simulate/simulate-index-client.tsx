@@ -19,14 +19,17 @@ export function SimulateIndexClient() {
   }, [searchQuery]);
 
   const visibleSections = useMemo(() => {
-    return filteredSections.slice(0, 5);
-  }, [filteredSections]);
+    if (searchQuery) return filteredSections;
+    // Permanently hide the bottom 4
+    return filteredSections.slice(0, Math.max(0, filteredSections.length - 4));
+  }, [filteredSections, searchQuery]);
+
+  const hiddenCount = filteredSections.length - visibleSections.length;
 
   return (
     <SiteShell
       active="simulate"
       title="Simulations"
-      subtitle="Chat-style simulation workspace with reusable sections"
       ctaLabel="Run Simulation"
     >
       <div className="space-y-8 pb-10">
@@ -92,6 +95,16 @@ export function SimulateIndexClient() {
               ) : (
                 <div className="py-12 text-center">
                   <p className="text-muted">No simulations found matching your search.</p>
+                </div>
+              )}
+
+              {!searchQuery && hiddenCount > 0 && (
+                <div className="pt-4 flex justify-center">
+                  <button
+                    className="group relative flex items-center gap-2 rounded-full bg-white px-6 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-ink shadow-soft transition-all hover:bg-panel active:scale-95 soft-border cursor-pointer"
+                  >
+                    See more
+                  </button>
                 </div>
               )}
             </div>

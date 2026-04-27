@@ -14,12 +14,34 @@ import {
   Users,
   Volume2,
   VolumeX,
+  FileText,
+  Table,
+  Share2,
 } from "lucide-react";
 
 import { Card } from "@/components/ui";
 import { BrainViewerLazy } from "@/components/brain/BrainViewerLazy";
 import { simulationIndexPath } from "@/lib/site";
 import { cn } from "@/lib/utils";
+
+type AgentExperience = {
+  day: number;
+  note: string;
+  tags?: string[];
+  actions?: string[];
+};
+
+type Agent = {
+  name: string;
+  age: number;
+  gender: string;
+  outcome: string;
+  description: string;
+  exp: number;
+  confidence: string;
+  journey?: AgentExperience[];
+  keyTrigger?: string;
+};
 
 export type GridStyleSimulationConfig = {
   title: string;
@@ -37,6 +59,7 @@ export type GridStyleSimulationConfig = {
     duration: number;
     predictionKey: string;
     maxSegment: number;
+    aspectRatio?: string;
   };
   brainFooter: {
     simulatedReach: string;
@@ -209,25 +232,7 @@ function getBrainMetricsAt(second: number): BrainMetric[] {
   });
 }
 
-// ---------- agent decision journeys ----------
-type AgentExperience = {
-  day: number;
-  note: string;
-  tags?: string[];
-  actions?: string[];
-};
-
-type Agent = {
-  name: string;
-  age: number;
-  gender: string;
-  outcome: string;
-  description: string;
-  exp: number;
-  confidence: string;
-  journey?: AgentExperience[];
-  keyTrigger?: string;
-};
+// (Agent types moved to top)
 
 const agents: Agent[] = [
   {
@@ -513,6 +518,7 @@ const creativeRecommendations = [
 // MAIN SECTION
 // =============================================================================
 export function GridStyleSimulationSection({ config }: { config: GridStyleSimulationConfig }) {
+  const [showExportMenu, setShowExportMenu] = useState(false);
   const [expandedAgentIdx, setExpandedAgentIdx] = useState<number>(-1);
   const sectionAgents = config.agentJourneys ?? agents;
   const sectionBudgetRecommendations = config.recommendations?.budget ?? budgetRecommendations;
@@ -542,13 +548,73 @@ export function GridStyleSimulationSection({ config }: { config: GridStyleSimula
               {config.metaLine}
             </p>
           </div>
-          <button
-            type="button"
-            className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-4 py-1.5 text-sm font-medium text-ink transition hover:bg-panelSoft"
-          >
-            <Download className="h-4 w-4" />
-            Export
-          </button>
+          
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setShowExportMenu(!showExportMenu)}
+              className={`inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-medium transition ${
+                showExportMenu 
+                  ? "bg-ink text-white border-ink" 
+                  : "bg-white text-ink border-line hover:bg-panelSoft"
+              }`}
+            >
+              <Download className="h-4 w-4" />
+              Export
+            </button>
+
+            {showExportMenu && (
+              <>
+                <div 
+                  className="fixed inset-0 z-30" 
+                  onClick={() => setShowExportMenu(false)} 
+                />
+                <div className="absolute right-0 top-full z-40 mt-2 w-56 origin-top-right rounded-2xl border border-line bg-white p-2 shadow-xl animate-in fade-in zoom-in duration-200">
+                  <p className="px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-inkMuted/60">
+                    Simulation Export
+                  </p>
+                  <div className="space-y-0.5">
+                    <button 
+                      onClick={() => setShowExportMenu(false)}
+                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-ink transition hover:bg-panelSoft"
+                    >
+                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
+                        <FileText className="h-4 w-4" />
+                      </div>
+                      <div>
+                        <p className="font-medium">Export as PDF</p>
+                        <p className="text-[11px] text-inkMuted">High-fidelity report</p>
+                      </div>
+                    </button>
+                    <button 
+                      onClick={() => setShowExportMenu(false)}
+                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-ink transition hover:bg-panelSoft"
+                    >
+                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+                        <Table className="h-4 w-4" />
+                      </div>
+                      <div>
+                        <p className="font-medium">Export as CSV</p>
+                        <p className="text-[11px] text-inkMuted">Raw agent data</p>
+                      </div>
+                    </button>
+                    <button 
+                      onClick={() => setShowExportMenu(false)}
+                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-ink transition hover:bg-panelSoft"
+                    >
+                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-50 text-amber-600">
+                        <Share2 className="h-4 w-4" />
+                      </div>
+                      <div>
+                        <p className="font-medium">Share Link</p>
+                        <p className="text-[11px] text-inkMuted">Public view access</p>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
 
@@ -801,6 +867,8 @@ function BrainActivationBlock({ config }: { config: GridStyleSimulationConfig })
   const metrics = getBrainMetricsAt(secondsFloor);
   const progressPct = Math.min(100, (currentTime / duration) * 100);
 
+  const aspectClass = config.video.aspectRatio ? `aspect-[${config.video.aspectRatio}]` : "aspect-[9/16]";
+
   return (
     <Card className="p-5">
       <div className="flex items-center justify-between">
@@ -810,7 +878,7 @@ function BrainActivationBlock({ config }: { config: GridStyleSimulationConfig })
 
       <div className="mt-4 grid gap-4 md:grid-cols-2">
         {/* TOP LEFT: 3D Brain Viewer — height matched to video */}
-        <div className="aspect-[9/16] rounded-2xl bg-black overflow-hidden border border-line/20">
+        <div className={cn(aspectClass, "rounded-2xl bg-black overflow-hidden border border-line/20")}>
           <BrainViewerLazy
             predictionKey={config.video.predictionKey}
             segmentIndex={Math.min(secondsFloor, config.video.maxSegment)}
@@ -819,7 +887,7 @@ function BrainActivationBlock({ config }: { config: GridStyleSimulationConfig })
         </div>
 
         {/* TOP RIGHT: Video container */}
-        <div className="relative overflow-hidden rounded-2xl bg-black group">
+        <div className={cn("relative overflow-hidden rounded-2xl bg-black group", aspectClass)}>
           {config.video.src ? (
             <video
               ref={videoRef}
@@ -829,12 +897,12 @@ function BrainActivationBlock({ config }: { config: GridStyleSimulationConfig })
               onPlay={() => setIsPlaying(true)}
               onPause={() => setIsPlaying(false)}
               onEnded={() => setIsPlaying(false)}
-              className="aspect-[9/16] w-full object-contain"
+              className={cn("w-full object-contain", aspectClass)}
               playsInline
               muted={isMuted}
             />
           ) : (
-            <div className="aspect-[9/16] w-full" />
+            <div className={aspectClass + " w-full"} />
           )}
 
           {config.video.src && (
@@ -1124,10 +1192,10 @@ function DailyPerformanceCard() {
         >
           <div className="font-semibold text-ink">Day {hoverPoint.day}</div>
           <div className="mt-0.5 text-inkMuted">
-            Impressions : <span className="text-ink">{hoverPoint.impressions.toLocaleString()}</span>
+            Impressions : <span className="text-ink" suppressHydrationWarning>{hoverPoint.impressions.toLocaleString()}</span>
           </div>
           <div className="text-inkMuted">
-            Unique Reached : <span className="text-ink">{hoverPoint.unique.toLocaleString()}</span>
+            Unique Reached : <span className="text-ink" suppressHydrationWarning>{hoverPoint.unique.toLocaleString()}</span>
           </div>
         </div>
       </div>

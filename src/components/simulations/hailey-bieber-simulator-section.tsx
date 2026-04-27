@@ -1259,6 +1259,7 @@ function DailyPerformanceChart() {
               fontSize={9}
               textAnchor="end"
               fill="#9ca3af"
+              suppressHydrationWarning
             >
               {v.toLocaleString("en-US")}
             </text>

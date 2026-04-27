@@ -1,0 +1,12 @@
+{
+  "name": "afterboards-35s-test3.predictions",
+  "n_segments": 36,
+  "n_vertices": 20484,
+  "dtype": "float32",
+  "endianness": "little",
+  "min": -0.9094388484954834,
+  "max": 1.1249433755874634,
+  "mean": 0.0811709463596344,
+  "p01": -0.3376087546348572,
+  "p99": 0.619522750377655
+}

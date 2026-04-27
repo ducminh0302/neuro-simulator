@@ -9,6 +9,7 @@ import { PostContentSimulatorSection } from "@/components/simulations/post-conte
 import { WorkspaceProductivitySimulatorSection } from "@/components/simulations/workspace-productivity-simulator-section";
 import { GridDataopsSimulatorSection } from "@/components/simulations/grid-dataops-simulator-section";
 import { AfterboardsSimulatorSection } from "@/components/simulations/afterboards-simulator-section";
+import { AfterboardsCuetIpmat2026SimulatorSection } from "@/components/simulations/afterboards-cuet-ipmat-2026-simulator-section";
 import { SiteShell } from "@/components/site-shell";
 import { Card, Pill, SectionHeading } from "@/components/ui";
 import { getSimulationSection } from "@/lib/site";
@@ -60,6 +61,8 @@ export default async function SimulationSectionPage({ params }: Props) {
         <GridDataopsSimulatorSection />
       ) : section.slug === "afterboards-cuet-ipmat-ad-evaluation" ? (
         <AfterboardsSimulatorSection />
+      ) : section.slug === "afterboards-cuet-ipmat-ad-evaluation-35s" ? (
+        <AfterboardsCuetIpmat2026SimulatorSection />
       ) : (
         <SimulationPlaceholder title={section.title} summary={section.summary} />
       )}
