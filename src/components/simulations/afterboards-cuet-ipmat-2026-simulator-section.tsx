@@ -7,7 +7,7 @@ const afterboardsCuetIpmat2026Config: GridStyleSimulationConfig = {
   metaLine: "single · 10.0K agents · 35.0s · 10 archetypes · 88.0% confidence",
   overallScoreLabel: "Overall: 88/100",
   kpis: [
-    { label: "Clicks", value: "5,605" },
+    { label: "Clicks", value: "5,877" },
     { label: "CTR", value: "1.41%" },
     { label: "Impr.", value: "416,775" },
     { label: "Cost", value: "₹38,691.41" },
@@ -23,8 +23,10 @@ const afterboardsCuetIpmat2026Config: GridStyleSimulationConfig = {
     aspectRatio: "16/9",
   },
   brainFooter: {
-    simulatedReach: "10.0K",
-    peakAttention: "90%",
+    simulatedReach: "416,775",
+    peakAttention: "5,877",
+    simulatedReachLabel: "Impressions",
+    peakAttentionLabel: "Clicks",
   },
   hideMetaLine: true,
   hideDeepSimulationChip: true,

@@ -59,6 +59,8 @@ export type GridStyleSimulationConfig = {
   brainFooter: {
     simulatedReach: string;
     peakAttention: string;
+    simulatedReachLabel?: string;
+    peakAttentionLabel?: string;
   };
   agentJourneys?: Agent[];
   recommendations?: {
@@ -1000,11 +1002,11 @@ function BrainActivationBlock({ config }: { config: GridStyleSimulationConfig })
           {/* Footer KPIs */}
           <div className="mt-2 grid grid-cols-2 gap-4 border-t border-line pt-4">
             <div>
-              <div className="text-xs text-inkMuted">Simulated Reach</div>
+              <div className="text-xs text-inkMuted">{config.brainFooter.simulatedReachLabel ?? "Simulated Reach"}</div>
               <div className="mt-0.5 text-lg font-semibold text-ink">{config.brainFooter.simulatedReach}</div>
             </div>
             <div>
-              <div className="text-xs text-inkMuted">Peak Attention</div>
+              <div className="text-xs text-inkMuted">{config.brainFooter.peakAttentionLabel ?? "Peak Attention"}</div>
               <div className="mt-0.5 text-lg font-semibold text-ink">{config.brainFooter.peakAttention}</div>
             </div>
           </div>
