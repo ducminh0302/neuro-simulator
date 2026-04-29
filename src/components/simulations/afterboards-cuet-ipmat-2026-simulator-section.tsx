@@ -7,15 +7,13 @@ const afterboardsCuetIpmat2026Config: GridStyleSimulationConfig = {
   metaLine: "single · 10.0K agents · 35.0s · 10 archetypes · 88.0% confidence",
   overallScoreLabel: "Overall: 88/100",
   kpis: [
-    { label: "Simulacrum Engagement", value: "88/100" },
-    { label: "Cognitive Load", value: "15.2 ms" },
-    { label: "Trust Retention Rate", value: "90%" },
-    { label: "Conversion Probability (p)", value: "0.82" },
+    { label: "Clicks", value: "5,605" },
+    { label: "CTR", value: "1.41%" },
+    { label: "Impr.", value: "416,775" },
+    { label: "Cost", value: "₹38,691.41" },
   ],
   secondaryStats: [
     { label: "Audience Resonance", value: "92%" },
-    { label: "Virality Coefficient", value: "1.1" },
-    { label: "Information Density", value: "88%" },
   ],
   video: {
     src: "/afterboards-35s-test3.mp4",

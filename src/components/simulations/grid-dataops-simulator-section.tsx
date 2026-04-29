@@ -47,13 +47,8 @@ export type GridStyleSimulationConfig = {
   title: string;
   metaLine: string;
   overallScoreLabel: string;
-  kpis: [
-    { label: string; value: string },
-    { label: string; value: string },
-    { label: string; value: string },
-    { label: string; value: string },
-  ];
-  secondaryStats: [{ label: string; value: string }, { label: string; value: string }, { label: string; value: string }];
+  kpis: { label: string; value: string }[];
+  secondaryStats: { label: string; value: string }[];
   video: {
     src: string;
     duration: number;
@@ -629,46 +624,49 @@ export function GridStyleSimulationSection({ config }: { config: GridStyleSimula
       </div>
 
       {/* ---------- hero KPI cards ---------- */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <KpiCard
-          icon={<DollarSign className="h-4 w-4" />}
-          label={config.kpis[0].label}
-          value={config.kpis[0].value}
-          sparkD={revenueSpark}
-          sparkColor="#22c55e"
-          sparkFill="rgba(34,197,94,0.12)"
-        />
-        <KpiCard
-          icon={<Users className="h-4 w-4" />}
-          label={config.kpis[1].label}
-          value={config.kpis[1].value}
-          sparkD={conversionsSpark}
-          sparkColor="#2f7bff"
-          sparkFill="rgba(47,123,255,0.10)"
-        />
-        <KpiCard
-          icon={<Eye className="h-4 w-4" />}
-          label={config.kpis[2].label}
-          value={config.kpis[2].value}
-          sparkD={awarenessSpark}
-          sparkColor="#14b8a6"
-          sparkFill="rgba(20,184,166,0.10)"
-        />
-        <KpiCard
-          icon={<TrendingUp className="h-4 w-4" />}
-          label={config.kpis[3].label}
-          value={config.kpis[3].value}
-          sparkD={sentimentSpark}
-          sparkColor="#f59e0b"
-          sparkFill="rgba(245,158,11,0.10)"
-        />
+      <div className={cn(
+        "grid gap-4",
+        config.kpis.length === 1 ? "grid-cols-1" :
+        config.kpis.length === 2 ? "grid-cols-2" :
+        config.kpis.length === 3 ? "grid-cols-3" : "md:grid-cols-2 lg:grid-cols-4"
+      )}>
+        {config.kpis.map((kpi, i) => {
+          const icons = [
+            <DollarSign key="0" className="h-4 w-4" />,
+            <Users key="1" className="h-4 w-4" />,
+            <Eye key="2" className="h-4 w-4" />,
+            <TrendingUp key="3" className="h-4 w-4" />
+          ];
+          const sparks = [
+            { d: revenueSpark, color: "#22c55e", fill: "rgba(34,197,94,0.12)" },
+            { d: conversionsSpark, color: "#2f7bff", fill: "rgba(47,123,255,0.10)" },
+            { d: awarenessSpark, color: "#14b8a6", fill: "rgba(20,184,166,0.10)" },
+            { d: sentimentSpark, color: "#f59e0b", fill: "rgba(245,158,11,0.10)" }
+          ];
+          
+          return (
+            <KpiCard
+              key={`${kpi.label}-${i}`}
+              icon={icons[i % icons.length]}
+              label={kpi.label}
+              value={kpi.value}
+              sparkD={sparks[i % sparks.length].d}
+              sparkColor={sparks[i % sparks.length].color}
+              sparkFill={sparks[i % sparks.length].fill}
+            />
+          );
+        })}
       </div>
 
       {/* ---------- secondary KPIs ---------- */}
-      <div className="grid gap-4 md:grid-cols-3">
-        <MiniStat label={config.secondaryStats[0].label} value={config.secondaryStats[0].value} />
-        <MiniStat label={config.secondaryStats[1].label} value={config.secondaryStats[1].value} />
-        <MiniStat label={config.secondaryStats[2].label} value={config.secondaryStats[2].value} />
+      <div className={cn(
+        "grid gap-4",
+        config.secondaryStats.length === 1 ? "grid-cols-1" : 
+        config.secondaryStats.length === 2 ? "grid-cols-2" : "md:grid-cols-3"
+      )}>
+        {config.secondaryStats.map((stat, i) => (
+          <MiniStat key={`${stat.label}-${i}`} label={stat.label} value={stat.value} />
+        ))}
       </div>
 
       {/* ---------- brain activation with video ---------- */}
