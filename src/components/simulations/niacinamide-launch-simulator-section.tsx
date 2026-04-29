@@ -494,26 +494,10 @@ export function NiacinamideLaunchSimulatorSection() {
 
         <div className="flex items-start justify-between gap-6">
           <div className="space-y-2">
-            <div className="flex flex-wrap items-center gap-3">
-              <h1 className="headline text-3xl leading-tight text-ink md:text-[2.25rem]">
-                Niacinamide Launch - Acne Solutions
-              </h1>
-              <Chip>Deep Simulation</Chip>
-            </div>
-            <p className="text-sm text-inkMuted">
-              single <span className="text-inkFaint">·</span> 10.0K agents{" "}
-              <span className="text-inkFaint">·</span> 722.5s{" "}
-              <span className="text-inkFaint">·</span> 30 archetypes{" "}
-              <span className="text-inkFaint">·</span> 87.2% confidence
-            </p>
+            <h1 className="headline text-3xl leading-tight text-ink md:text-[2.25rem]">
+              Niacinamide Launch - Acne Solutions
+            </h1>
           </div>
-          <button
-            type="button"
-            className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-4 py-1.5 text-sm font-medium text-ink transition hover:bg-panelSoft"
-          >
-            <Download className="h-4 w-4" />
-            Export
-          </button>
         </div>
       </div>
 

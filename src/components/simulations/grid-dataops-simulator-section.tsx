@@ -72,12 +72,18 @@ export type GridStyleSimulationConfig = {
   };
   hideEmotionalArousal?: boolean;
   hideDesireAida?: boolean;
+  hideMetaLine?: boolean;
+  hideDeepSimulationChip?: boolean;
+  hideExportButton?: boolean;
 };
 
 const defaultGridConfig: GridStyleSimulationConfig = {
   title: "Grid DataOps India - Humanoid Training",
   metaLine: "single · 10.0K agents · 841.3s · 10 archetypes · 84.0% confidence",
   overallScoreLabel: "Overall: 64/100",
+  hideDeepSimulationChip: true,
+  hideExportButton: true,
+  hideMetaLine: true,
   kpis: [
     { label: "AI Performance Score", value: "84/100" },
     { label: "Simulated Reach", value: "12.5K" },
@@ -542,79 +548,83 @@ export function GridStyleSimulationSection({ config }: { config: GridStyleSimula
               <h1 className="headline text-3xl leading-tight text-ink md:text-[2.25rem]">
                 {config.title}
               </h1>
-              <Chip>Deep Simulation</Chip>
+              {!config.hideDeepSimulationChip && <Chip>Deep Simulation</Chip>}
             </div>
-            <p className="text-sm text-inkMuted">
-              {config.metaLine}
-            </p>
-          </div>
-          
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setShowExportMenu(!showExportMenu)}
-              className={`inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-medium transition ${
-                showExportMenu 
-                  ? "bg-ink text-white border-ink" 
-                  : "bg-white text-ink border-line hover:bg-panelSoft"
-              }`}
-            >
-              <Download className="h-4 w-4" />
-              Export
-            </button>
-
-            {showExportMenu && (
-              <>
-                <div 
-                  className="fixed inset-0 z-30" 
-                  onClick={() => setShowExportMenu(false)} 
-                />
-                <div className="absolute right-0 top-full z-40 mt-2 w-56 origin-top-right rounded-2xl border border-line bg-white p-2 shadow-xl animate-in fade-in zoom-in duration-200">
-                  <p className="px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-inkMuted/60">
-                    Simulation Export
-                  </p>
-                  <div className="space-y-0.5">
-                    <button 
-                      onClick={() => setShowExportMenu(false)}
-                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-ink transition hover:bg-panelSoft"
-                    >
-                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
-                        <FileText className="h-4 w-4" />
-                      </div>
-                      <div>
-                        <p className="font-medium">Export as PDF</p>
-                        <p className="text-[11px] text-inkMuted">High-fidelity report</p>
-                      </div>
-                    </button>
-                    <button 
-                      onClick={() => setShowExportMenu(false)}
-                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-ink transition hover:bg-panelSoft"
-                    >
-                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
-                        <Table className="h-4 w-4" />
-                      </div>
-                      <div>
-                        <p className="font-medium">Export as CSV</p>
-                        <p className="text-[11px] text-inkMuted">Raw agent data</p>
-                      </div>
-                    </button>
-                    <button 
-                      onClick={() => setShowExportMenu(false)}
-                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-ink transition hover:bg-panelSoft"
-                    >
-                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-50 text-amber-600">
-                        <Share2 className="h-4 w-4" />
-                      </div>
-                      <div>
-                        <p className="font-medium">Share Link</p>
-                        <p className="text-[11px] text-inkMuted">Public view access</p>
-                      </div>
-                    </button>
-                  </div>
-                </div>
-              </>
+            {!config.hideMetaLine && (
+              <p className="text-sm text-inkMuted">
+                {config.metaLine}
+              </p>
             )}
           </div>
+          
+          {!config.hideExportButton && (
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setShowExportMenu(!showExportMenu)}
+                className={`inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-medium transition ${
+                  showExportMenu 
+                    ? "bg-ink text-white border-ink" 
+                    : "bg-white text-ink border-line hover:bg-panelSoft"
+                }`}
+              >
+                <Download className="h-4 w-4" />
+                Export
+              </button>
+
+              {showExportMenu && (
+                <>
+                  <div 
+                    className="fixed inset-0 z-30" 
+                    onClick={() => setShowExportMenu(false)} 
+                  />
+                  <div className="absolute right-0 top-full z-40 mt-2 w-56 origin-top-right rounded-2xl border border-line bg-white p-2 shadow-xl animate-in fade-in zoom-in duration-200">
+                    <p className="px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-inkMuted/60">
+                      Simulation Export
+                    </p>
+                    <div className="space-y-0.5">
+                      <button 
+                        onClick={() => setShowExportMenu(false)}
+                        className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-ink transition hover:bg-panelSoft"
+                      >
+                        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
+                          <FileText className="h-4 w-4" />
+                        </div>
+                        <div>
+                          <p className="font-medium">Export as PDF</p>
+                          <p className="text-[11px] text-inkMuted">High-fidelity report</p>
+                        </div>
+                      </button>
+                      <button 
+                        onClick={() => setShowExportMenu(false)}
+                        className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-ink transition hover:bg-panelSoft"
+                      >
+                        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+                          <Table className="h-4 w-4" />
+                        </div>
+                        <div>
+                          <p className="font-medium">Export as CSV</p>
+                          <p className="text-[11px] text-inkMuted">Raw agent data</p>
+                        </div>
+                      </button>
+                      <button 
+                        onClick={() => setShowExportMenu(false)}
+                        className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-ink transition hover:bg-panelSoft"
+                      >
+                        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-50 text-amber-600">
+                          <Share2 className="h-4 w-4" />
+                        </div>
+                        <div>
+                          <p className="font-medium">Share Link</p>
+                          <p className="text-[11px] text-inkMuted">Public view access</p>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          )}
         </div>
       </div>
 

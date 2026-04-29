@@ -665,23 +665,12 @@ export function HaileyBieberSimulatorSection() {
             <ArrowLeft className="h-4 w-4" />
             Simulations
           </Link>
-          <div className="mt-3 flex flex-wrap items-center gap-3">
+          <div className="mt-3">
             <h1 className="headline text-3xl leading-tight text-ink md:text-[2.25rem]">
               Hailey Bieber Instagram Feed Campaign
             </h1>
-            <Chip>Deep Simulation</Chip>
           </div>
-          <p className="mt-2 text-sm text-muted">
-            single · 50.0K agents · 745.7s · 30 archetypes · 75.8% confidence
-          </p>
         </div>
-        <button
-          type="button"
-          className="inline-flex items-center gap-2 rounded-full bg-panel px-5 py-2.5 text-sm font-semibold text-ink soft-border transition-all hover:-translate-y-0.5 hover:bg-panelSoft"
-        >
-          <Download className="h-4 w-4" />
-          Export
-        </button>
       </div>
 
       {/* Hero KPI cards */}

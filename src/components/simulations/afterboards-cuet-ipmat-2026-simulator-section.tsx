@@ -28,6 +28,9 @@ const afterboardsCuetIpmat2026Config: GridStyleSimulationConfig = {
     simulatedReach: "10.0K",
     peakAttention: "90%",
   },
+  hideMetaLine: true,
+  hideDeepSimulationChip: true,
+  hideExportButton: true,
   agentJourneys: [
     {
       name: "Liam",

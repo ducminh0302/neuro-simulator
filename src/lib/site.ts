@@ -51,7 +51,7 @@ export const simulationSections: SimulationSection[] = [
   {
     slug: "afterboards-cuet-ipmat-ad-evaluation-35s",
     title: "Afterboards 2026: High-Intent UGC Prototype",
-    summary: "35-second video simulation using test3 assets with synchronized brain-3D activation playback and conversion-focused creative diagnostics.",
+    summary: "Unleash high-conversion dominance with a 35-second deep-neural simulation, featuring real-time 3D brain activation and hyper-optimized creative diagnostics.",
     status: "Live",
   },
   {

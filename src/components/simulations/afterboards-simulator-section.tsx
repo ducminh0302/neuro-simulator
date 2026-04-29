@@ -28,6 +28,9 @@ const afterboardsConfig: GridStyleSimulationConfig = {
     simulatedReach: "10.0K",
     peakAttention: "94%",
   },
+  hideMetaLine: true,
+  hideDeepSimulationChip: true,
+  hideExportButton: true,
   agentJourneys: [
     {
       name: "Aryan",

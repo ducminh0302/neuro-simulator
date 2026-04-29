@@ -340,63 +340,6 @@ export function AbVariantCompareSimulatorSection() {
           <h1 className="headline mt-3 text-4xl leading-tight text-ink md:text-5xl">
             Compare: {variants[0].name} vs {variants[1].name}
           </h1>
-
-        </div>
-        <div className="relative">
-          <button
-            type="button"
-            onClick={() => setShowMainExportMenu(!showMainExportMenu)}
-            className={cn(
-              "inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all soft-border shadow-sm",
-              showMainExportMenu ? "bg-ink text-white" : "bg-panel text-ink hover:bg-panelSoft hover:-translate-y-0.5"
-            )}
-          >
-            <Download className="h-4 w-4" />
-            Export to
-          </button>
-          
-          {showMainExportMenu && (
-            <>
-              <div className="fixed inset-0 z-30" onClick={() => setShowMainExportMenu(false)} />
-              <div className="absolute right-0 mt-2 w-64 rounded-2xl bg-white p-2 shadow-2xl soft-border z-40 animate-in fade-in zoom-in-95 duration-200">
-                <p className="px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-muted">Simulation Export</p>
-                <button className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink hover:bg-panelSoft transition-colors text-left">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-rose-50 text-rose-600">
-                    <FileText className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold">Executive Report</p>
-                    <p className="text-[10px] text-muted">Generate PDF summary</p>
-                  </div>
-                </button>
-                <button className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink hover:bg-panelSoft transition-colors text-left">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
-                    <Globe className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold">Presentation Slides</p>
-                    <p className="text-[10px] text-muted">Direct to Google Slides</p>
-                  </div>
-                </button>
-                <button className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink hover:bg-panelSoft transition-colors text-left">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
-                    <Database className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold">CRM Sync</p>
-                    <p className="text-[10px] text-muted">Push to Salesforce/HubSpot</p>
-                  </div>
-                </button>
-                <div className="my-1 border-t border-line" />
-                <button className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-ink hover:bg-panelSoft transition-colors text-left">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-panelSoft text-muted">
-                    <Sparkles className="h-4 w-4" />
-                  </div>
-                  <p className="text-xs font-semibold">Share internal link</p>
-                </button>
-              </div>
-            </>
-          )}
         </div>
       </div>
 
